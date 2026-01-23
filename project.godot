@@ -23,8 +23,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SteamInfo="*res://addons/easy_peasy_multiplayer/steam_info.gd"
-Network="*res://addons/easy_peasy_multiplayer/networking/network.gd"
 GDSync="*res://addons/GD-Sync/MultiplayerClient.gd"
 
 [editor_plugins]
