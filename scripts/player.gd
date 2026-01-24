@@ -22,7 +22,7 @@ var fallback_ammo = 20
 
 func _ready() -> void:
 	GDSync.connect_gdsync_owner_changed(self, owner_changed)
-	GDSync.expose_func(reset_map)
+	GDSync.synced_event_triggered.connect(reset_map)
 	GDSync.synced_event_triggered.connect(receive_damage)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -315,20 +315,19 @@ func stop_effects(flash):
 	flash.emitting = false
 
 func receive_damage(player_name, name_item):
+	if player_name == "reset map": return
+	
 	var player = get_parent().get_node_or_null(str(player_name))
-	print(player, player_name, str(name_item[0]))
+
 	if not player: return
 	if player.name != name: return
-	print(name + " is receiveing")
 	
 	var item = camera.get_node_or_null(str(name_item[0]))
 	if item:
 		damage = item.damage
 	else:
 		damage = fallback_damage
-	
-	print("player is: ", player.name)
-	print(player.get_meta("shield") - damage)
+
 	if player.get_meta("shield") > 0:
 		if player.get_meta("shield") < damage:
 			var total = damage - player.get_meta("shield")
@@ -339,9 +338,7 @@ func receive_damage(player_name, name_item):
 	else:
 		player.set_meta("health", player.get_meta("health") - damage)
 	if player.get_meta("health") <= 0:
-		for other in get_parent().get_children():
-			if other is CharacterBody3D:
-				GDSync.call_func_on(str(other.name).to_int(), reset_map)
+		GDSync.synced_event_create("reset map", 0, ["hi"])
 	if player.name == name:
 		var gui = player.get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("HealthGui")
 		# var gui = get_parent().get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("HealthGui")
@@ -349,17 +346,21 @@ func receive_damage(player_name, name_item):
 		var shield_bar = gui.get_node_or_null("ShieldBar")
 		var health_text = gui.get_node_or_null("health text")
 		var shield_text = gui.get_node_or_null("shield text")
-		print("player name is the same: ", player.name, name)
 		if health_bar and shield_bar:
 			health_bar.value = player.get_meta("health")
 			shield_bar.value = player.get_meta("shield")
 		if health_text and shield_text:
 			health_text.text = str(player.get_meta("health"))
 			shield_text.text = str(player.get_meta("shield"))
+
+func reset_map(signal_name, message):
+	if str(signal_name) != "reset map": return
+	if str(message[0]) != "hi": return
 	
-func reset_map():
-	for i in range(10):
-		set_meta("health", 100)
-		set_meta("shield", 100)
-		position = Vector3.ZERO
-		await get_tree().create_timer(0.01,false,false,true).timeout
+	for player in get_parent().get_children():
+		if player is CharacterBody3D:
+			for i in range(10):
+				player.set_meta("health", 100)
+				player.set_meta("shield", 100)
+				player.position = Vector3.ZERO
+				await get_tree().create_timer(0.01,false,false,true).timeout
