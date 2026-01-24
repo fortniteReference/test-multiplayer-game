@@ -1,14 +1,119 @@
-[gd_scene load_steps=5 format=3 uid="uid://rr5l82m5dy0l"]
+[gd_scene load_steps=20 format=3 uid="uid://rr5l82m5dy0l"]
 
-[ext_resource type="Script" uid="uid://bhjvadymqrj2o" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://bhjvadymqrj2o" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://2yrdre6vxurd" path="res://addons/GD-Sync/Scripts/Types/PropertySynchronizer.gd" id="2_onrkg"]
+[ext_resource type="PackedScene" uid="uid://4ihag865ure3" path="res://meshes/pistol.blend" id="3_hqtel"]
+[ext_resource type="Script" uid="uid://dmnrpseo4f7rm" path="res://scripts/weapon_settings.gd" id="4_sweqy"]
+[ext_resource type="Texture2D" uid="uid://4euf4ryi4vfh" path="res://images/plus.png" id="5_1jxqw"]
+[ext_resource type="Texture2D" uid="uid://sep4bg7kle11" path="res://images/shield.png" id="6_dw050"]
+[ext_resource type="Texture2D" uid="uid://3d14x8hta3" path="res://images/crosshair 2.png" id="7_b26j0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7ghd"]
+bg_color = Color(0, 0, 0, 0.43137255)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvl01"]
+bg_color = Color(0.15053149, 0.265625, 0.1348877, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivps1"]
+bg_color = Color(0.5157919, 0.921875, 0.46453857, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_urp6f"]
+bg_color = Color(0.091552734, 0.16742706, 0.234375, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bwjto"]
+bg_color = Color(0.4627451, 0.70649505, 0.92156863, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_606se"]
+bg_color = Color(0.3671875, 0.3671875, 0.3671875, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.47843137, 0.8901961, 0.5686275, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u1c27"]
+bg_color = Color(0.3671875, 0.3671875, 0.3671875, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.47843137, 0.8901961, 0.5686275, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_op7ga"]
+bg_color = Color(0.3671875, 0.3671875, 0.3671875, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.47843137, 0.8901961, 0.5686275, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q13i1"]
+bg_color = Color(0.3671875, 0.3671875, 0.3671875, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.47843137, 0.8901961, 0.5686275, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pylmc"]
+bg_color = Color(0.3671875, 0.3671875, 0.3671875, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.47843137, 0.8901961, 0.5686275, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
 [node name="player" type="CharacterBody3D"]
+collision_layer = 2
 script = ExtResource("1_4flbx")
+metadata/items = []
+metadata/current_item = ""
+metadata/health = 100
+metadata/shield = 100
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_sh265")
@@ -19,13 +124,298 @@ mesh = SubResource("CapsuleMesh_4flbx")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48970902, 0)
 
-[node name="PropertySynchronizer" type="Node" parent="."]
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.055625916, 0)
+target_position = Vector3(0, 0, -50)
+collision_mask = 2
+
+[node name="pistol" parent="Camera3D" instance=ExtResource("3_hqtel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8060821, -0.60443425, -0.35336876)
+script = ExtResource("4_sweqy")
+image = "res://images/pistol image.png"
+hitscan = true
+ammo = 10
+damage = 24
+cooldown = 0.16
+spread = 0.6
+weapon_range = 20
+reload_time = 1.4
+metadata/already_equipped = false
+metadata/current_ammo = 0
+
+[node name="sync1" type="Node" parent="."]
 script = ExtResource("2_onrkg")
 broadcast = 2
+refresh_rate = 45
 node_path = NodePath("..")
-properties = PackedStringArray("global_position")
+properties = PackedStringArray("global_position", "rotation", "metadata/items", "metadata/current_item")
 interpolated = true
-interpolation_speed = 30.0
+interpolation_speed = 45.0
 extrapolated = false
 max_extrapolation_time = 0.2
 metadata/_custom_type_script = "uid://2yrdre6vxurd"
+
+[node name="cam sync" type="Node" parent="."]
+script = ExtResource("2_onrkg")
+broadcast = 2
+refresh_rate = 45
+node_path = NodePath("../Camera3D")
+properties = PackedStringArray("rotation")
+interpolated = true
+interpolation_speed = 45.0
+extrapolated = false
+max_extrapolation_time = 0.2
+metadata/_custom_type_script = "uid://2yrdre6vxurd"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthGui" type="Panel" parent="CanvasLayer/HUD"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 516.0
+offset_right = 459.0
+offset_bottom = 629.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_n7ghd")
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD/HealthGui"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 68.0
+offset_right = 344.0
+offset_bottom = 95.0
+theme_override_styles/background = SubResource("StyleBoxFlat_nvl01")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ivps1")
+value = 100.0
+show_percentage = false
+
+[node name="ShieldBar" type="ProgressBar" parent="CanvasLayer/HUD/HealthGui"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 24.0
+offset_right = 344.0
+offset_bottom = 51.0
+theme_override_styles/background = SubResource("StyleBoxFlat_urp6f")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bwjto")
+value = 100.0
+show_percentage = false
+
+[node name="hp png" type="TextureRect" parent="CanvasLayer/HUD/HealthGui"]
+layout_mode = 0
+offset_left = 395.0
+offset_top = 63.0
+offset_right = 435.0
+offset_bottom = 103.0
+texture = ExtResource("5_1jxqw")
+expand_mode = 1
+
+[node name="shield png" type="TextureRect" parent="CanvasLayer/HUD/HealthGui"]
+layout_mode = 0
+offset_left = 395.0
+offset_top = 16.0
+offset_right = 435.0
+offset_bottom = 56.0
+texture = ExtResource("6_dw050")
+expand_mode = 1
+
+[node name="health text" type="Label" parent="CanvasLayer/HUD/HealthGui"]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 68.0
+offset_right = 392.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 20
+text = "100"
+
+[node name="shield text" type="Label" parent="CanvasLayer/HUD/HealthGui"]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 23.0
+offset_right = 392.0
+offset_bottom = 51.0
+theme_override_font_sizes/font_size = 20
+text = "100"
+
+[node name="Hotbar" type="Control" parent="CanvasLayer/HUD"]
+anchors_preset = 0
+offset_left = 631.0
+offset_top = 531.0
+offset_right = 1124.0
+offset_bottom = 621.0
+
+[node name="slot0" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -402.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_606se")
+
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -3.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="slot1" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 98.0
+offset_right = -304.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u1c27")
+
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -3.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="slot2" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 197.0
+offset_right = -205.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_op7ga")
+
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -3.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="slot3" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 295.0
+offset_right = -107.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q13i1")
+
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -3.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="slot4" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 394.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pylmc")
+
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -3.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Ammo" type="Panel" parent="CanvasLayer/HUD"]
+visible = false
+layout_mode = 0
+offset_left = 920.0
+offset_top = 391.0
+offset_right = 1106.0
+offset_bottom = 511.0
+
+[node name="item name" type="Label" parent="CanvasLayer/HUD/Ammo"]
+layout_mode = 0
+offset_top = 1.0
+offset_right = 187.0
+offset_bottom = 24.0
+text = "name"
+horizontal_alignment = 1
+
+[node name="reloading" type="Label" parent="CanvasLayer/HUD/Ammo"]
+layout_mode = 0
+offset_top = 86.0
+offset_right = 187.0
+offset_bottom = 109.0
+text = "reloading..."
+horizontal_alignment = 1
+
+[node name="ammo" type="Label" parent="CanvasLayer/HUD/Ammo"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 27.0
+offset_right = 187.0
+offset_bottom = 50.0
+text = "0/0"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 28.8
+anchor_bottom = 16.2
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+pivot_offset = Vector2(576, 324)
+texture = ExtResource("7_b26j0")
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="player name" type="Label" parent="CanvasLayer"]
+offset_right = 271.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 100
+text = "edewd"

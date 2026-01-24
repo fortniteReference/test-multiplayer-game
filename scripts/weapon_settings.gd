@@ -1,0 +1,13 @@
+extends Node3D
+# Essentials
+@export var image: String # Image displayed on the hotbar. res:// path required
+@export var hitscan: bool # whether the weapon is hitscan (uses raycast), or not.
+@export var shotgun: bool # enables pellets
+# Weapon Configuring
+@export var ammo: int
+@export var damage: int
+@export var cooldown: float
+@export var spread: float
+@export var weapon_range: int
+@export var pellets: int
+@export var reload_time: float
