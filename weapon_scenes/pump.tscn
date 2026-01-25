@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjw1nk6cj0lfj"]
+
+[ext_resource type="PackedScene" uid="uid://dv428m22xrsyg" path="res://meshes/pump.blend" id="1_o0i2v"]
+
+[node name="pump" instance=ExtResource("1_o0i2v")]
+
+[node name="Cylinder_005" parent="." index="24"]
+visible = false
+
+[node name="Cylinder_006" parent="." index="25"]
+visible = false
+
+[node name="Cylinder_007" parent="." index="26"]
+visible = false
+
+[node name="Cylinder_009" parent="." index="28"]
+visible = false

@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://rr5l82m5dy0l"]
+[gd_scene load_steps=21 format=3 uid="uid://rr5l82m5dy0l"]
 
 [ext_resource type="Script" uid="uid://bhjvadymqrj2o" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://2yrdre6vxurd" path="res://addons/GD-Sync/Scripts/Types/PropertySynchronizer.gd" id="2_onrkg"]
 [ext_resource type="PackedScene" uid="uid://4ihag865ure3" path="res://meshes/pistol.blend" id="3_hqtel"]
+[ext_resource type="PackedScene" uid="uid://bjw1nk6cj0lfj" path="res://weapon_scenes/pump.tscn" id="4_dw050"]
 [ext_resource type="Script" uid="uid://dmnrpseo4f7rm" path="res://scripts/weapon_settings.gd" id="4_sweqy"]
 [ext_resource type="Texture2D" uid="uid://4euf4ryi4vfh" path="res://images/plus.png" id="5_1jxqw"]
 [ext_resource type="Texture2D" uid="uid://sep4bg7kle11" path="res://images/shield.png" id="6_dw050"]
@@ -131,6 +132,7 @@ collision_mask = 2
 
 [node name="pistol" parent="Camera3D" instance=ExtResource("3_hqtel")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8060821, -0.60443425, -0.35336876)
+visible = false
 script = ExtResource("4_sweqy")
 image = "res://images/pistol image.png"
 hitscan = true
@@ -140,6 +142,23 @@ cooldown = 0.16
 spread = 0.6
 weapon_range = 20
 reload_time = 1.4
+metadata/already_equipped = false
+metadata/current_ammo = 0
+
+[node name="pump" parent="Camera3D" instance=ExtResource("4_dw050")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.79452455, 0, 0.16597405)
+visible = false
+script = ExtResource("4_sweqy")
+image = "res://images/pump image.png"
+hitscan = true
+shotgun = true
+ammo = 5
+damage = 8
+cooldown = 1.3
+spread = 0.9
+weapon_range = 15
+pellets = 16
+reload_time = 3.0
 metadata/already_equipped = false
 metadata/current_ammo = 0
 
@@ -175,6 +194,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="HealthGui" type="Panel" parent="CanvasLayer/HUD"]
 layout_mode = 0
@@ -182,6 +202,7 @@ offset_left = 19.0
 offset_top = 516.0
 offset_right = 459.0
 offset_bottom = 629.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_n7ghd")
 
 [node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD/HealthGui"]
@@ -248,6 +269,7 @@ offset_left = 631.0
 offset_top = 531.0
 offset_right = 1124.0
 offset_bottom = 621.0
+mouse_filter = 2
 
 [node name="slot0" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
 layout_mode = 1
@@ -375,6 +397,7 @@ offset_left = 920.0
 offset_top = 391.0
 offset_right = 1106.0
 offset_bottom = 511.0
+mouse_filter = 2
 
 [node name="item name" type="Label" parent="CanvasLayer/HUD/Ammo"]
 layout_mode = 0
@@ -415,7 +438,7 @@ stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
 [node name="player name" type="Label" parent="CanvasLayer"]
-offset_right = 271.0
-offset_bottom = 100.0
+offset_right = 322.0
+offset_bottom = 137.0
 theme_override_font_sizes/font_size = 100
 text = "edewd"

@@ -30,11 +30,10 @@ func owner_changed(_owner_id : int) -> void:
 	var is_owner : bool = GDSync.is_gdsync_owner(self)
 	
 	if is_owner:
+		add_item("pump")
 		add_item("pistol")
 	camera.current = is_owner
 	if is_owner:
-		await get_tree().create_timer(0.5).timeout
-		# get_parent()
 		get_node("CanvasLayer").get_node("player name").text = name
 		get_node("CanvasLayer").show()
 
@@ -212,6 +211,22 @@ func unequip_items():
 	equip_debounce = false
 # --------------------------
 # --------------------------
+func run_pellet(item: Node3D):
+	var new_raycast = raycast.duplicate()
+	camera.add_child(new_raycast)
+	new_raycast.name = "cloned RayCast"
+	new_raycast.position = Vector3(0,-0.056,0)
+	
+	var pos = Vector3(randf_range(-item.spread,item.spread),-0.065 + randf_range(-item.spread,item.spread),-item.weapon_range)
+	new_raycast.look_at(camera.to_global(pos))
+	
+	new_raycast.force_raycast_update()
+	if new_raycast.is_colliding():
+		var hit_player = new_raycast.get_collider()
+		if hit_player is CharacterBody3D:
+			GDSync.synced_event_create(hit_player.name, 0, [item.name])
+	new_raycast.queue_free()
+					
 func check_hit(item: Node3D):
 	if shoot_debounce or reloading:
 		return
@@ -229,13 +244,8 @@ func check_hit(item: Node3D):
 		gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
 	if item.shotgun == true and item.pellets > 0:
 		for i in range(item.pellets):
-			var pos = Vector3(randf_range(-item.spread,item.spread),-0.065 + randf_range(-item.spread,item.spread),-item.weapon_range)
-			raycast.look_at(camera.to_global(pos))
-			if raycast.is_colliding():
-				var hit_player = raycast.get_collider()
-				if hit_player is CharacterBody3D:
-					hit_player.receive_damage.rpc_id(str(hit_player.name).to_int(), item.name)
-			await get_tree().process_frame
+			print("ran pellet")
+			run_pellet(item)
 	else:
 		var pos = Vector3(randf_range(-item.spread,item.spread),-0.065 + randf_range(-item.spread,item.spread),-item.weapon_range)
 		raycast.look_at(camera.to_global(pos))
@@ -244,8 +254,6 @@ func check_hit(item: Node3D):
 			if hit_player is CharacterBody3D:
 				print(str(hit_player.name).to_int())
 				GDSync.synced_event_create(hit_player.name, 0, [item.name])
-				# GDSync.expose_func(receive_damage)
-				# GDSync.call_func_all(receive_damage, [hit_player, item.name])
 			else:
 				print("hit player is not character body: ", hit_player)
 	await get_tree().create_timer(cooldown).timeout
@@ -364,3 +372,15 @@ func reset_map(signal_name, message):
 				player.set_meta("shield", 100)
 				player.position = Vector3.ZERO
 				await get_tree().create_timer(0.01,false,false,true).timeout
+			var gui = player.get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("HealthGui")
+	
+			var health_bar = gui.get_node_or_null("HealthBar")
+			var shield_bar = gui.get_node_or_null("ShieldBar")
+			var health_text = gui.get_node_or_null("health text")
+			var shield_text = gui.get_node_or_null("shield text")
+			if health_bar and shield_bar:
+				health_bar.value = player.get_meta("health")
+				shield_bar.value = player.get_meta("shield")
+			if health_text and shield_text:
+				health_text.text = str(player.get_meta("health"))
+				shield_text.text = str(player.get_meta("shield"))
