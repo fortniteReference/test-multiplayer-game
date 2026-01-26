@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dug8bxwyre1h0"
+path="res://.godot/imported/boss ambiance new.mp3-8f3d65bfac0e2256030fd47b5fa084ab.mp3str"
+
+[deps]
+
+source_file="res://audio/boss ambiance new.mp3"
+dest_files=["res://.godot/imported/boss ambiance new.mp3-8f3d65bfac0e2256030fd47b5fa084ab.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

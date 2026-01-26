@@ -1,13 +1,16 @@
-[gd_scene load_steps=21 format=3 uid="uid://rr5l82m5dy0l"]
+[gd_scene load_steps=24 format=3 uid="uid://rr5l82m5dy0l"]
 
 [ext_resource type="Script" uid="uid://bhjvadymqrj2o" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://2yrdre6vxurd" path="res://addons/GD-Sync/Scripts/Types/PropertySynchronizer.gd" id="2_onrkg"]
 [ext_resource type="PackedScene" uid="uid://4ihag865ure3" path="res://meshes/pistol.blend" id="3_hqtel"]
 [ext_resource type="PackedScene" uid="uid://bjw1nk6cj0lfj" path="res://weapon_scenes/pump.tscn" id="4_dw050"]
+[ext_resource type="AudioStream" uid="uid://du3cwej0pjulf" path="res://audio/shoot pistol.mp3" id="4_nvl01"]
 [ext_resource type="Script" uid="uid://dmnrpseo4f7rm" path="res://scripts/weapon_settings.gd" id="4_sweqy"]
 [ext_resource type="Texture2D" uid="uid://4euf4ryi4vfh" path="res://images/plus.png" id="5_1jxqw"]
+[ext_resource type="AudioStream" uid="uid://bui5jkg135hb8" path="res://audio/reload pistol.mp3" id="5_ivps1"]
 [ext_resource type="Texture2D" uid="uid://sep4bg7kle11" path="res://images/shield.png" id="6_dw050"]
 [ext_resource type="Texture2D" uid="uid://3d14x8hta3" path="res://images/crosshair 2.png" id="7_b26j0"]
+[ext_resource type="AudioStream" uid="uid://vdx3qb14idiv" path="res://audio/pump sound.mp3" id="7_urp6f"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 
@@ -146,6 +149,12 @@ reload_time = 1.4
 metadata/already_equipped = false
 metadata/current_ammo = 0
 
+[node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/pistol"]
+stream = ExtResource("4_nvl01")
+
+[node name="reload" type="AudioStreamPlayer3D" parent="Camera3D/pistol"]
+stream = ExtResource("5_ivps1")
+
 [node name="pump" parent="Camera3D" instance=ExtResource("4_dw050")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.79452455, 0, 0.16597405)
 visible = false
@@ -164,6 +173,10 @@ reload_time = 0.5
 shotgun_reload = true
 metadata/already_equipped = false
 metadata/current_ammo = 0
+
+[node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/pump"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.5193428, -0.60443425, 0.011557579)
+stream = ExtResource("7_urp6f")
 
 [node name="sync1" type="Node" parent="."]
 script = ExtResource("2_onrkg")

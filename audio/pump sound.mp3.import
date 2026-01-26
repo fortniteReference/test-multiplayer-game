@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://vdx3qb14idiv"
+path="res://.godot/imported/pump sound.mp3-1f9e806301b9116b994573ae28b4166d.mp3str"
+
+[deps]
+
+source_file="res://audio/pump sound.mp3"
+dest_files=["res://.godot/imported/pump sound.mp3-1f9e806301b9116b994573ae28b4166d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
