@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://rr5l82m5dy0l"]
+[gd_scene load_steps=25 format=3 uid="uid://rr5l82m5dy0l"]
 
 [ext_resource type="Script" uid="uid://bhjvadymqrj2o" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://2yrdre6vxurd" path="res://addons/GD-Sync/Scripts/Types/PropertySynchronizer.gd" id="2_onrkg"]
@@ -9,8 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://4euf4ryi4vfh" path="res://images/plus.png" id="5_1jxqw"]
 [ext_resource type="AudioStream" uid="uid://bui5jkg135hb8" path="res://audio/reload pistol.mp3" id="5_ivps1"]
 [ext_resource type="Texture2D" uid="uid://sep4bg7kle11" path="res://images/shield.png" id="6_dw050"]
-[ext_resource type="Texture2D" uid="uid://3d14x8hta3" path="res://images/crosshair 2.png" id="7_b26j0"]
 [ext_resource type="AudioStream" uid="uid://vdx3qb14idiv" path="res://audio/pump sound.mp3" id="7_urp6f"]
+[ext_resource type="Script" uid="uid://3fufb4itlvty" path="res://scripts/reticle.gd" id="12_ivps1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 
@@ -106,6 +106,13 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0.47843137, 0.8901961, 0.5686275, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbfsw"]
+bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -442,20 +449,251 @@ offset_bottom = 50.0
 text = "0/0"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/HUD"]
+[node name="Reticles" type="Control" parent="CanvasLayer/HUD"]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 28.8
-anchor_bottom = 16.2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1112.0
+offset_bottom = 608.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.1, 0.1)
-pivot_offset = Vector2(576, 324)
-texture = ExtResource("7_b26j0")
-stretch_mode = 5
-metadata/_edit_use_anchors_ = true
+mouse_filter = 2
+script = ExtResource("12_ivps1")
+
+[node name="Shotgun" type="Control" parent="CanvasLayer/HUD/Reticles"]
+visible = false
+anchors_preset = 0
+offset_left = 544.0
+offset_top = 292.0
+offset_right = 610.0
+offset_bottom = 359.0
+mouse_filter = 2
+
+[node name="Middle" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 30.0
+offset_right = 34.0
+offset_bottom = 35.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="LeftTop" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 6.0
+offset_right = 51.0
+offset_bottom = 46.0
+mouse_filter = 2
+metadata/og_position = Vector2(11, 6)
+
+[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftTop"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 22.0
+offset_right = 14.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftTop"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 28.0
+offset_bottom = 24.0
+rotation = 1.5707964
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftTop"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 16.0
+offset_right = 21.0
+offset_bottom = 26.0
+rotation = 0.7853982
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="RightTop" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+anchors_preset = 0
+offset_left = 58.0
+offset_top = 12.0
+offset_right = 98.0
+offset_bottom = 52.0
+rotation = 1.5707964
+mouse_filter = 2
+metadata/og_position = Vector2(58, 12)
+
+[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightTop"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 22.0
+offset_right = 14.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightTop"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 28.0
+offset_bottom = 24.0
+rotation = 1.5707964
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightTop"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 16.0
+offset_right = 21.0
+offset_bottom = 26.0
+rotation = 0.7853982
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="LeftBottom" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 53.0
+offset_right = 45.0
+offset_bottom = 93.0
+rotation = 4.712389
+mouse_filter = 2
+metadata/og_position = Vector2(5, 53)
+
+[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftBottom"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 22.0
+offset_right = 14.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftBottom"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 28.0
+offset_bottom = 24.0
+rotation = 1.5707964
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftBottom"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 16.0
+offset_right = 21.0
+offset_bottom = 26.0
+rotation = 0.7853982
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="RightBottom" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+anchors_preset = 0
+offset_left = 52.0
+offset_top = 59.0
+offset_right = 92.0
+offset_bottom = 99.0
+rotation = 3.1415927
+mouse_filter = 2
+metadata/og_position = Vector2(52, 59)
+
+[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightBottom"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 22.0
+offset_right = 14.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightBottom"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 28.0
+offset_bottom = 24.0
+rotation = 1.5707964
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightBottom"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 16.0
+offset_right = 21.0
+offset_bottom = 26.0
+rotation = 0.7853982
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Other" type="Control" parent="CanvasLayer/HUD/Reticles"]
+visible = false
+anchors_preset = 0
+offset_left = 543.0
+offset_top = 292.0
+offset_right = 610.0
+offset_bottom = 359.0
+mouse_filter = 2
+
+[node name="Middle" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 35.0
+offset_bottom = 35.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+
+[node name="Top" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 11.0
+offset_right = 35.0
+offset_bottom = 26.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+metadata/og_position = Vector2(30, 11)
+
+[node name="Bottom" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 39.0
+offset_right = 35.0
+offset_bottom = 53.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+metadata/og_position = Vector2(30, 39)
+
+[node name="Left" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 30.0
+offset_right = 26.0
+offset_bottom = 35.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+metadata/og_position = Vector2(9, 30)
+
+[node name="Right" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 30.0
+offset_right = 53.0
+offset_bottom = 35.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
+metadata/og_position = Vector2(39, 30)
 
 [node name="player name" type="Label" parent="CanvasLayer"]
+visible = false
 offset_right = 322.0
 offset_bottom = 137.0
 theme_override_font_sizes/font_size = 100

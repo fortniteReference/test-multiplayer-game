@@ -4,7 +4,7 @@ extends CharacterBody3D
 @onready var raycast = $Camera3D/RayCast3D
 # @onready var anim_player = $AnimationPlayer
 
-const SPEED = 6.0
+const SPEED = 7.75
 const JUMP_VELOCITY = 8.0
 
 var health = 100
@@ -172,6 +172,10 @@ func equip_item(player_name: String, n_item):
 			gui.show()
 			gui.get_node("item name").text = name_item
 			gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
+			
+			var reticles = hud.get_node_or_null("Reticles")
+			if reticles:
+				reticles.adjust_reticle(item.spread, item.shotgun)
 		# print("equipped ", name_item, " at player ", name)
 		set_meta("current_item", name_item)
 		for other in camera.get_children():
@@ -197,6 +201,7 @@ func unequip_items(player_name, message):
 	var hud = canvas.get_node_or_null("HUD")
 	var hotbar = hud.get_node_or_null("Hotbar")
 	var gui = hud.get_node_or_null("Ammo")
+	var reticles = hud.get_node_or_null("Reticles")
 	set_meta("current_item", "")
 	for other in camera.get_children():
 		if other.name.contains("RayCast"):
@@ -204,6 +209,8 @@ func unequip_items(player_name, message):
 		other.hide()
 	if gui:
 		gui.hide()
+	if reticles:
+		reticles.hide_reticles()
 	if hotbar:
 		for slot in hotbar.get_children():
 			slot.get_theme_stylebox("panel").border_color = Color(0.533, 0.882, 0.541, 0.0)

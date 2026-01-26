@@ -20,6 +20,6 @@ func client_joined(client_id : int) -> void:
 func client_left(client_id : int) -> void:
 	print("Client left", client_id)
 	
-	var player : Node3D = get_node_or_null(str(client_id))
-	if player != null:
+	var player = $"..".get_node_or_null(str(client_id))
+	if player:
 		player.queue_free()
