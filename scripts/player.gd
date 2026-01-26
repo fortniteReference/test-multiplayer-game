@@ -24,6 +24,8 @@ func _ready() -> void:
 	GDSync.connect_gdsync_owner_changed(self, owner_changed)
 	GDSync.synced_event_triggered.connect(reset_map)
 	GDSync.synced_event_triggered.connect(receive_damage)
+	GDSync.synced_event_triggered.connect(equip_item)
+	GDSync.synced_event_triggered.connect(unequip_items)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func owner_changed(_owner_id : int) -> void:
@@ -55,33 +57,33 @@ func _unhandled_input(event) -> void:
 		elif Input.is_key_pressed(KEY_1):
 			if get_meta("items").size() >= 1:
 				if get_meta("current_item") == get_meta("items")[0]:
-					unequip_items.rpc()
+					GDSync.synced_event_create(name, 0, ["unequip"])
 				else:
-					equip_item.rpc(get_meta("items")[0])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[0] + "equip")])
 		elif Input.is_key_pressed(KEY_2):
 			if get_meta("items").size() >= 2:
 				if get_meta("current_item") == get_meta("items")[1]:
-					unequip_items.rpc()
+					GDSync.synced_event_create(name, 0, ["unequip"])
 				else:
-					equip_item.rpc(get_meta("items")[1])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[1] + "equip")])
 		elif Input.is_key_pressed(KEY_3):
 			if get_meta("items").size() >= 3:
 				if get_meta("current_item") == get_meta("items")[2]:
-					unequip_items.rpc()
+					GDSync.synced_event_create(name, 0, ["unequip"])
 				else:
-					equip_item.rpc(get_meta("items")[2])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[2] + "equip")])
 		elif Input.is_key_pressed(KEY_4):
 			if get_meta("items").size() >= 4:
 				if get_meta("current_item") == get_meta("items")[3]:
-					unequip_items.rpc()
+					GDSync.synced_event_create(name, 0, ["unequip"])
 				else:
-					equip_item.rpc(get_meta("items")[3])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[3] + "equip")])
 		elif Input.is_key_pressed(KEY_5):
 			if get_meta("items").size() >= 5:
 				if get_meta("current_item") == get_meta("items")[4]:
-					unequip_items.rpc()
+					GDSync.synced_event_create(name, 0, ["unequip"])
 				else:
-					equip_item.rpc(get_meta("items")[4])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[4] + "equip")])
 
 func _physics_process(delta: float) -> void:
 	if not GDSync.is_gdsync_owner(self): return
@@ -144,10 +146,10 @@ func update_hotbar():
 			if cam and item:
 				slot.get_node("image").texture = load(str(item.image))
 
-@rpc("call_local")
-func equip_item(name_item: String):
-	if equip_debounce:
+func equip_item(player_name: String, n_item):
+	if equip_debounce or player_name != name or not str(n_item[0]).contains("equip"):
 		return
+	var name_item = str(n_item[0]).replace("equip", "")
 	var item = camera.get_node_or_null(name_item)
 	if get_meta("items").has(name_item) and item:
 		equip_debounce = true
@@ -187,9 +189,8 @@ func equip_item(name_item: String):
 		await get_tree().create_timer(0.15,false,false,true).timeout
 		equip_debounce = false
 
-@rpc("call_local")
-func unequip_items():
-	if equip_debounce:
+func unequip_items(player_name, message):
+	if equip_debounce or player_name != name or message[0] != "unequip":
 		return
 	equip_debounce = false
 	# get_parent()
@@ -224,7 +225,12 @@ func run_pellet(item: Node3D):
 	if new_raycast.is_colliding():
 		var hit_player = new_raycast.get_collider()
 		if hit_player is CharacterBody3D:
-			GDSync.synced_event_create(hit_player.name, 0, [item.name])
+			var collision_pos = hit_player.to_local(new_raycast.get_collision_point())
+			
+			if collision_pos.y > 0.55:
+				GDSync.synced_event_create(hit_player.name, 0, [item.name + "true"])
+			else:
+				GDSync.synced_event_create(hit_player.name, 0, [item.name])
 	new_raycast.queue_free()
 					
 func check_hit(item: Node3D):
@@ -244,7 +250,6 @@ func check_hit(item: Node3D):
 		gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
 	if item.shotgun == true and item.pellets > 0:
 		for i in range(item.pellets):
-			print("ran pellet")
 			run_pellet(item)
 	else:
 		var pos = Vector3(randf_range(-item.spread,item.spread),-0.065 + randf_range(-item.spread,item.spread),-item.weapon_range)
@@ -252,8 +257,14 @@ func check_hit(item: Node3D):
 		if raycast.is_colliding():
 			var hit_player = raycast.get_collider()
 			if hit_player is CharacterBody3D:
-				print(str(hit_player.name).to_int())
-				GDSync.synced_event_create(hit_player.name, 0, [item.name])
+				print(str(hit_player.name))
+				var collision_pos = hit_player.to_local(raycast.get_collision_point())
+				
+				if collision_pos.y > 0.55:
+					print("hit head")
+					GDSync.synced_event_create(hit_player.name, 0, [item.name + "true"])
+				else:
+					GDSync.synced_event_create(hit_player.name, 0, [item.name])
 			else:
 				print("hit player is not character body: ", hit_player)
 	await get_tree().create_timer(cooldown).timeout
@@ -272,14 +283,27 @@ func reload(item: Node3D):
 	if item.reload_time > 0.0:
 		reload_time = item.reload_time
 	# -----------------------
-	# get_parent()
 	var gui = get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("Ammo")
-	if gui:
-		gui.get_node("reloading").show()
-		gui.get_node("ammo").hide()
-	item.set_meta("current_ammo", 0)
+	if item.shotgun_reload == true:
+		if gui:
+			gui.get_node("reloading").show()
+		for i in range(ammo-item.get_meta("current_ammo")):
+			for u in range(round(reload_time*20)):
+				if Input.is_action_just_pressed("shoot") and item.get_meta("current_ammo") > 0:
+					reloading = false
+					if gui:
+						gui.get_node("reloading").hide()
+					return
+				await get_tree().create_timer(0.05,false,false,true).timeout
+			item.set_meta("current_ammo", item.get_meta("current_ammo") + 1)
+			gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
+	else:
+		item.set_meta("current_ammo", 0)
+		await get_tree().create_timer(reload_time,false,false,true).timeout
+		if gui:
+			gui.get_node("reloading").show()
+			gui.get_node("ammo").hide()
 	# -----------------------
-	await get_tree().create_timer(reload_time,false,false,true).timeout
 	reloading = false
 	item.set_meta("current_ammo", ammo)
 	if gui:
@@ -323,16 +347,20 @@ func stop_effects(flash):
 	flash.emitting = false
 
 func receive_damage(player_name, name_item):
-	if player_name == "reset map": return
+	if player_name == "reset map" or player_name == name or name_item[0] == "unequip": return
 	
 	var player = get_parent().get_node_or_null(str(player_name))
 
 	if not player: return
 	if player.name != name: return
 	
-	var item = camera.get_node_or_null(str(name_item[0]))
+	var check_item = str(name_item[0]).replace("true", "")
+	var hit_head = str(name_item[0]).replace(str(check_item), "")
+	var item = camera.get_node_or_null(check_item)
 	if item:
 		damage = item.damage
+		if hit_head == "true":
+			damage = round(damage * item.headshot_multiplier)
 	else:
 		damage = fallback_damage
 
@@ -358,8 +386,8 @@ func receive_damage(player_name, name_item):
 			health_bar.value = player.get_meta("health")
 			shield_bar.value = player.get_meta("shield")
 		if health_text and shield_text:
-			health_text.text = str(player.get_meta("health"))
-			shield_text.text = str(player.get_meta("shield"))
+			health_text.text = str(player.get_meta("health")).replace(".0", "")
+			shield_text.text = str(player.get_meta("shield")).replace(".0", "")
 
 func reset_map(signal_name, message):
 	if str(signal_name) != "reset map": return
@@ -371,6 +399,10 @@ func reset_map(signal_name, message):
 				player.set_meta("health", 100)
 				player.set_meta("shield", 100)
 				player.position = Vector3.ZERO
+				for weapon in player.get_node("Camera3D").get_children():
+					if weapon.name.contains("RayCast"):
+						continue
+					weapon.set_meta("current_ammo", weapon.ammo)
 				await get_tree().create_timer(0.01,false,false,true).timeout
 			var gui = player.get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("HealthGui")
 	
@@ -378,9 +410,10 @@ func reset_map(signal_name, message):
 			var shield_bar = gui.get_node_or_null("ShieldBar")
 			var health_text = gui.get_node_or_null("health text")
 			var shield_text = gui.get_node_or_null("shield text")
+			
 			if health_bar and shield_bar:
 				health_bar.value = player.get_meta("health")
 				shield_bar.value = player.get_meta("shield")
 			if health_text and shield_text:
-				health_text.text = str(player.get_meta("health"))
-				shield_text.text = str(player.get_meta("shield"))
+				health_text.text = str(player.get_meta("health")).replace(".0", "")
+				shield_text.text = str(player.get_meta("shield")).replace(".0", "")
