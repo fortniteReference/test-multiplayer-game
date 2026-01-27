@@ -2,10 +2,15 @@ extends Node
 
 @onready var canvas = $CanvasLayer
 @onready var waiting = $CanvasLayer/Waiting
+@onready var looking = $"CanvasLayer/Looking for player"
+@onready var voting = $CanvasLayer/Voting
 @onready var task = $CanvasLayer/Waiting/Panel/task
 # Called when the node enters the scene tree for the first time.
 
 func random_shi():
+	$AudioStreamPlayer.play()
+	waiting.show()
+	
 	var pic = $"CanvasLayer/Waiting/Panel/random shi"
 	var desc = $CanvasLayer/Waiting/Panel/desc1
 	var options = ["res://random shi/lock.jpg", "res://random shi/pic 1.jpg",
@@ -64,8 +69,31 @@ func lobby_joined(lobby_name : String) -> void:
 	task.text = "ready to play!"
 	await get_tree().create_timer(0.5).timeout
 	get_tree().create_tween().tween_property(waiting, "position:y", 1500, 2.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	looking.show()
+	
+	look_for_players()
 	await get_tree().create_timer(2.1,false,false,true).timeout
-	canvas.hide()
+	waiting.hide()
 
-func lobby_join_failed(lobby_name : String):
-	print("lobby join failed, ", lobby_name)
+func look_for_players():
+	var count = 0
+	while count != 2:
+		for child in get_children():
+			if child is CharacterBody3D:
+				count += 1
+		if count == 2:
+			break
+		else:
+			count = 0
+		await get_tree().create_timer(0.5).timeout
+	looking.get_node("Panel/Label").text = "Found Player! Loading..."
+	await get_tree().create_timer(0.5).timeout
+	get_tree().create_tween().tween_property(looking, "position:y", 1500, 2.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	
+	voting.show()
+	voting.start_voting()
+	if GDSync.is_host():
+		GDSync.lobby_close()
+
+func lobby_join_failed(lobby_name : String, _error):
+	task.text = "the lobby " + lobby_name + " either doesn't exist, or has already began. Please try again later."

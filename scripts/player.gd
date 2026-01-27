@@ -27,7 +27,12 @@ func _ready() -> void:
 	GDSync.synced_event_triggered.connect(equip_item)
 	GDSync.synced_event_triggered.connect(unequip_items)
 	GDSync.synced_event_triggered.connect(play_effects)
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+func set_input_mode(on: bool):
+	if on:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func owner_changed(_owner_id : int) -> void:
 	var is_owner : bool = GDSync.is_gdsync_owner(self)
@@ -296,7 +301,7 @@ func reload(item: Node3D):
 			gui.get_node("reloading").show()
 		for i in range(ammo-item.get_meta("current_ammo")):
 			for u in range(round(reload_time*50)):
-				if Input.is_action_just_pressed("shoot") and item.get_meta("current_ammo") > 0:
+				if Input.is_action_pressed("shoot") and item.get_meta("current_ammo") > 0:
 					reloading = false
 					if gui:
 						gui.get_node("reloading").hide()
