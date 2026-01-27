@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctom6qcbqffig"]
+[gd_scene load_steps=8 format=3 uid="uid://ctom6qcbqffig"]
 
 [ext_resource type="Script" uid="uid://b11nuno7o5coh" path="res://scripts/world.gd" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://by78ndkrspwtb" path="res://scripts/players.gd" id="2_fj7yv"]
 [ext_resource type="PackedScene" uid="uid://rr5l82m5dy0l" path="res://player.tscn" id="3_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://2ublw7b48s4g" path="res://map_1.tscn" id="4_dwbse"]
 [ext_resource type="AudioStream" uid="uid://dug8bxwyre1h0" path="res://audio/boss ambiance new.mp3" id="5_036b0"]
+[ext_resource type="Texture2D" uid="uid://f1fr5sajr58a" path="res://random shi/lock.jpg" id="6_dwbse"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_036b0"]
+bg_color = Color(0.5660906, 0.3922119, 0.796875, 1)
 
 [node name="world" type="Node"]
 script = ExtResource("1_f3sb7")
@@ -20,3 +24,76 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_036b0")
 volume_db = 5.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="Main" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Voting" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Waiting" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Waiting"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_036b0")
+
+[node name="title" type="Label" parent="CanvasLayer/Waiting/Panel"]
+layout_mode = 0
+offset_left = 378.0
+offset_right = 775.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 80
+text = "rapid 1v1s"
+
+[node name="task" type="Label" parent="CanvasLayer/Waiting/Panel"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 598.0
+offset_right = 1151.0
+offset_bottom = 647.0
+theme_override_font_sizes/font_size = 35
+text = "waiting for client..."
+horizontal_alignment = 1
+
+[node name="desc1" type="Label" parent="CanvasLayer/Waiting/Panel"]
+layout_mode = 0
+offset_left = 693.0
+offset_top = 297.0
+offset_right = 1147.0
+offset_bottom = 450.0
+theme_override_font_sizes/font_size = 35
+text = "\"who am i kidding bro i am not taking this seriously enough\" - milo"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="random shi" type="TextureRect" parent="CanvasLayer/Waiting/Panel"]
+layout_mode = 0
+offset_left = -700.0
+offset_top = 196.0
+offset_right = -30.0
+offset_bottom = 586.0
+pivot_offset = Vector2(335, 195)
+texture = ExtResource("6_dwbse")
+expand_mode = 1

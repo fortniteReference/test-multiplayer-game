@@ -295,13 +295,13 @@ func reload(item: Node3D):
 		if gui:
 			gui.get_node("reloading").show()
 		for i in range(ammo-item.get_meta("current_ammo")):
-			for u in range(round(reload_time*20)):
+			for u in range(round(reload_time*50)):
 				if Input.is_action_just_pressed("shoot") and item.get_meta("current_ammo") > 0:
 					reloading = false
 					if gui:
 						gui.get_node("reloading").hide()
 					return
-				await get_tree().create_timer(0.05,false,false,true).timeout
+				await get_tree().create_timer(0.02,false,false,true).timeout
 			item.set_meta("current_ammo", item.get_meta("current_ammo") + 1)
 			gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
 	else:
