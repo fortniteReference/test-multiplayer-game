@@ -37,9 +37,6 @@ func set_input_mode(on: bool):
 func owner_changed(_owner_id : int) -> void:
 	var is_owner : bool = GDSync.is_gdsync_owner(self)
 	
-	if is_owner:
-		add_item("pump")
-		add_item("pistol")
 	camera.current = is_owner
 	if is_owner:
 		get_node("CanvasLayer").get_node("player name").text = name
@@ -151,6 +148,7 @@ func update_hotbar():
 				slot.get_node("image").texture = load(str(item.image))
 
 func equip_item(player_name: String, n_item):
+	if n_item[0] is Array: return
 	if equip_debounce or player_name != name or not str(n_item[0]).contains("equip"):
 		return
 	var name_item = str(n_item[0]).replace("equip", "")
@@ -198,6 +196,7 @@ func equip_item(player_name: String, n_item):
 		equip_debounce = false
 
 func unequip_items(player_name, message):
+	if message[0] is Array: return
 	if equip_debounce or player_name != name or message[0] != "unequip":
 		return
 	equip_debounce = false
@@ -324,6 +323,7 @@ func reload(item: Node3D):
 		gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
 	
 func play_effects(player_name, message):
+	if message[0] is Array: return
 	if player_name != name or message[0] != "play sound": return
 	var item = camera.get_node_or_null(get_meta("current_item"))
 	if not item:
@@ -349,6 +349,7 @@ func stop_effects(flash):
 
 func receive_damage(player_name, name_item):
 	if player_name == "reset map" or str(name_item[0]).contains("equip"): return
+	if name_item[0] is Array: return
 	if name_item[0] == "hi" or name_item[0] == "play sound": return
 	
 	var player = get_parent().get_node_or_null(str(player_name))
@@ -394,6 +395,7 @@ func receive_damage(player_name, name_item):
 			await get_tree().process_frame
 
 func reset_map(signal_name, message):
+	if message[0] is Array: return
 	if str(signal_name) != "reset map": return
 	if str(message[0]) != "hi": return
 	

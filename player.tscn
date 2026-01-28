@@ -1,15 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://rr5l82m5dy0l"]
+[gd_scene format=3 uid="uid://rr5l82m5dy0l"]
 
 [ext_resource type="Script" uid="uid://bhjvadymqrj2o" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://2yrdre6vxurd" path="res://addons/GD-Sync/Scripts/Types/PropertySynchronizer.gd" id="2_onrkg"]
-[ext_resource type="PackedScene" uid="uid://4ihag865ure3" path="res://meshes/pistol.blend" id="3_hqtel"]
-[ext_resource type="PackedScene" uid="uid://bjw1nk6cj0lfj" path="res://weapon_scenes/pump.tscn" id="4_dw050"]
-[ext_resource type="AudioStream" uid="uid://du3cwej0pjulf" path="res://audio/shoot pistol.mp3" id="4_nvl01"]
-[ext_resource type="Script" uid="uid://dmnrpseo4f7rm" path="res://scripts/weapon_settings.gd" id="4_sweqy"]
 [ext_resource type="Texture2D" uid="uid://4euf4ryi4vfh" path="res://images/plus.png" id="5_1jxqw"]
-[ext_resource type="AudioStream" uid="uid://bui5jkg135hb8" path="res://audio/reload pistol.mp3" id="5_ivps1"]
 [ext_resource type="Texture2D" uid="uid://sep4bg7kle11" path="res://images/shield.png" id="6_dw050"]
-[ext_resource type="AudioStream" uid="uid://vdx3qb14idiv" path="res://audio/pump sound.mp3" id="7_urp6f"]
 [ext_resource type="Script" uid="uid://3fufb4itlvty" path="res://scripts/reticle.gd" id="12_ivps1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
@@ -118,7 +112,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[node name="player" type="CharacterBody3D"]
+[node name="player" type="CharacterBody3D" unique_id=1159846981]
 collision_layer = 2
 script = ExtResource("1_4flbx")
 metadata/items = []
@@ -126,66 +120,21 @@ metadata/current_item = ""
 metadata/health = 100
 metadata/shield = 100
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=214924092]
 shape = SubResource("CapsuleShape3D_sh265")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1784143466]
 mesh = SubResource("CapsuleMesh_4flbx")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=625968232]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48970902, 0)
 
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1695887955]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.055625916, 0)
 target_position = Vector3(0, 0, -50)
 collision_mask = 2
 
-[node name="pistol" parent="Camera3D" instance=ExtResource("3_hqtel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8060821, -0.60443425, -0.35336876)
-visible = false
-script = ExtResource("4_sweqy")
-image = "res://images/pistol image.png"
-hitscan = true
-ammo = 14
-damage = 24
-headshot_multiplier = 1.25
-cooldown = 0.16
-spread = 1.0
-weapon_range = 20
-reload_time = 1.4
-metadata/already_equipped = false
-metadata/current_ammo = 0
-
-[node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/pistol"]
-stream = ExtResource("4_nvl01")
-
-[node name="reload" type="AudioStreamPlayer3D" parent="Camera3D/pistol"]
-stream = ExtResource("5_ivps1")
-
-[node name="pump" parent="Camera3D" instance=ExtResource("4_dw050")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.79452455, 0, 0.16597405)
-visible = false
-script = ExtResource("4_sweqy")
-image = "res://images/pump image.png"
-hitscan = true
-shotgun = true
-ammo = 5
-damage = 8
-headshot_multiplier = 1.45
-cooldown = 1.3
-spread = 1.3
-weapon_range = 15
-pellets = 16
-reload_time = 0.5
-shotgun_reload = true
-metadata/already_equipped = false
-metadata/current_ammo = 0
-
-[node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/pump"]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.5193428, -0.60443425, 0.011557579)
-stream = ExtResource("7_urp6f")
-
-[node name="sync1" type="Node" parent="."]
+[node name="sync1" type="Node" parent="." unique_id=1829653401]
 script = ExtResource("2_onrkg")
 broadcast = 2
 refresh_rate = 45
@@ -197,7 +146,7 @@ extrapolated = false
 max_extrapolation_time = 0.2
 metadata/_custom_type_script = "uid://2yrdre6vxurd"
 
-[node name="cam sync" type="Node" parent="."]
+[node name="cam sync" type="Node" parent="." unique_id=13422171]
 script = ExtResource("2_onrkg")
 broadcast = 2
 refresh_rate = 45
@@ -209,17 +158,17 @@ extrapolated = false
 max_extrapolation_time = 0.2
 metadata/_custom_type_script = "uid://2yrdre6vxurd"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1207792076]
 visible = false
 
-[node name="HUD" type="Control" parent="CanvasLayer"]
+[node name="HUD" type="Control" parent="CanvasLayer" unique_id=1457016375]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 
-[node name="HealthGui" type="Panel" parent="CanvasLayer/HUD"]
+[node name="HealthGui" type="Panel" parent="CanvasLayer/HUD" unique_id=536920198]
 layout_mode = 0
 offset_left = 19.0
 offset_top = 516.0
@@ -228,7 +177,7 @@ offset_bottom = 629.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_n7ghd")
 
-[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD/HealthGui"]
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD/HealthGui" unique_id=1317900974]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 68.0
@@ -240,7 +189,7 @@ value = 100.0
 rounded = true
 show_percentage = false
 
-[node name="ShieldBar" type="ProgressBar" parent="CanvasLayer/HUD/HealthGui"]
+[node name="ShieldBar" type="ProgressBar" parent="CanvasLayer/HUD/HealthGui" unique_id=1697539333]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 24.0
@@ -252,7 +201,7 @@ value = 100.0
 rounded = true
 show_percentage = false
 
-[node name="hp png" type="TextureRect" parent="CanvasLayer/HUD/HealthGui"]
+[node name="hp png" type="TextureRect" parent="CanvasLayer/HUD/HealthGui" unique_id=748999216]
 layout_mode = 0
 offset_left = 395.0
 offset_top = 63.0
@@ -261,7 +210,7 @@ offset_bottom = 103.0
 texture = ExtResource("5_1jxqw")
 expand_mode = 1
 
-[node name="shield png" type="TextureRect" parent="CanvasLayer/HUD/HealthGui"]
+[node name="shield png" type="TextureRect" parent="CanvasLayer/HUD/HealthGui" unique_id=2052335413]
 layout_mode = 0
 offset_left = 395.0
 offset_top = 16.0
@@ -270,7 +219,7 @@ offset_bottom = 56.0
 texture = ExtResource("6_dw050")
 expand_mode = 1
 
-[node name="health text" type="Label" parent="CanvasLayer/HUD/HealthGui"]
+[node name="health text" type="Label" parent="CanvasLayer/HUD/HealthGui" unique_id=1227262788]
 layout_mode = 0
 offset_left = 352.0
 offset_top = 68.0
@@ -279,7 +228,7 @@ offset_bottom = 96.0
 theme_override_font_sizes/font_size = 20
 text = "100"
 
-[node name="shield text" type="Label" parent="CanvasLayer/HUD/HealthGui"]
+[node name="shield text" type="Label" parent="CanvasLayer/HUD/HealthGui" unique_id=917387278]
 layout_mode = 0
 offset_left = 352.0
 offset_top = 23.0
@@ -288,7 +237,7 @@ offset_bottom = 51.0
 theme_override_font_sizes/font_size = 20
 text = "100"
 
-[node name="Hotbar" type="Control" parent="CanvasLayer/HUD"]
+[node name="Hotbar" type="Control" parent="CanvasLayer/HUD" unique_id=1146499286]
 anchors_preset = 0
 offset_left = 631.0
 offset_top = 531.0
@@ -296,7 +245,7 @@ offset_right = 1124.0
 offset_bottom = 621.0
 mouse_filter = 2
 
-[node name="slot0" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+[node name="slot0" type="Panel" parent="CanvasLayer/HUD/Hotbar" unique_id=1725155040]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -306,7 +255,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_606se")
 
-[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot0"]
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot0" unique_id=1937748536]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -319,7 +268,7 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 
-[node name="slot1" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+[node name="slot1" type="Panel" parent="CanvasLayer/HUD/Hotbar" unique_id=2102886729]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -330,7 +279,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_u1c27")
 
-[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot1"]
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot1" unique_id=1932716425]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -343,7 +292,7 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 
-[node name="slot2" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+[node name="slot2" type="Panel" parent="CanvasLayer/HUD/Hotbar" unique_id=596936482]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -354,7 +303,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_op7ga")
 
-[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot2"]
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot2" unique_id=482559795]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -367,7 +316,7 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 
-[node name="slot3" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+[node name="slot3" type="Panel" parent="CanvasLayer/HUD/Hotbar" unique_id=768682464]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -378,7 +327,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_q13i1")
 
-[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot3"]
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot3" unique_id=1590960216]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -391,7 +340,7 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 
-[node name="slot4" type="Panel" parent="CanvasLayer/HUD/Hotbar"]
+[node name="slot4" type="Panel" parent="CanvasLayer/HUD/Hotbar" unique_id=1903269625]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -402,7 +351,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pylmc")
 
-[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot4"]
+[node name="image" type="TextureRect" parent="CanvasLayer/HUD/Hotbar/slot4" unique_id=240319674]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -415,7 +364,7 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 
-[node name="Ammo" type="Panel" parent="CanvasLayer/HUD"]
+[node name="Ammo" type="Panel" parent="CanvasLayer/HUD" unique_id=109389153]
 visible = false
 layout_mode = 0
 offset_left = 920.0
@@ -424,7 +373,7 @@ offset_right = 1106.0
 offset_bottom = 511.0
 mouse_filter = 2
 
-[node name="item name" type="Label" parent="CanvasLayer/HUD/Ammo"]
+[node name="item name" type="Label" parent="CanvasLayer/HUD/Ammo" unique_id=1313730878]
 layout_mode = 0
 offset_top = 1.0
 offset_right = 187.0
@@ -432,7 +381,7 @@ offset_bottom = 24.0
 text = "name"
 horizontal_alignment = 1
 
-[node name="reloading" type="Label" parent="CanvasLayer/HUD/Ammo"]
+[node name="reloading" type="Label" parent="CanvasLayer/HUD/Ammo" unique_id=609571481]
 layout_mode = 0
 offset_top = 86.0
 offset_right = 187.0
@@ -440,7 +389,7 @@ offset_bottom = 109.0
 text = "reloading..."
 horizontal_alignment = 1
 
-[node name="ammo" type="Label" parent="CanvasLayer/HUD/Ammo"]
+[node name="ammo" type="Label" parent="CanvasLayer/HUD/Ammo" unique_id=879990989]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 27.0
@@ -449,7 +398,7 @@ offset_bottom = 50.0
 text = "0/0"
 horizontal_alignment = 1
 
-[node name="Reticles" type="Control" parent="CanvasLayer/HUD"]
+[node name="Reticles" type="Control" parent="CanvasLayer/HUD" unique_id=1187905013]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -461,7 +410,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("12_ivps1")
 
-[node name="Shotgun" type="Control" parent="CanvasLayer/HUD/Reticles"]
+[node name="Shotgun" type="Control" parent="CanvasLayer/HUD/Reticles" unique_id=1030717285]
 visible = false
 anchors_preset = 0
 offset_left = 544.0
@@ -470,7 +419,7 @@ offset_right = 610.0
 offset_bottom = 359.0
 mouse_filter = 2
 
-[node name="Middle" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+[node name="Middle" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun" unique_id=1096624730]
 layout_mode = 0
 offset_left = 29.0
 offset_top = 30.0
@@ -479,7 +428,7 @@ offset_bottom = 35.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="LeftTop" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+[node name="LeftTop" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun" unique_id=2001579350]
 anchors_preset = 0
 offset_left = 11.0
 offset_top = 6.0
@@ -488,7 +437,7 @@ offset_bottom = 46.0
 mouse_filter = 2
 metadata/og_position = Vector2(11, 6)
 
-[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftTop"]
+[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftTop" unique_id=156043077]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 22.0
@@ -497,7 +446,7 @@ offset_bottom = 30.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftTop"]
+[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftTop" unique_id=1040370591]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 16.0
@@ -507,7 +456,7 @@ rotation = 1.5707964
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftTop"]
+[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftTop" unique_id=1974047559]
 layout_mode = 0
 offset_left = 17.0
 offset_top = 16.0
@@ -517,7 +466,7 @@ rotation = 0.7853982
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="RightTop" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+[node name="RightTop" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun" unique_id=1141552356]
 anchors_preset = 0
 offset_left = 58.0
 offset_top = 12.0
@@ -527,7 +476,7 @@ rotation = 1.5707964
 mouse_filter = 2
 metadata/og_position = Vector2(58, 12)
 
-[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightTop"]
+[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightTop" unique_id=874998810]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 22.0
@@ -536,7 +485,7 @@ offset_bottom = 30.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightTop"]
+[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightTop" unique_id=833155822]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 16.0
@@ -546,7 +495,7 @@ rotation = 1.5707964
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightTop"]
+[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightTop" unique_id=1226438232]
 layout_mode = 0
 offset_left = 17.0
 offset_top = 16.0
@@ -556,7 +505,7 @@ rotation = 0.7853982
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="LeftBottom" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+[node name="LeftBottom" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun" unique_id=1483198280]
 anchors_preset = 0
 offset_left = 5.0
 offset_top = 53.0
@@ -566,7 +515,7 @@ rotation = 4.712389
 mouse_filter = 2
 metadata/og_position = Vector2(5, 53)
 
-[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftBottom"]
+[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftBottom" unique_id=84231650]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 22.0
@@ -575,7 +524,7 @@ offset_bottom = 30.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftBottom"]
+[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftBottom" unique_id=128452553]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 16.0
@@ -585,7 +534,7 @@ rotation = 1.5707964
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftBottom"]
+[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/LeftBottom" unique_id=408205262]
 layout_mode = 0
 offset_left = 17.0
 offset_top = 16.0
@@ -595,7 +544,7 @@ rotation = 0.7853982
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="RightBottom" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun"]
+[node name="RightBottom" type="Control" parent="CanvasLayer/HUD/Reticles/Shotgun" unique_id=1588639717]
 anchors_preset = 0
 offset_left = 52.0
 offset_top = 59.0
@@ -605,7 +554,7 @@ rotation = 3.1415927
 mouse_filter = 2
 metadata/og_position = Vector2(52, 59)
 
-[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightBottom"]
+[node name="Panel" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightBottom" unique_id=957523811]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 22.0
@@ -614,7 +563,7 @@ offset_bottom = 30.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightBottom"]
+[node name="Panel3" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightBottom" unique_id=2137267818]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 16.0
@@ -624,7 +573,7 @@ rotation = 1.5707964
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightBottom"]
+[node name="Panel2" type="Panel" parent="CanvasLayer/HUD/Reticles/Shotgun/RightBottom" unique_id=26597008]
 layout_mode = 0
 offset_left = 17.0
 offset_top = 16.0
@@ -634,7 +583,7 @@ rotation = 0.7853982
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Other" type="Control" parent="CanvasLayer/HUD/Reticles"]
+[node name="Other" type="Control" parent="CanvasLayer/HUD/Reticles" unique_id=487148878]
 visible = false
 anchors_preset = 0
 offset_left = 543.0
@@ -643,7 +592,7 @@ offset_right = 610.0
 offset_bottom = 359.0
 mouse_filter = 2
 
-[node name="Middle" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+[node name="Middle" type="Panel" parent="CanvasLayer/HUD/Reticles/Other" unique_id=1532448059]
 layout_mode = 0
 offset_left = 30.0
 offset_top = 30.0
@@ -652,7 +601,7 @@ offset_bottom = 35.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 
-[node name="Top" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+[node name="Top" type="Panel" parent="CanvasLayer/HUD/Reticles/Other" unique_id=917498256]
 layout_mode = 0
 offset_left = 30.0
 offset_top = 11.0
@@ -662,7 +611,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 metadata/og_position = Vector2(30, 11)
 
-[node name="Bottom" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+[node name="Bottom" type="Panel" parent="CanvasLayer/HUD/Reticles/Other" unique_id=581663801]
 layout_mode = 0
 offset_left = 30.0
 offset_top = 39.0
@@ -672,7 +621,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 metadata/og_position = Vector2(30, 39)
 
-[node name="Left" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+[node name="Left" type="Panel" parent="CanvasLayer/HUD/Reticles/Other" unique_id=1808106174]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 30.0
@@ -682,7 +631,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 metadata/og_position = Vector2(9, 30)
 
-[node name="Right" type="Panel" parent="CanvasLayer/HUD/Reticles/Other"]
+[node name="Right" type="Panel" parent="CanvasLayer/HUD/Reticles/Other" unique_id=685561888]
 layout_mode = 0
 offset_left = 39.0
 offset_top = 30.0
@@ -692,8 +641,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 metadata/og_position = Vector2(39, 30)
 
-[node name="player name" type="Label" parent="CanvasLayer"]
-visible = false
+[node name="player name" type="Label" parent="CanvasLayer" unique_id=912249686]
 offset_right = 322.0
 offset_bottom = 137.0
 theme_override_font_sizes/font_size = 100
