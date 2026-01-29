@@ -104,7 +104,8 @@ func start_voting():
 			image.texture = load(get_image)
 			
 		var pressed_vote = func():
-			GDSync.player_set_data("Votes", [str(options.keys()[panel.get_meta("key")]), panel.name])
+			# GDSync.player_set_data("Votes", [str(options.keys()[panel.get_meta("key")]), panel.name])
+			GDSync.player_set_data("Votes", [str(options.keys()[panel.get_meta("key")]), panel.name, current_panel])
 
 		vote.pressed.connect(pressed_vote)
 		
@@ -118,17 +119,25 @@ func start_voting():
 		panel.get_node("Vote").hide()
 	GDSync.call_func_all(end_voting)
 	
+	
 func change_vote(client_id, key, data):
 	if key != "Votes" or not data is Array: return
 	if data.size() == 0:
 		print("no data, returned")
 		return
-	if current_vote != "" and client_id == GDSync.get_client_id():
-		var other_panel = main.get_node_or_null(str(current_panel))
-		if other_panel:
-			var other_votes = other_panel.get_node("Votes")
-			var reset_votes = str(other_votes.text).to_int() - 1
-			other_votes.text = str(reset_votes)
+	if (current_vote != "" and client_id == GDSync.get_client_id()) or client_id != GDSync.get_client_id():
+		if client_id != GDSync.get_client_id() and data.size() == 3:
+			var other_panel = main.get_node_or_null(str(data[2]))
+			if other_panel:
+				var other_votes = other_panel.get_node("Votes")
+				var reset_votes = str(other_votes.text).to_int() - 1
+				other_votes.text = str(reset_votes)
+		else:
+			var other_panel = main.get_node_or_null(str(current_panel))
+			if other_panel:
+				var other_votes = other_panel.get_node("Votes")
+				var reset_votes = str(other_votes.text).to_int() - 1
+				other_votes.text = str(reset_votes)
 	var panel = main.get_node_or_null(str(data[1]))
 	if panel:
 		var votes = panel.get_node("Votes")
