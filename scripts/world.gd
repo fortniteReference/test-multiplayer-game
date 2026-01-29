@@ -91,8 +91,11 @@ func look_for_players():
 	get_tree().create_tween().tween_property(looking, "position:y", 1500, 2.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	
 	await get_tree().create_timer(2).timeout
+	# change the randi_range amount here to change available options
 	if GDSync.is_host():
 		voting.start_voting_call()
+	voting.wait_add_items()
+	if GDSync.is_host():
 		GDSync.lobby_close()
 
 func lobby_join_failed(lobby_name : String, _error):

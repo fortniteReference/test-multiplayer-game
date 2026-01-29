@@ -2,7 +2,6 @@ extends Control
 
 @onready var main = $Main
 @onready var world = $"../.."
-@onready var items_folder = $"../../Items"
 
 @onready var local_votes = null
 @onready var local_panel = null
@@ -25,11 +24,6 @@ var items_to_add = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	"""
-	GDSync.synced_event_triggered.connect(end_voting)
-	GDSync.synced_event_triggered.connect(add_vote)
-	GDSync.synced_event_triggered.connect(start_voting)
-	"""
 	GDSync.expose_func(start_voting)
 	GDSync.expose_func(end_voting)
 	GDSync.expose_func(clear_vote)
@@ -39,26 +33,41 @@ func _ready() -> void:
 	GDSync.synced_event_triggered.connect(add_items)
 	
 func start_voting_call():
-	index1 = 0 # randi_range(0, options.size()-1)
-	index2 = 0 # randi_range(0, options.size()-1)
-	index3 = 0 # randi_range(0, options.size()-1)
-	GDSync.call_func_all(start_voting)
+	GDSync.lobby_set_data("Indexes", [randi_range(0,1), randi_range(0,1), randi_range(0,1)])
+	
+	var indexes: Array = GDSync.lobby_get_data("Indexes", [])
+	while indexes.is_empty():
+		await GDSync.lobby_data_changed
+		indexes = GDSync.lobby_get_data("Indexes", [])
+		
+	print("indexs: ", indexes[0], indexes[1], indexes[2])
+	
+	if GDSync.is_host():
+		await get_tree().create_timer(2,false,false,true).timeout
+		GDSync.call_func_all(start_voting)
+
+func wait_add_items():
+	var indexes = GDSync.lobby_get_data("Indexes", [])
+	while indexes.is_empty():
+		await GDSync.lobby_data_changed
+		indexes = GDSync.lobby_get_data("Indexes", [])
+		
+	print("indexs: ", indexes[0], indexes[1], indexes[2])
+	index1 = indexes[0]
+	index2 = indexes[1]
+	index3 = indexes[2]
+	
 	await get_tree().create_timer(12,false,false,true).timeout
-	if GDSync.is_host() and items_to_add.size() > 0:
-		for player in world.get_children():
-			if player is CharacterBody3D:
-				GDSync.synced_event_create(player.name, 0, [items_to_add])
-				player.set_input_mode(true)
-	else:
-		if not GDSync.is_host():
-			print("player isn't host")
-		if items_to_add.size() == 0:
-			print("items to add is 0.")
+	var player = world.get_node_or_null(str(GDSync.get_client_id()))
+	if player:
+		GDSync.synced_event_create(player.name, 0, [items_to_add])
+		player.set_input_mode(true)
 
 func start_voting():
 	show()
 	$"../Looking for player".hide()
 	var player = world.get_node_or_null(str(GDSync.get_client_id()))
+	print(player.name)
 	if player:
 		player.set_input_mode(false)
 		player_name = str(GDSync.get_client_id())
@@ -123,6 +132,7 @@ func vote_option1():
 		var current_votes = str(votes.text).to_int()
 		current_votes += 1
 		if player_name == str(GDSync.get_client_id()):
+			print("name is equal")
 			current_vote = str(options.keys()[panel.get_meta("key")])
 			current_panel = "Voting1"
 		votes.text = str(current_votes)
@@ -136,6 +146,7 @@ func vote_option2():
 		var current_votes = str(votes.text).to_int()
 		current_votes += 1
 		if player_name == str(GDSync.get_client_id()):
+			print("name is equal")
 			current_vote = str(options.keys()[panel.get_meta("key")])
 			current_panel = "Voting2"
 		votes.text = str(current_votes)
@@ -149,6 +160,7 @@ func vote_option3():
 		var current_votes = str(votes.text).to_int()
 		current_votes += 1
 		if player_name == str(GDSync.get_client_id()):
+			print("name is equal")
 			current_vote = str(options.keys()[panel.get_meta("key")])
 			current_panel = "Voting3"
 		votes.text = str(current_votes)
@@ -203,20 +215,38 @@ func end_voting():
 	
 func add_items(name_player, params):
 	if name_player != str(GDSync.get_client_id()) or not params[0] is Array: return
+	if params[0][0] == "set index": return
 	
 	var items = params[0]
 	if items != null:
 		if items.has("random"):
-			pass
+			# for now, keep like this. later, make it change every round.
+			var player = world.get_node_or_null(name_player)
+			print("mode is random")
+			if player:
+				var item_selection = []
+				for i in range(2):
+					# this way, players guarenteed will get a shotgun and spray weapon.
+					item_selection = []
+					print(i)
+					if i == 0:
+						for item in player.get_node("Camera3D").get_children():
+							if item.name.contains("RayCast"): continue
+							if item.shotgun == false: continue
+					
+							item_selection.append(item.name)
+						print(item_selection)
+						player.add_item(str(item_selection[randi_range(0,-1)]))
+					else:
+						for item in player.get_node("Camera3D").get_children():
+							if item.name.contains("RayCast"): continue
+							if item.shotgun == true: continue
+					
+							item_selection.append(item.name)
+						print(item_selection)
+						player.add_item(str(item_selection[randi_range(0,-1)]))
 		else:
 			var player = world.get_node_or_null(name_player)
 			if player:
-				for possible_item in items:
-					var og_item = items_folder.get_node_or_null(str(possible_item))
-					if not og_item: continue
-					
-					var item = og_item.duplicate()
-					player.get_node("Camera3D").add_child(item)
-					
-					item.name = og_item.name
-					player.add_item(str(item.name))
+				for item in items:
+					player.add_item(str(item))

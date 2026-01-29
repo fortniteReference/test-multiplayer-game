@@ -359,6 +359,7 @@ func receive_damage(player_name, name_item):
 	var check_item = str(name_item[0]).replace("true", "")
 	var hit_head = str(name_item[0]).replace(str(check_item), "")
 	var item = camera.get_node_or_null(check_item)
+
 	if player_name != name:
 		if item:
 			damage = item.damage
