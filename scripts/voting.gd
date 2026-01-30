@@ -208,9 +208,9 @@ func add_items(name_player, params):
 	
 	var items = params[0]
 	if items != null:
+		var player = world.get_node_or_null(name_player)
 		if items.has("random"):
 			# for now, keep like this. later, make it change every round.
-			var player = world.get_node_or_null(name_player)
 			print("mode is random")
 			if player:
 				var item_selection = []
@@ -235,7 +235,8 @@ func add_items(name_player, params):
 						print(item_selection)
 						player.add_item(str(item_selection[randi_range(0,-1)]))
 		else:
-			var player = world.get_node_or_null(name_player)
 			if player:
 				for item in items:
 					player.add_item(str(item))
+		if player and player.name == str(GDSync.get_client_id()):
+			world.manage_game("start game")

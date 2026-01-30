@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://2ublw7b48s4g"]
+[gd_scene format=3 uid="uid://2ublw7b48s4g"]
 
 [ext_resource type="PackedScene" uid="uid://b1ilfwjgj835s" path="res://meshes/map1.blend" id="1_thia8"]
 [ext_resource type="Texture2D" uid="uid://bbruupk4lhejv" path="res://textures/Poliigon_GrassPatchyGround_4585_BaseColor.jpg" id="2_lolil"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1q0j8"]
 albedo_texture = ExtResource("2_lolil")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lolil"]
+size = Vector3(40.43016, 0.39318848, 5.2621765)
 
 [sub_resource type="BoxMesh" id="BoxMesh_lolil"]
 
@@ -13,18 +16,34 @@ albedo_texture = ExtResource("2_lolil")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fpksy"]
 
-[node name="map1" instance=ExtResource("1_thia8")]
+[node name="map1" unique_id=1999795030 instance=ExtResource("1_thia8")]
 
 [node name="ground" parent="." index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_1q0j8")
 
-[node name="ground2" type="MeshInstance3D" parent="." index="17"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="ground/StaticBody3D" index="1" unique_id=243075559]
+transform = Transform3D(1, 0, 0, 0, 0.9630687, -0.26925606, 0, 0.26925606, 0.9630687, -3.219345, 0.499526, -17.187553)
+shape = SubResource("BoxShape3D_lolil")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="ground/StaticBody3D" index="2" unique_id=587340874]
+transform = Transform3D(-1, -2.3509722e-08, -8.420235e-08, 0, 0.96316266, -0.26891986, 8.742278e-08, -0.26891986, -0.96316266, -3.219345, 0.499526, 17.545517)
+shape = SubResource("BoxShape3D_lolil")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="ground/StaticBody3D" index="3" unique_id=628156237]
+transform = Transform3D(-4.371139e-08, 0.26891986, 0.96316266, 0, 0.96316266, -0.26891986, -1, -1.1754861e-08, -4.2101174e-08, -18.077307, 0.499526, -0.08128786)
+shape = SubResource("BoxShape3D_lolil")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="ground/StaticBody3D" index="4" unique_id=1254872684]
+transform = Transform3D(-4.371139e-08, -0.26891986, -0.96316266, 0, 0.96316266, -0.26891986, 1, -1.1754861e-08, -4.2101174e-08, 12.082083, 0.499526, -0.08128786)
+shape = SubResource("BoxShape3D_lolil")
+
+[node name="ground2" type="MeshInstance3D" parent="." index="17" unique_id=750209599]
 transform = Transform3D(41.713802, 0, 0, 0, 3.5159588, -1.7813886, 0, 1.0341363, 6.056542, 0, -1.2728939, -17.052382)
 mesh = SubResource("BoxMesh_lolil")
 surface_material_override/0 = SubResource("StandardMaterial3D_n2bu5")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ground2" index="0"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ground2" index="0" unique_id=2134008388]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ground2/StaticBody3D" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ground2/StaticBody3D" index="0" unique_id=1000527353]
 transform = Transform3D(1, 0, 0, 0, 1.0000004, 0, 0, 0, 1.0000004, 0, 0, 0)
 shape = SubResource("BoxShape3D_fpksy")

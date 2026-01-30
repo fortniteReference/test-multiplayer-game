@@ -140,7 +140,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.055625916, 0)
 target_position = Vector3(0, 0, -50)
 collision_mask = 2
 
-[node name="pistol" parent="Camera3D" unique_id=1630380581 instance=ExtResource("2_nvl01")]
+[node name="pistol" parent="Camera3D" unique_id=741962954 instance=ExtResource("2_nvl01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8060821, -0.60443425, -0.35336876)
 visible = false
 script = ExtResource("3_ivps1")
@@ -153,6 +153,7 @@ cooldown = 0.16
 spread = 1.0
 weapon_range = 20
 reload_time = 1.4
+metadata/on_cooldown = false
 metadata/already_equipped = false
 metadata/current_ammo = 0
 
@@ -180,6 +181,7 @@ reload_time = 0.5
 shotgun_reload = true
 metadata/already_equipped = false
 metadata/current_ammo = 0
+metadata/on_cooldown = false
 
 [node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/pump" unique_id=1158726146]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.5193428, -0.60443425, 0.011557579)

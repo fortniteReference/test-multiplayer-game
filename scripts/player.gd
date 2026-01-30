@@ -12,7 +12,6 @@ var shield = 100
 var cooldown = 0.0
 var damage = 0
 var ammo = 1
-var shoot_debounce = false
 var equip_debounce = false
 var reloading = false
 # Backups
@@ -244,12 +243,12 @@ func run_pellet(item: Node3D):
 	new_raycast.queue_free()
 					
 func check_hit(item: Node3D):
-	if shoot_debounce or reloading:
+	if item.get_meta("on_cooldown") or reloading:
 		return
 	if item.get_meta("current_ammo") <= 0:
 		reload(item)
 		return
-	shoot_debounce = true
+	item.set_meta("on_cooldown", true)
 	raycast.position = Vector3(0,-0.065,0)
 	raycast.rotation_degrees = Vector3(0,0,0)
 	raycast.target_position = Vector3(0,0,-item.weapon_range)
@@ -278,7 +277,7 @@ func check_hit(item: Node3D):
 				else:
 					GDSync.synced_event_create(hit_player.name, 0, [item.name])
 	await get_tree().create_timer(cooldown,false,false,true).timeout
-	shoot_debounce = false
+	item.set_meta("on_cooldown", false)
 	raycast.position = Vector3(0,-0.065,0)
 	raycast.rotation_degrees = Vector3(0,0,0)
 	
@@ -327,7 +326,6 @@ func play_effects(player_name, message):
 	if player_name != name or message[0] != "play sound": return
 	var item = camera.get_node_or_null(get_meta("current_item"))
 	if not item:
-		shoot_debounce = false
 		return
 	if not item.visible:
 		return
@@ -379,6 +377,10 @@ func receive_damage(player_name, name_item):
 			player.set_meta("health", player.get_meta("health") - damage)
 		if player.get_meta("health") <= 0:
 			GDSync.synced_event_create("reset map", 0, ["hi"])
+			if player.name == str(GDSync.get_client_id()):
+				player.get_parent().manage_game("update scorewinner:loser:" + player.name)
+			else:
+				player.get_parent().manage_game("update scorewinner:" + str(GDSync.get_client_id()) + "loser:" + player.name)
 	if player.name == name:
 		for i in range(5):
 			var gui = player.get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("HealthGui")
@@ -400,13 +402,13 @@ func reset_map(signal_name, message):
 	if str(signal_name) != "reset map": return
 	if str(message[0]) != "hi": return
 	
+	get_parent().manage_game("reset map")
 	for player in get_parent().get_children():
 		if player is CharacterBody3D:
 			GDSync.synced_event_create(player.name, 0, ["unequip"])
 			for i in range(10):
 				player.set_meta("health", 100)
 				player.set_meta("shield", 100)
-				player.position = Vector3.ZERO
 				for weapon in player.get_node("Camera3D").get_children():
 					if weapon.name.contains("RayCast"):
 						continue

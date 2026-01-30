@@ -7,6 +7,9 @@ extends Node
 @onready var task = $CanvasLayer/Waiting/Panel/task
 # Called when the node enters the scene tree for the first time.
 
+var lobby_status = ""
+var score_debounce = false
+
 func random_shi():
 	$AudioStreamPlayer.play()
 	waiting.show()
@@ -32,6 +35,7 @@ func _ready() -> void:
 	GDSync.connected.connect(connected)
 	GDSync.connection_failed.connect(connection_failed)
 	
+	GDSync.lobbies_received.connect(lobbies_received)
 	GDSync.lobby_created.connect(lobby_created)
 	GDSync.lobby_creation_failed.connect(lobby_creation_failed)
 	GDSync.lobby_joined.connect(lobby_joined)
@@ -43,7 +47,23 @@ func _ready() -> void:
 
 func connected() -> void:
 	task.text = "connected!"
-	GDSync.lobby_create("TestLobby")
+	GDSync.get_public_lobbies()
+	# GDSync.lobby_create("TestLobby")
+	
+func lobbies_received(lobbies: Array):
+	print(lobbies)
+	for lobby in lobbies:
+		print(lobby)
+		lobby_status = ""
+		GDSync.lobby_join(str(lobby.get("Name", null)))
+		while lobby_status == "":
+			await get_tree().create_timer(0.01).timeout
+		if lobby_status == "joined":
+			break
+		else:
+			continue
+	if lobby_status == "join failed" or lobbies.size() == 0:
+		GDSync.lobby_create("lobby" + str(randi_range(100000,999999)))
 
 func connection_failed(error : int) -> void:
 	match(error):
@@ -64,6 +84,7 @@ func lobby_creation_failed(lobby_name : String, error : int) -> void:
 		GDSync.lobby_join(lobby_name)
 
 func lobby_joined(lobby_name : String) -> void:
+	lobby_status = "joined"
 	task.text = "joining lobby " + lobby_name + "..."
 	await get_tree().create_timer(1).timeout
 	task.text = "ready to play!"
@@ -97,6 +118,61 @@ func look_for_players():
 	voting.wait_add_items()
 	if GDSync.is_host():
 		GDSync.lobby_close()
+		
+func manage_game(command: String):
+	# --------------------------
+	# Objects
+	var player = get_node_or_null(str(GDSync.get_client_id()))
+	var barrier = $Barrier
+	var spawn1 = $PlayerSpawn1
+	var spawn2 = $PlayerSpawn2
+	# --------------------------
+	# Game
+	var game = $CanvasLayer/Game
+	var barrier_panel = $CanvasLayer/Game/BarrierDrop
+	var barrier_timer = $CanvasLayer/Game/BarrierDrop/timer
+	# --------------------------
+	if player:
+		if command == "start game" or command == "reset map":
+			if command == "start game":
+				game.show()
+			barrier.show()
+			barrier.get_node("CollisionShape3D").disabled = false
+			barrier_panel.show()
+			get_tree().create_tween().tween_property(barrier_panel, "position:y", 15, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			if GDSync.is_host():
+				player.position = spawn1.position
+			else:
+				player.position = spawn2.position
+			barrier_timer.text = "3"
+			for i in range(3,0,-1):
+				await get_tree().create_timer(1,false,false,true).timeout
+				barrier_timer.text = str(i)
+			await get_tree().create_timer(1,false,false,true).timeout
+			barrier_timer.text = "0"
+			barrier.hide()
+			barrier.get_node("CollisionShape3D").disabled = true
+			get_tree().create_tween().tween_property(barrier_panel, "position:y", -126, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		elif command.contains("update score") and not score_debounce:
+			score_debounce = true
+			var string1 = str(command.replace("update score", ""))
+			var pos1 = string1.find("winner:")
+			var pos2 = string1.find("loser:")
+			var winner = string1.substr(pos1 + "winner:".length(), 6)
+			var loser = string1.substr(pos2 + "loser:".length(), 6)
+			
+			if winner.to_int() == GDSync.get_client_id():
+				var score_text = $CanvasLayer/Game/Score/YourScore/score
+				var amount_of_wins = str(str(score_text.text).replace("/10", "")).to_int() + 1
+				score_text.text = str(amount_of_wins) + "/10"
+			elif loser.to_int() == GDSync.get_client_id():
+				var score_text = $CanvasLayer/Game/Score/EnemyScore/score
+				var amount_of_wins = str(str(score_text.text).replace("/10", "")).to_int() + 1
+				score_text.text = str(amount_of_wins) + "/10"
+			await get_tree().create_timer(3).timeout
+			score_debounce = false
 
 func lobby_join_failed(lobby_name : String, _error):
+	lobby_status = "join failed"
+	task.add_theme_font_size_override("font_size", 18)
 	task.text = "the lobby " + lobby_name + " either doesn't exist, or has already began. Please try again later."

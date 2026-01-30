@@ -9,6 +9,21 @@
 [ext_resource type="StyleBox" uid="uid://dximtdg8qo454" path="res://box flats/green button.tres" id="6_gbfbk"]
 [ext_resource type="Script" uid="uid://bapwomf7h2wty" path="res://scripts/voting.gd" id="6_ioo17"]
 [ext_resource type="StyleBox" uid="uid://cesupc0new4fk" path="res://box flats/green button pressed.tres" id="7_ioo17"]
+[ext_resource type="FontFile" uid="uid://bn5sd81kmqgyh" path="res://fomnts/TitilliumWeb-Regular.ttf" id="10_ic0uy"]
+[ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="11_k3n1d"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_k3n1d"]
+sky_material = SubResource("ProceduralSkyMaterial_ic0uy")
+
+[sub_resource type="Environment" id="Environment_2o6r5"]
+background_mode = 2
+sky = SubResource("Sky_k3n1d")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dwbse"]
 bg_color = Color(0.9375, 0.65185547, 0.65185547, 1)
@@ -51,8 +66,34 @@ corner_radius_bottom_left = 10
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_036b0"]
 bg_color = Color(0.5660906, 0.3922119, 0.796875, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2o6r5"]
+bg_color = Color(0, 0, 0, 0.42352942)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ic0uy"]
+bg_color = Color(0, 0, 0, 0.4745098)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ioo17"]
+size = Vector3(0.5, 14.5, 58.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wse8f"]
+
 [node name="world" type="Node" unique_id=967505589]
 script = ExtResource("1_f3sb7")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=397416925]
+environment = SubResource("Environment_2o6r5")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=234789648]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
 
 [node name="Players" type="Node3D" parent="." unique_id=1632309300]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
@@ -406,3 +447,113 @@ offset_bottom = 586.0
 pivot_offset = Vector2(335, 195)
 texture = ExtResource("6_dwbse")
 expand_mode = 1
+
+[node name="Game" type="Control" parent="CanvasLayer" unique_id=1892618971]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BarrierDrop" type="Panel" parent="CanvasLayer/Game" unique_id=693394369]
+layout_mode = 0
+offset_left = 361.0
+offset_top = -126.0
+offset_right = 791.0
+offset_bottom = -10.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2o6r5")
+
+[node name="title" type="Label" parent="CanvasLayer/Game/BarrierDrop" unique_id=1683115460]
+layout_mode = 0
+offset_right = 431.0
+offset_bottom = 48.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 30
+text = "Barrier Drops in"
+horizontal_alignment = 1
+
+[node name="timer" type="Label" parent="CanvasLayer/Game/BarrierDrop" unique_id=663839091]
+layout_mode = 0
+offset_top = 42.0
+offset_right = 431.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(0.921875, 0.63378906, 0.63378906, 1)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 49
+text = "0"
+horizontal_alignment = 1
+
+[node name="Score" type="Control" parent="CanvasLayer/Game" unique_id=498899201]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="YourScore" type="Panel" parent="CanvasLayer/Game/Score" unique_id=2061283161]
+layout_mode = 0
+offset_left = 868.0
+offset_top = 19.0
+offset_right = 1131.0
+offset_bottom = 82.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ic0uy")
+
+[node name="title" type="Label" parent="CanvasLayer/Game/Score/YourScore" unique_id=1084203078]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 2.0
+offset_right = 126.0
+offset_bottom = 31.0
+text = "Your Score"
+
+[node name="score" type="Label" parent="CanvasLayer/Game/Score/YourScore" unique_id=549452254]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 48.0
+offset_bottom = 55.0
+text = "0/10"
+
+[node name="EnemyScore" type="Panel" parent="CanvasLayer/Game/Score" unique_id=1980889010]
+layout_mode = 0
+offset_left = 868.0
+offset_top = 91.0
+offset_right = 1131.0
+offset_bottom = 154.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ic0uy")
+
+[node name="title" type="Label" parent="CanvasLayer/Game/Score/EnemyScore" unique_id=1770608219]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 2.0
+offset_right = 126.0
+offset_bottom = 31.0
+text = "Enemy Score"
+
+[node name="score" type="Label" parent="CanvasLayer/Game/Score/EnemyScore" unique_id=655043456]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 48.0
+offset_bottom = 55.0
+text = "0/10"
+
+[node name="Barrier" type="StaticBody3D" parent="." unique_id=1335400413]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Barrier" unique_id=585300827]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 3, 2.5)
+shape = SubResource("BoxShape3D_ioo17")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Barrier/CollisionShape3D" unique_id=116156602]
+transform = Transform3D(0.5, 0, 0, 0, 19.5, 0, 0, 0, 58, 0, 0, 0)
+mesh = SubResource("BoxMesh_wse8f")
+
+[node name="PlayerSpawn1" type="Node3D" parent="." unique_id=2127648124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3.25, 0)
+
+[node name="PlayerSpawn2" type="Node3D" parent="." unique_id=484547801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.75, 3.25, 0)
