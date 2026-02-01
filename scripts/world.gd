@@ -161,14 +161,23 @@ func manage_game(command: String):
 			var winner = string1.substr(pos1 + "winner:".length(), 6)
 			var loser = string1.substr(pos2 + "loser:".length(), 6)
 			
+			var score_text = $CanvasLayer/Game/Score/YourScore/score
+			var enemy_text = $CanvasLayer/Game/Score/EnemyScore/score
 			if winner.to_int() == GDSync.get_client_id():
-				var score_text = $CanvasLayer/Game/Score/YourScore/score
 				var amount_of_wins = str(str(score_text.text).replace("/10", "")).to_int() + 1
 				score_text.text = str(amount_of_wins) + "/10"
 			elif loser.to_int() == GDSync.get_client_id():
-				var score_text = $CanvasLayer/Game/Score/EnemyScore/score
-				var amount_of_wins = str(str(score_text.text).replace("/10", "")).to_int() + 1
-				score_text.text = str(amount_of_wins) + "/10"
+				var amount_of_wins = str(str(enemy_text.text).replace("/10", "")).to_int() + 1
+				enemy_text.text = str(amount_of_wins) + "/10"
+				
+			if score_text.text == "10/10" or enemy_text.text == "10/10":
+				if score_text.text == "10/10":
+					$CanvasLayer/Game/WinScreen.show()
+				elif enemy_text.text == "10/10":
+					$CanvasLayer/Game/LoseScreen.show()
+				GDSync.lobby_kick_client(winner.to_int())
+				GDSync.lobby_kick_client(loser.to_int())
+				
 			await get_tree().create_timer(3).timeout
 			score_debounce = false
 

@@ -80,6 +80,9 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3n1d"]
+bg_color = Color(0.4557495, 0.5440836, 0.890625, 1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_ioo17"]
 size = Vector3(0.5, 14.5, 58.5)
 
@@ -542,6 +545,87 @@ offset_right = 48.0
 offset_bottom = 55.0
 text = "0/10"
 
+[node name="LoseScreen" type="Panel" parent="CanvasLayer/Game" unique_id=262445098]
+visible = false
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k3n1d")
+
+[node name="Label" type="Label" parent="CanvasLayer/Game/LoseScreen" unique_id=704257867]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 198.0
+offset_right = 941.0
+offset_bottom = 301.0
+theme_override_font_sizes/font_size = 70
+text = "Better luck next time!"
+
+[node name="Label3" type="Label" parent="CanvasLayer/Game/LoseScreen" unique_id=290115038]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 559.0
+offset_right = 941.0
+offset_bottom = 640.0
+theme_override_font_sizes/font_size = 50
+text = "To play again, reopen the app."
+
+[node name="Label2" type="Label" parent="CanvasLayer/Game/LoseScreen" unique_id=829746431]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 115.0
+offset_right = 941.0
+offset_bottom = 218.0
+theme_override_font_sizes/font_size = 70
+text = "You lost..."
+horizontal_alignment = 1
+
+[node name="WinScreen" type="Panel" parent="CanvasLayer/Game" unique_id=794310210]
+visible = false
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k3n1d")
+
+[node name="Label" type="Label" parent="CanvasLayer/Game/WinScreen" unique_id=119498353]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 198.0
+offset_right = 941.0
+offset_bottom = 301.0
+theme_override_font_sizes/font_size = 70
+text = "Nice Job!"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="CanvasLayer/Game/WinScreen" unique_id=583049562]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 559.0
+offset_right = 941.0
+offset_bottom = 640.0
+theme_override_font_sizes/font_size = 50
+text = "To play again, reopen the app."
+
+[node name="Label2" type="Label" parent="CanvasLayer/Game/WinScreen" unique_id=696776010]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 115.0
+offset_right = 941.0
+offset_bottom = 218.0
+theme_override_font_sizes/font_size = 70
+text = "You win!"
+horizontal_alignment = 1
+
 [node name="Barrier" type="StaticBody3D" parent="." unique_id=1335400413]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Barrier" unique_id=585300827]
@@ -557,3 +641,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3.25, 0)
 
 [node name="PlayerSpawn2" type="Node3D" parent="." unique_id=484547801]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.75, 3.25, 0)
+
+[node name="damage" type="Node3D" parent="." unique_id=2082071827]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 20, 0)
+visible = false
+
+[node name="label" type="Label3D" parent="damage" unique_id=279930136]
+billboard = 1
+no_depth_test = true
+fixed_size = true
+text = "damage"
+font_size = 80

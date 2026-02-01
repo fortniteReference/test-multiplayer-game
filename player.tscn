@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://sep4bg7kle11" path="res://images/shield.png" id="6_dw050"]
 [ext_resource type="AudioStream" uid="uid://vdx3qb14idiv" path="res://audio/pump sound.mp3" id="7_u1c27"]
 [ext_resource type="Script" uid="uid://3fufb4itlvty" path="res://scripts/reticle.gd" id="12_ivps1"]
+[ext_resource type="FontFile" uid="uid://j7vbcj5u0tj5" path="res://fomnts/TitilliumWeb-Italic.ttf" id="12_urp6f"]
+[ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="13_bwjto"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 
@@ -117,6 +119,12 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5tmop"]
+bg_color = Color(0.15625, 0.15625, 0.15625, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ahtn"]
+bg_color = Color(1, 0.28125, 0.28125, 1)
 
 [node name="player" type="CharacterBody3D" unique_id=1159846981]
 collision_layer = 2
@@ -699,3 +707,42 @@ offset_right = 322.0
 offset_bottom = 137.0
 theme_override_font_sizes/font_size = 100
 text = "edewd"
+
+[node name="elim gui" type="Label" parent="CanvasLayer" unique_id=1823093850]
+offset_left = 497.0
+offset_top = 662.0
+offset_right = 577.0
+offset_bottom = 688.0
+theme_override_fonts/font = ExtResource("12_urp6f")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5tmop")
+text = "Eliminated"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="CanvasLayer/elim gui" unique_id=1331194757]
+z_index = -1
+layout_mode = 0
+offset_left = -5.0
+offset_top = 6.0
+offset_right = 85.0
+offset_bottom = 57.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ahtn")
+
+[node name="Panel2" type="Panel" parent="CanvasLayer/elim gui" unique_id=1002771895]
+z_index = -1
+layout_mode = 0
+offset_left = -10.0
+offset_top = 21.0
+offset_right = 89.0
+offset_bottom = 57.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ahtn")
+
+[node name="plr name" type="Label" parent="CanvasLayer/elim gui" unique_id=635091008]
+layout_mode = 0
+offset_left = -6.0
+offset_top = 26.0
+offset_right = 85.0
+offset_bottom = 53.0
+theme_override_fonts/font = ExtResource("13_bwjto")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5tmop")
+text = "player"
+horizontal_alignment = 1

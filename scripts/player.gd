@@ -365,7 +365,10 @@ func receive_damage(player_name, name_item):
 				damage = round(damage * item.headshot_multiplier)
 		else:
 			damage = fallback_damage
-
+		
+		var damage_text = get_parent().get_node_or_null("damage")
+		if damage_text and player.name != str(GDSync.get_client_id()):
+			show_damage(player, hit_head, damage_text)
 		if player.get_meta("shield") > 0:
 			if player.get_meta("shield") < damage:
 				var total = damage - player.get_meta("shield")
@@ -380,6 +383,7 @@ func receive_damage(player_name, name_item):
 			if player.name == str(GDSync.get_client_id()):
 				player.get_parent().manage_game("update scorewinner:loser:" + player.name)
 			else:
+				show_elimed_player(player.name)
 				player.get_parent().manage_game("update scorewinner:" + str(GDSync.get_client_id()) + "loser:" + player.name)
 	if player.name == name:
 		for i in range(5):
@@ -396,6 +400,37 @@ func receive_damage(player_name, name_item):
 				health_text.text = str(player.get_meta("health")).replace(".0", "")
 				shield_text.text = str(player.get_meta("shield")).replace(".0", "")
 			await get_tree().process_frame
+			
+func show_damage(player, hit_head, damage_text: Node3D):
+	var new_damage: Node3D = damage_text.duplicate()
+	get_parent().add_child(new_damage)
+	new_damage.name = "cloned damage ind"
+	new_damage.position = player.position + Vector3(0,1,0)
+	new_damage.show()
+	get_tree().create_tween().tween_property(new_damage, "position:y", new_damage.position.y + 1.5, 2)
+			
+	var text: Label3D = new_damage.get_node("label")
+	text.text = str(damage).replace(".0", "")
+	if player.get_meta("shield") > 0:
+		text.modulate = Color(0.419, 0.676, 0.902, 1.0)
+	else:
+		if hit_head == "true":
+			text.modulate = Color(0.883, 0.873, 0.241, 1.0)
+		else:
+			text.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			
+	await get_tree().create_timer(0.5,false,false,true).timeout
+	for i in range(100,0,-1):
+		text.modulate.a = i * 0.01
+		await get_tree().create_timer(0.015,false,false,true).timeout
+	new_damage.queue_free()
+
+func show_elimed_player(player_name: String):
+	var gui = $"CanvasLayer/elim gui"
+	gui.get_node("plr name").text = player_name
+	get_tree().create_tween().tween_property(gui, "position:y", 450, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	await get_tree().create_timer(2,false,false,true).timeout
+	get_tree().create_tween().tween_property(gui, "position:y", 665, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func reset_map(signal_name, message):
 	if message[0] is Array: return
@@ -404,7 +439,7 @@ func reset_map(signal_name, message):
 	
 	get_parent().manage_game("reset map")
 	for player in get_parent().get_children():
-		if player is CharacterBody3D:
+		if player and player is CharacterBody3D:
 			GDSync.synced_event_create(player.name, 0, ["unequip"])
 			for i in range(10):
 				player.set_meta("health", 100)
