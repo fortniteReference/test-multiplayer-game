@@ -2,7 +2,7 @@ extends Node3D
 # Essentials
 @export var image: String # Image displayed on the hotbar. res:// path required
 @export var hitscan: bool # whether the weapon is hitscan (uses raycast), or not.
-@export var shotgun: bool # enables pellets
+@export var shotgun: bool # enables pellets and special reticle
 # Weapon Configuring
 @export var ammo: int
 @export var damage: int

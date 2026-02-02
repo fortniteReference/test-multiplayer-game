@@ -71,6 +71,10 @@ quit={
 ]
 }
 
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
+
 [steam]
 
 initialization/app_id=0

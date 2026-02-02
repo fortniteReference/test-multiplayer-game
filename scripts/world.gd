@@ -170,14 +170,6 @@ func manage_game(command: String):
 				var amount_of_wins = str(str(enemy_text.text).replace("/10", "")).to_int() + 1
 				enemy_text.text = str(amount_of_wins) + "/10"
 				
-			if score_text.text == "10/10" or enemy_text.text == "10/10":
-				if score_text.text == "10/10":
-					$CanvasLayer/Game/WinScreen.show()
-				elif enemy_text.text == "10/10":
-					$CanvasLayer/Game/LoseScreen.show()
-				GDSync.lobby_kick_client(winner.to_int())
-				GDSync.lobby_kick_client(loser.to_int())
-				
 			await get_tree().create_timer(3).timeout
 			score_debounce = false
 

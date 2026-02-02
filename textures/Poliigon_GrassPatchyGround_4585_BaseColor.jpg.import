@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bbruupk4lhejv"
 path.s3tc="res://.godot/imported/Poliigon_GrassPatchyGround_4585_BaseColor.jpg-e7d43306cb6a5d47e7694aa2b6cbb36f.s3tc.ctex"
+path.etc2="res://.godot/imported/Poliigon_GrassPatchyGround_4585_BaseColor.jpg-e7d43306cb6a5d47e7694aa2b6cbb36f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/Poliigon_GrassPatchyGround_4585_BaseColor.jpg"
-dest_files=["res://.godot/imported/Poliigon_GrassPatchyGround_4585_BaseColor.jpg-e7d43306cb6a5d47e7694aa2b6cbb36f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Poliigon_GrassPatchyGround_4585_BaseColor.jpg-e7d43306cb6a5d47e7694aa2b6cbb36f.s3tc.ctex", "res://.godot/imported/Poliigon_GrassPatchyGround_4585_BaseColor.jpg-e7d43306cb6a5d47e7694aa2b6cbb36f.etc2.ctex"]
 
 [params]
 

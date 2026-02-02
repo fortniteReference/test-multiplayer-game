@@ -379,12 +379,12 @@ func receive_damage(player_name, name_item):
 		else:
 			player.set_meta("health", player.get_meta("health") - damage)
 		if player.get_meta("health") <= 0:
-			GDSync.synced_event_create("reset map", 0, ["hi"])
 			if player.name == str(GDSync.get_client_id()):
 				player.get_parent().manage_game("update scorewinner:loser:" + player.name)
 			else:
 				show_elimed_player(player.name)
 				player.get_parent().manage_game("update scorewinner:" + str(GDSync.get_client_id()) + "loser:" + player.name)
+			check_for_win()
 	if player.name == name:
 		for i in range(5):
 			var gui = player.get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("HealthGui")
@@ -430,7 +430,21 @@ func show_elimed_player(player_name: String):
 	gui.get_node("plr name").text = player_name
 	get_tree().create_tween().tween_property(gui, "position:y", 450, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	await get_tree().create_timer(2,false,false,true).timeout
-	get_tree().create_tween().tween_property(gui, "position:y", 665, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	get_tree().create_tween().tween_property(gui, "position:y", 665, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+func check_for_win():
+	await get_tree().create_timer(1).timeout
+	
+	var score = get_parent().get_node_or_null("CanvasLayer/Game/Score")
+	var enemy = score.get_node_or_null("EnemyScore")
+	var your = score.get_node_or_null("YourScore")
+	
+	if (enemy.text == "10/10" or your.text == "10/10") and GDSync.is_host():
+		for player in get_parent().get_children():
+			if player is CharacterBody3D:
+				GDSync.lobby_kick_client(str(player.name).to_int())
+	else:
+		GDSync.synced_event_create("reset map", 0, ["hi"])
 
 func reset_map(signal_name, message):
 	if message[0] is Array: return
