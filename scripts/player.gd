@@ -46,10 +46,15 @@ func _unhandled_input(event) -> void:
 	# print("ran input, ", event)
 	if not GDSync.is_gdsync_owner(self): return
 	if event is InputEventMouseMotion:
-		# print("event is mouse motion")
-		rotate_y(-event.relative.x * .005)
-		camera.rotate_x(-event.relative.y * .005)
-		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+		if get_meta("current_item") != "" and Input.is_action_pressed("target"):
+			rotate_y(-event.relative.x * .001)
+			camera.rotate_x(-event.relative.y * .001)
+			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+		else:
+			# print("event is mouse motion")
+			rotate_y(-event.relative.x * .005)
+			camera.rotate_x(-event.relative.y * .005)
+			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 	elif event is InputEvent:
 		if event.is_action_pressed("quit"):
 			get_tree().quit()
@@ -111,11 +116,14 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("target"):
 			if item:
 				var final_spread: float = item.spread * (1 - (item.spread_reduction * 0.01))
+				
+				camera.fov = item.fov
 				item.position = item.get_meta("new_pos")
 				item.set_meta("current_spread", final_spread)
 				reticles.adjust_reticle(final_spread, item.shotgun)
 		if Input.is_action_just_released("target"):
 			if item:
+				camera.fov = 75
 				item.position = item.get_meta("og_pos")
 				item.set_meta("current_spread", item.spread)
 				reticles.adjust_reticle(item.spread, item.shotgun)
@@ -448,6 +456,7 @@ func show_damage(player, item, hit_head, damage_text: Node3D):
 	await get_tree().create_timer(0.5,false,false,true).timeout
 	for i in range(100,0,-1):
 		text.modulate.a = i * 0.01
+		text.outline_modulate.a = i * 0.01
 		await get_tree().create_timer(0.015,false,false,true).timeout
 	new_damage.queue_free()
 
