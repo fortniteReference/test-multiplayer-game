@@ -5,6 +5,7 @@ extends Node3D
 @export var shotgun: bool # enables pellets and special reticle
 # Aiming in
 @export var fov: int = 75
+@export var custom_reticle: bool
 # Weapon Configuring
 @export var ammo: int
 @export var damage: int
@@ -13,6 +14,7 @@ extends Node3D
 @export var spread: float
 @export var spread_reduction: int # Spread reduction when aiming in (in percent)
 @export var weapon_range: int
+@export var bullet_time: float # NOTICE: this only applies if the weapon is projectile!
 @export var pellets: int
 @export var reload_time: float
 @export var shotgun_reload: bool

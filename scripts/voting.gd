@@ -32,7 +32,7 @@ func _ready() -> void:
 	GDSync.player_data_changed.connect(change_vote)
 	
 func start_voting_call():
-	GDSync.lobby_set_data("Indexes", [randi_range(2,2), randi_range(2,2), randi_range(2,2)])
+	GDSync.lobby_set_data("Indexes", [randi_range(0,2), randi_range(0,2), randi_range(0,2)])
 	
 	var indexes: Array = GDSync.lobby_get_data("Indexes", [])
 	while indexes.is_empty():

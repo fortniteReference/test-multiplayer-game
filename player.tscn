@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://vdx3qb14idiv" path="res://audio/pump sound.mp3" id="7_u1c27"]
 [ext_resource type="PackedScene" uid="uid://dv05y6b3u4b8y" path="res://meshes/sniper.blend" id="8_bwjto"]
 [ext_resource type="AudioStream" uid="uid://1d41juxm604s" path="res://audio/placeholder-sniper-sound.mp3" id="9_606se"]
+[ext_resource type="Texture2D" uid="uid://c4kc8pvvpxesb" path="res://images/scope sniper.png" id="10_u1c27"]
 [ext_resource type="Script" uid="uid://3fufb4itlvty" path="res://scripts/reticle.gd" id="12_ivps1"]
 [ext_resource type="FontFile" uid="uid://j7vbcj5u0tj5" path="res://fomnts/TitilliumWeb-Italic.ttf" id="12_urp6f"]
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="13_bwjto"]
@@ -212,25 +213,31 @@ script = ExtResource("3_ivps1")
 image = "res://images/sniper image.png"
 hitscan = true
 fov = 40
+custom_reticle = true
 ammo = 3
 damage = 97
 headshot_multiplier = 2.1
 cooldown = 1.0
-spread = 2.5
+spread = 1000.0
 spread_reduction = 100
 weapon_range = 100
+bullet_time = 0.1
 reload_time = 3.5
 metadata/already_equipped = false
 metadata/on_cooldown = false
 metadata/current_ammo = 0
-metadata/current_spread = 2.5
+metadata/current_spread = 1000.0
 metadata/og_pos = Vector3(0.77, -0.28, -0.03)
 metadata/new_pos = Vector3(0, -0.28, 0.03)
 
 [node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/sniper" unique_id=1986622777]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.32336873, -0.49043426, -0.033082128)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.6349379, 0.089280754, -0.033082068)
 stream = ExtResource("9_606se")
 volume_db = 4.0
+
+[node name="scope image" type="Sprite3D" parent="Camera3D/sniper" unique_id=829165002]
+transform = Transform3D(-1.1421316e-09, 0, 1, 0, 0.028024726, 0, -0.026128925, 0, -4.371139e-08, -0.13830513, 0.27740654, 0)
+texture = ExtResource("10_u1c27")
 
 [node name="sync1" type="Node" parent="." unique_id=1829653401]
 script = ExtResource("2_onrkg")

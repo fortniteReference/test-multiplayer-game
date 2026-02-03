@@ -105,8 +105,8 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_action_pressed("shoot") and get_meta("current_item") != "":
 		var item = camera.get_node_or_null(str(get_meta("current_item")))
-		if item:
-			if item.visible and item.hitscan == true:
+		if item and item.visible:
+			if item.hitscan:
 				check_hit(item)
 				
 	# Aim in
@@ -120,13 +120,13 @@ func _physics_process(delta: float) -> void:
 				camera.fov = item.fov
 				item.position = item.get_meta("new_pos")
 				item.set_meta("current_spread", final_spread)
-				reticles.adjust_reticle(final_spread, item.shotgun)
+				reticles.adjust_reticle(item, final_spread, item.shotgun, item.custom_reticle)
 		if Input.is_action_just_released("target"):
 			if item:
 				camera.fov = 75
 				item.position = item.get_meta("og_pos")
 				item.set_meta("current_spread", item.spread)
-				reticles.adjust_reticle(item.spread, item.shotgun)
+				reticles.adjust_reticle(item, item.spread, item.shotgun, false)
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -202,7 +202,7 @@ func equip_item(player_name: String, n_item):
 			
 			var reticles = hud.get_node_or_null("Reticles")
 			if reticles:
-				reticles.adjust_reticle(item.spread, item.shotgun)
+				reticles.adjust_reticle(item, item.spread, item.shotgun, false)
 		# print("equipped ", name_item, " at player ", name)
 		set_meta("current_item", name_item)
 		for other in camera.get_children():
@@ -268,7 +268,7 @@ func run_pellet(item: Node3D):
 				total_damage += item.damage
 				GDSync.synced_event_create(hit_player.name, 0, [item.name])
 	new_raycast.queue_free()
-					
+
 func check_hit(item: Node3D):
 	if item.get_meta("on_cooldown") or reloading:
 		return
@@ -295,6 +295,7 @@ func check_hit(item: Node3D):
 	else:
 		var pos = Vector3(randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-0.065 + randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-item.weapon_range)
 		raycast.look_at(camera.to_global(pos))
+		raycast.force_raycast_update()
 		if raycast.is_colliding():
 			var hit_player = raycast.get_collider()
 			if hit_player is CharacterBody3D:
