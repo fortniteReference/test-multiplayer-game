@@ -83,6 +83,9 @@ corner_radius_bottom_left = 20
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3n1d"]
 bg_color = Color(0.4557495, 0.5440836, 0.890625, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70uel"]
+bg_color = Color(0, 0, 0, 1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_ioo17"]
 size = Vector3(0.5, 14.5, 58.5)
 
@@ -625,6 +628,36 @@ offset_bottom = 218.0
 theme_override_font_sizes/font_size = 70
 text = "You win!"
 horizontal_alignment = 1
+
+[node name="BetweenRounds" type="Panel" parent="CanvasLayer/Game" unique_id=326208777]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -700.0
+offset_bottom = -700.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_70uel")
+
+[node name="message" type="Label" parent="CanvasLayer/Game/BetweenRounds" unique_id=494970419]
+layout_mode = 0
+offset_left = 438.0
+offset_top = 371.0
+offset_right = 706.0
+offset_bottom = 426.0
+theme_override_font_sizes/font_size = 40
+text = "message here"
+
+[node name="title" type="Label" parent="CanvasLayer/Game/BetweenRounds" unique_id=437879403]
+layout_mode = 0
+offset_left = 484.0
+offset_top = 237.0
+offset_right = 649.0
+offset_bottom = 361.0
+theme_override_font_sizes/font_size = 90
+text = "null"
 
 [node name="Barrier" type="StaticBody3D" parent="." unique_id=1335400413]
 

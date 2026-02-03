@@ -9,6 +9,7 @@ extends Node3D
 @export var headshot_multiplier: float = 1.0
 @export var cooldown: float
 @export var spread: float
+@export var spread_reduction: int # Spread reduction when aiming in (in percent)
 @export var weapon_range: int
 @export var pellets: int
 @export var reload_time: float

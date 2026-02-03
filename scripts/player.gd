@@ -14,6 +14,7 @@ var damage = 0
 var ammo = 1
 var equip_debounce = false
 var reloading = false
+var total_damage = 0
 # Backups
 var fallback_damage = 20
 var fallback_cooldown = 0.0
@@ -102,6 +103,22 @@ func _physics_process(delta: float) -> void:
 		if item:
 			if item.visible and item.hitscan == true:
 				check_hit(item)
+				
+	# Aim in
+	if get_meta("current_item") != "":
+		var item = camera.get_node_or_null(get_meta("current_item"))
+		var reticles = $CanvasLayer/HUD/Reticles
+		if Input.is_action_just_pressed("target"):
+			if item:
+				var final_spread: float = item.spread * (1 - (item.spread_reduction * 0.01))
+				item.position = item.get_meta("new_pos")
+				item.set_meta("current_spread", final_spread)
+				reticles.adjust_reticle(final_spread, item.shotgun)
+		if Input.is_action_just_released("target"):
+			if item:
+				item.position = item.get_meta("og_pos")
+				item.set_meta("current_spread", item.spread)
+				reticles.adjust_reticle(item.spread, item.shotgun)
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -227,7 +244,7 @@ func run_pellet(item: Node3D):
 	new_raycast.name = "cloned RayCast"
 	new_raycast.position = Vector3(0,-0.056,0)
 	
-	var pos = Vector3(randf_range(-item.spread,item.spread),-0.065 + randf_range(-item.spread,item.spread),-item.weapon_range)
+	var pos = Vector3(randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-0.065 + randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-item.weapon_range)
 	new_raycast.look_at(camera.to_global(pos))
 	
 	new_raycast.force_raycast_update()
@@ -237,8 +254,10 @@ func run_pellet(item: Node3D):
 			var collision_pos = hit_player.to_local(new_raycast.get_collision_point())
 			
 			if collision_pos.y > 0.55:
+				total_damage += round(item.damage * item.headshot_multiplier)
 				GDSync.synced_event_create(hit_player.name, 0, [item.name + "true"])
 			else:
+				total_damage += item.damage
 				GDSync.synced_event_create(hit_player.name, 0, [item.name])
 	new_raycast.queue_free()
 					
@@ -257,6 +276,7 @@ func check_hit(item: Node3D):
 	
 	item.set_meta("current_ammo", item.get_meta("current_ammo") - 1)
 	GDSync.synced_event_create(name, 0, ["play sound"])
+	total_damage = 0
 	# get_parent()
 	var gui = get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("Ammo")
 	if gui:
@@ -265,7 +285,7 @@ func check_hit(item: Node3D):
 		for i in range(item.pellets):
 			run_pellet(item)
 	else:
-		var pos = Vector3(randf_range(-item.spread,item.spread),-0.065 + randf_range(-item.spread,item.spread),-item.weapon_range)
+		var pos = Vector3(randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-0.065 + randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-item.weapon_range)
 		raycast.look_at(camera.to_global(pos))
 		if raycast.is_colliding():
 			var hit_player = raycast.get_collider()
@@ -368,7 +388,7 @@ func receive_damage(player_name, name_item):
 		
 		var damage_text = get_parent().get_node_or_null("damage")
 		if damage_text and player.name != str(GDSync.get_client_id()):
-			show_damage(player, hit_head, damage_text)
+			show_damage(player, item, hit_head, damage_text)
 		if player.get_meta("shield") > 0:
 			if player.get_meta("shield") < damage:
 				var total = damage - player.get_meta("shield")
@@ -379,12 +399,14 @@ func receive_damage(player_name, name_item):
 		else:
 			player.set_meta("health", player.get_meta("health") - damage)
 		if player.get_meta("health") <= 0:
+			var won = false
 			if player.name == str(GDSync.get_client_id()):
 				player.get_parent().manage_game("update scorewinner:loser:" + player.name)
 			else:
 				show_elimed_player(player.name)
 				player.get_parent().manage_game("update scorewinner:" + str(GDSync.get_client_id()) + "loser:" + player.name)
-			check_for_win()
+				won = true
+			check_for_win(won)
 	if player.name == name:
 		for i in range(5):
 			var gui = player.get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("HealthGui")
@@ -401,7 +423,7 @@ func receive_damage(player_name, name_item):
 				shield_text.text = str(player.get_meta("shield")).replace(".0", "")
 			await get_tree().process_frame
 			
-func show_damage(player, hit_head, damage_text: Node3D):
+func show_damage(player, item, hit_head, damage_text: Node3D):
 	var new_damage: Node3D = damage_text.duplicate()
 	get_parent().add_child(new_damage)
 	new_damage.name = "cloned damage ind"
@@ -410,7 +432,11 @@ func show_damage(player, hit_head, damage_text: Node3D):
 	get_tree().create_tween().tween_property(new_damage, "position:y", new_damage.position.y + 1.5, 2)
 			
 	var text: Label3D = new_damage.get_node("label")
-	text.text = str(damage).replace(".0", "")
+	
+	if item.shotgun:
+		text.text = str(total_damage).replace(".0", "")
+	else:
+		text.text = str(damage).replace(".0", "")
 	if player.get_meta("shield") > 0:
 		text.modulate = Color(0.419, 0.676, 0.902, 1.0)
 	else:
@@ -432,19 +458,39 @@ func show_elimed_player(player_name: String):
 	await get_tree().create_timer(2,false,false,true).timeout
 	get_tree().create_tween().tween_property(gui, "position:y", 665, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
-func check_for_win():
-	await get_tree().create_timer(1).timeout
+func check_for_win(won: bool):
+	var game = get_parent().get_node_or_null("CanvasLayer/Game")
+	var round_panel = game.get_node("BetweenRounds")
 	
-	var score = get_parent().get_node_or_null("CanvasLayer/Game/Score")
-	var enemy = score.get_node_or_null("EnemyScore")
-	var your = score.get_node_or_null("YourScore")
-	
-	if (enemy.text == "10/10" or your.text == "10/10") and GDSync.is_host():
-		for player in get_parent().get_children():
-			if player is CharacterBody3D:
-				GDSync.lobby_kick_client(str(player.name).to_int())
+	round_panel.position.y = -700
+	if won:
+		round_panel.get_node("title").text = "Victory!"
+		round_panel.get_node("message").text = "yes gang🤑🤑🤑"
 	else:
-		GDSync.synced_event_create("reset map", 0, ["hi"])
+		round_panel.get_node("title").text = "Defeat..."
+		round_panel.get_node("message").text = "lock in lil bro"
+	get_tree().create_tween().tween_property(round_panel, "position:y", 0, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	await get_tree().create_timer(1).timeout
+	get_tree().create_tween().tween_property(round_panel, "position:y", 700, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	
+	var score = game.get_node_or_null("Score")
+	var enemy = score.get_node_or_null("EnemyScore/score")
+	var your = score.get_node_or_null("YourScore/score")
+	
+	if enemy.text == "10/10":
+		game.get_node("LoseScreen").show()
+		round_panel.hide()
+	elif your.text == "10/10":
+		game.get_node("WinScreen").show()
+		round_panel.hide()
+	
+	if GDSync.is_host():
+		if (enemy.text == "10/10" or your.text == "10/10"):
+			for player in get_parent().get_children():
+				if player is CharacterBody3D:
+					GDSync.lobby_kick_client(str(player.name).to_int())
+		else:
+			GDSync.synced_event_create("reset map", 0, ["hi"])
 
 func reset_map(signal_name, message):
 	if message[0] is Array: return

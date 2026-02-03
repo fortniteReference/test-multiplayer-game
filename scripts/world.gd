@@ -108,10 +108,9 @@ func look_for_players():
 			count = 0
 		await get_tree().create_timer(0.5).timeout
 	looking.get_node("Panel/Label").text = "Found Player! Loading..."
-	await get_tree().create_timer(0.5).timeout
-	get_tree().create_tween().tween_property(looking, "position:y", 1500, 2.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	
 	await get_tree().create_timer(2).timeout
+	looking.get_node("Panel/Label").text = "Waiting for launcher to verify..."
+	
 	# change the randi_range amount here to change available options
 	if GDSync.is_host():
 		voting.start_voting_call()

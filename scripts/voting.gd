@@ -12,7 +12,8 @@ var current_vote = ""
 var current_panel = ""
 var options = {
 	"Original": {"Items": ["pump", "pistol"], "Image": "", "Title": "Original", "Desc": "Nothing better than the og."},
-	"Random": {"Items": ["random"], "Image": "", "Title": "Random", "Desc": "ooh gambling!!!"}
+	"Random": {"Items": ["random"], "Image": "", "Title": "Random", "Desc": "ooh gambling!!!"},
+	"Snipers": {"Items": ["sniper"], "Image": "", "Title": "SNIPERS ONLY!!!", "Desc": "better have aim"}
 }
 
 var index1 = 0
@@ -31,7 +32,7 @@ func _ready() -> void:
 	GDSync.player_data_changed.connect(change_vote)
 	
 func start_voting_call():
-	GDSync.lobby_set_data("Indexes", [randi_range(0,1), randi_range(0,1), randi_range(0,1)])
+	GDSync.lobby_set_data("Indexes", [randi_range(2,2), randi_range(2,2), randi_range(2,2)])
 	
 	var indexes: Array = GDSync.lobby_get_data("Indexes", [])
 	while indexes.is_empty():
@@ -42,6 +43,7 @@ func start_voting_call():
 	
 	await get_tree().create_timer(1,false,false,true).timeout
 	await GDSync.player_data_changed
+	
 	if GDSync.is_host():
 		await get_tree().create_timer(2,false,false,true).timeout
 		GDSync.call_func_all(start_voting)
