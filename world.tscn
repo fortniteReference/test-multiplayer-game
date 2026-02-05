@@ -11,6 +11,7 @@
 [ext_resource type="StyleBox" uid="uid://cesupc0new4fk" path="res://box flats/green button pressed.tres" id="7_ioo17"]
 [ext_resource type="FontFile" uid="uid://bn5sd81kmqgyh" path="res://fomnts/TitilliumWeb-Regular.ttf" id="10_ic0uy"]
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="11_k3n1d"]
+[ext_resource type="Script" uid="uid://bmh7xuocpa66r" path="res://account_handler.gd" id="12_k3n1d"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -685,3 +686,100 @@ no_depth_test = true
 fixed_size = true
 text = "damage"
 font_size = 80
+
+[node name="Account Handler" type="Node" parent="." unique_id=872041724]
+script = ExtResource("12_k3n1d")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Account Handler" unique_id=1063563662]
+
+[node name="Signup" type="Control" parent="Account Handler/CanvasLayer" unique_id=1871016256]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Account Handler/CanvasLayer/Signup" unique_id=765548371]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="email" type="LineEdit" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=714528209]
+layout_mode = 0
+offset_left = 414.0
+offset_top = 150.0
+offset_right = 873.0
+offset_bottom = 199.0
+placeholder_text = "email"
+
+[node name="username" type="LineEdit" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1772060093]
+layout_mode = 0
+offset_left = 413.0
+offset_top = 222.0
+offset_right = 875.0
+offset_bottom = 265.0
+placeholder_text = "username"
+
+[node name="password" type="LineEdit" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1433964332]
+layout_mode = 0
+offset_left = 413.0
+offset_top = 293.0
+offset_right = 874.0
+offset_bottom = 336.0
+placeholder_text = "password"
+
+[node name="signup" type="Button" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1813642912]
+layout_mode = 0
+offset_left = 414.0
+offset_top = 362.0
+offset_right = 876.0
+offset_bottom = 440.0
+text = "Sign Up"
+
+[node name="Login" type="Control" parent="Account Handler/CanvasLayer" unique_id=2112449511]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Account Handler/CanvasLayer/Login" unique_id=14345925]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="email" type="LineEdit" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=1153985118]
+layout_mode = 0
+offset_left = 413.0
+offset_top = 219.0
+offset_right = 872.0
+offset_bottom = 268.0
+placeholder_text = "email"
+
+[node name="password" type="LineEdit" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=915480170]
+layout_mode = 0
+offset_left = 413.0
+offset_top = 293.0
+offset_right = 874.0
+offset_bottom = 336.0
+placeholder_text = "password"
+
+[node name="login" type="Button" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=2120839045]
+layout_mode = 0
+offset_left = 414.0
+offset_top = 362.0
+offset_right = 876.0
+offset_bottom = 440.0
+text = "Sign Up"
+
+[connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/signup" to="Account Handler" method="_on_signup_pressed"]
+[connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/login" to="Account Handler" method="_on_login_pressed"]
