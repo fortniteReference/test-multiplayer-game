@@ -11,7 +11,7 @@ var option_index = 0
 var current_vote = ""
 var current_panel = ""
 var options = {
-	"Original": {"Items": ["pump", "pistol"], "Image": "", "Title": "Original", "Desc": "Nothing better than the og."},
+	"Original": {"Items": ["pump", "thundersmg"], "Image": "", "Title": "Original", "Desc": "Nothing better than the og."},
 	"Random": {"Items": ["random"], "Image": "", "Title": "Random", "Desc": "ooh gambling!!!"},
 	"Snipers": {"Items": ["sniper"], "Image": "", "Title": "SNIPERS ONLY!!!", "Desc": "better have aim"}
 }
@@ -19,6 +19,9 @@ var options = {
 var index1 = 0
 var index2 = 0
 var index3 = 0
+
+var min_option = 0 # Minimum RNG option for voting options
+var max_option = 0 # Maximum RNG option for voting options
 
 var player_name = ""
 var items_to_add = []
@@ -32,7 +35,7 @@ func _ready() -> void:
 	GDSync.player_data_changed.connect(change_vote)
 	
 func start_voting_call():
-	GDSync.lobby_set_data("Indexes", [randi_range(0,2), randi_range(0,2), randi_range(0,2)])
+	GDSync.lobby_set_data("Indexes", [randi_range(min_option,max_option), randi_range(min_option,max_option), randi_range(min_option,max_option)])
 	
 	var indexes: Array = GDSync.lobby_get_data("Indexes", [])
 	while indexes.is_empty():

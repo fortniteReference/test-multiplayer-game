@@ -13,7 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://dv05y6b3u4b8y" path="res://meshes/sniper.blend" id="8_bwjto"]
 [ext_resource type="AudioStream" uid="uid://1d41juxm604s" path="res://audio/placeholder-sniper-sound.mp3" id="9_606se"]
 [ext_resource type="Texture2D" uid="uid://c4kc8pvvpxesb" path="res://images/scope sniper.png" id="10_u1c27"]
+[ext_resource type="PackedScene" uid="uid://dcdw0qr6lkfl0" path="res://meshes/thundersmg.blend" id="11_op7ga"]
 [ext_resource type="Script" uid="uid://3fufb4itlvty" path="res://scripts/reticle.gd" id="12_ivps1"]
+[ext_resource type="Texture2D" uid="uid://b0pt6kub4wmou" path="res://images/blue reticle.png" id="12_q13i1"]
 [ext_resource type="FontFile" uid="uid://j7vbcj5u0tj5" path="res://fomnts/TitilliumWeb-Italic.ttf" id="12_urp6f"]
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="13_bwjto"]
 
@@ -165,12 +167,16 @@ spread = 1.0
 spread_reduction = 40
 weapon_range = 20
 reload_time = 1.4
+falloff_start = 10
+falloff_damage = 2
+falloff_minimum = 5
+target_multiplier = 1.3
 metadata/on_cooldown = false
 metadata/already_equipped = false
 metadata/current_ammo = 0
 metadata/current_spread = 1.0
 metadata/og_pos = Vector3(0.8, -0.6, -0.3)
-metadata/new_pos = Vector3(0, -0.15, -0.3)
+metadata/new_pos = Vector3(0, -0.75, -0.3)
 
 [node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/pistol" unique_id=1079641372]
 stream = ExtResource("4_urp6f")
@@ -195,6 +201,8 @@ weapon_range = 15
 pellets = 16
 reload_time = 0.5
 shotgun_reload = true
+falloff_start = 7
+target_multiplier = 1.5
 metadata/already_equipped = false
 metadata/current_ammo = 0
 metadata/on_cooldown = false
@@ -223,6 +231,7 @@ spread_reduction = 100
 weapon_range = 100
 bullet_time = 0.1
 reload_time = 3.5
+falloff_enabled = false
 metadata/already_equipped = false
 metadata/on_cooldown = false
 metadata/current_ammo = 0
@@ -238,6 +247,36 @@ volume_db = 4.0
 [node name="scope image" type="Sprite3D" parent="Camera3D/sniper" unique_id=829165002]
 transform = Transform3D(-1.1421316e-09, 0, 1, 0, 0.028024726, 0, -0.026128925, 0, -4.371139e-08, -0.13830513, 0.27740654, 0)
 texture = ExtResource("10_u1c27")
+
+[node name="thundersmg" parent="Camera3D" unique_id=313711346 instance=ExtResource("11_op7ga")]
+transform = Transform3D(1.8173629, 0, 0, 0, 1.9402418, 0, 0, 0, 2.19392, 0.6146188, -0.59943146, 0)
+script = ExtResource("3_ivps1")
+image = "res://images/thunder smg.png"
+hitscan = true
+custom_reticle = true
+ammo = 27
+damage = 24
+headshot_multiplier = 1.5
+cooldown = 0.3
+spread = 1.25
+spread_reduction = 65
+weapon_range = 45
+reload_time = 2.5
+falloff_start = 16
+target_multiplier = 1.2
+burst_enabled = true
+burst_amount = 3
+burst_cooldown = 0.06
+metadata/already_equipped = false
+metadata/on_cooldown = false
+metadata/current_ammo = 0
+metadata/current_spread = 1.25
+metadata/og_pos = Vector3(0.61, -0.5, 0)
+metadata/new_pos = Vector3(0, -0.52, 0)
+
+[node name="scope" type="Sprite3D" parent="Camera3D/thundersmg" unique_id=210197828]
+transform = Transform3D(-0.0028285002, 0, 0, 0, 0.002574099, 0, 0, 0, 0.9999995, -4.9948692e-05, 0.26766744, -0.05973603)
+texture = ExtResource("12_q13i1")
 
 [node name="sync1" type="Node" parent="." unique_id=1829653401]
 script = ExtResource("2_onrkg")

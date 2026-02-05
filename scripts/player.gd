@@ -65,33 +65,33 @@ func _unhandled_input(event) -> void:
 		elif Input.is_key_pressed(KEY_1):
 			if get_meta("items").size() >= 1:
 				if get_meta("current_item") == get_meta("items")[0]:
-					GDSync.synced_event_create(name, 0, ["unequip"])
+					GDSync.synced_event_create(name, 0, ["unequip", ""])
 				else:
-					GDSync.synced_event_create(name, 0, [str(get_meta("items")[0] + "equip")])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[0] + "equip"), ""])
 		elif Input.is_key_pressed(KEY_2):
 			if get_meta("items").size() >= 2:
 				if get_meta("current_item") == get_meta("items")[1]:
-					GDSync.synced_event_create(name, 0, ["unequip"])
+					GDSync.synced_event_create(name, 0, ["unequip", ""])
 				else:
-					GDSync.synced_event_create(name, 0, [str(get_meta("items")[1] + "equip")])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[1] + "equip"), ""])
 		elif Input.is_key_pressed(KEY_3):
 			if get_meta("items").size() >= 3:
 				if get_meta("current_item") == get_meta("items")[2]:
-					GDSync.synced_event_create(name, 0, ["unequip"])
+					GDSync.synced_event_create(name, 0, ["unequip", ""])
 				else:
-					GDSync.synced_event_create(name, 0, [str(get_meta("items")[2] + "equip")])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[2] + "equip"), ""])
 		elif Input.is_key_pressed(KEY_4):
 			if get_meta("items").size() >= 4:
 				if get_meta("current_item") == get_meta("items")[3]:
-					GDSync.synced_event_create(name, 0, ["unequip"])
+					GDSync.synced_event_create(name, 0, ["unequip", ""])
 				else:
-					GDSync.synced_event_create(name, 0, [str(get_meta("items")[3] + "equip")])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[3] + "equip", "")])
 		elif Input.is_key_pressed(KEY_5):
 			if get_meta("items").size() >= 5:
 				if get_meta("current_item") == get_meta("items")[4]:
-					GDSync.synced_event_create(name, 0, ["unequip"])
+					GDSync.synced_event_create(name, 0, ["unequip", ""])
 				else:
-					GDSync.synced_event_create(name, 0, [str(get_meta("items")[4] + "equip")])
+					GDSync.synced_event_create(name, 0, [str(get_meta("items")[4] + "equip", "")])
 
 func _physics_process(delta: float) -> void:
 	if not GDSync.is_gdsync_owner(self): return
@@ -260,13 +260,12 @@ func run_pellet(item: Node3D):
 		var hit_player = new_raycast.get_collider()
 		if hit_player is CharacterBody3D:
 			var collision_pos = hit_player.to_local(new_raycast.get_collision_point())
+			var hit_pos = round(new_raycast.global_position.distance_to(new_raycast.get_collision_point()))
 			
 			if collision_pos.y > 0.55:
-				total_damage += round(item.damage * item.headshot_multiplier)
-				GDSync.synced_event_create(hit_player.name, 0, [item.name + "true"])
+				GDSync.synced_event_create(hit_player.name, 0, [item.name + "true", hit_pos])
 			else:
-				total_damage += item.damage
-				GDSync.synced_event_create(hit_player.name, 0, [item.name])
+				GDSync.synced_event_create(hit_player.name, 0, [item.name, hit_pos])
 	new_raycast.queue_free()
 
 func check_hit(item: Node3D):
@@ -282,29 +281,44 @@ func check_hit(item: Node3D):
 	
 	cooldown = item.cooldown
 	
-	item.set_meta("current_ammo", item.get_meta("current_ammo") - 1)
-	GDSync.synced_event_create(name, 0, ["play sound"])
-	total_damage = 0
-	# get_parent()
-	var gui = get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("Ammo")
-	if gui:
-		gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
-	if item.shotgun == true and item.pellets > 0:
-		for i in range(item.pellets):
-			run_pellet(item)
-	else:
-		var pos = Vector3(randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-0.065 + randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-item.weapon_range)
-		raycast.look_at(camera.to_global(pos))
-		raycast.force_raycast_update()
-		if raycast.is_colliding():
-			var hit_player = raycast.get_collider()
-			if hit_player is CharacterBody3D:
-				var collision_pos = hit_player.to_local(raycast.get_collision_point())
-				
-				if collision_pos.y > 0.55:
-					GDSync.synced_event_create(hit_player.name, 0, [item.name + "true"])
-				else:
-					GDSync.synced_event_create(hit_player.name, 0, [item.name])
+	var burst_amount = 1
+	if item.burst_enabled:
+		burst_amount = item.burst_amount
+	
+	for i in range(burst_amount):
+		raycast.position = Vector3(0,-0.065,0)
+		raycast.rotation_degrees = Vector3(0,0,0)
+		raycast.target_position = Vector3(0,0,-item.weapon_range)
+		
+		if item.get_meta("current_ammo") <= 0:
+			reload(item)
+			continue
+			
+		item.set_meta("current_ammo", item.get_meta("current_ammo") - 1)
+		GDSync.synced_event_create(name, 0, ["play sound", ""])
+		total_damage = 0
+		# get_parent()
+		var gui = get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("Ammo")
+		if gui:
+			gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
+		if item.shotgun == true and item.pellets > 0:
+			for v in range(item.pellets):
+				run_pellet(item)
+		else:
+			var pos = Vector3(randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-0.065 + randf_range(-item.get_meta("current_spread"),item.get_meta("current_spread")),-item.weapon_range)
+			raycast.look_at(camera.to_global(pos))
+			raycast.force_raycast_update()
+			if raycast.is_colliding():
+				var hit_player = raycast.get_collider()
+				if hit_player is CharacterBody3D:
+					var collision_pos = hit_player.to_local(raycast.get_collision_point())
+					var hit_pos = round(raycast.global_position.distance_to(raycast.get_collision_point()))
+					
+					if collision_pos.y > 0.55:
+						GDSync.synced_event_create(hit_player.name, 0, [item.name + " true", hit_pos])
+					else:
+						GDSync.synced_event_create(hit_player.name, 0, [item.name, hit_pos])
+		await get_tree().create_timer(item.burst_cooldown,false,false,true).timeout
 	await get_tree().create_timer(cooldown,false,false,true).timeout
 	item.set_meta("on_cooldown", false)
 	raycast.position = Vector3(0,-0.065,0)
@@ -383,15 +397,17 @@ func receive_damage(player_name, name_item):
 
 	if not player: return
 	
-	var check_item = str(name_item[0]).replace("true", "")
-	var hit_head = str(name_item[0]).replace(str(check_item), "")
+	var distance = name_item[1]
+	
+	var check_item = str(str(name_item[0]).replace("true", ""))
+	var hit_head = str(str(name_item[0]).replace(str(check_item), ""))
 	var item = camera.get_node_or_null(check_item)
 
 	if player_name != name:
 		if item:
-			damage = item.damage
-			if hit_head == "true":
-				damage = round(damage * item.headshot_multiplier)
+			if item.shotgun:
+				total_damage += set_damage(item, distance, hit_head)
+			damage = set_damage(item, distance, hit_head)
 		else:
 			damage = fallback_damage
 		
@@ -432,7 +448,27 @@ func receive_damage(player_name, name_item):
 				shield_text.text = str(player.get_meta("shield")).replace(".0", "")
 			await get_tree().process_frame
 			
+func set_damage(item: Node3D, distance, hit_head) -> int:
+	var amount = item.falloff_damage * (distance - item.falloff_start)
+	var return_damage = 0
+	if amount < item.falloff_minimum and item.falloff_enabled:
+		amount = item.falloff_minimum
+			
+	if item.falloff_enabled:
+		return_damage = (item.damage - amount)
+	else:
+		return_damage = item.damage
+	if hit_head == "true":
+		if item.falloff_enabled:
+			return_damage = round((item.damage - amount) * item.headshot_multiplier)
+		else:
+			return_damage = round(return_damage * item.headshot_multiplier)
+	return return_damage
+			
 func show_damage(player, item, hit_head, damage_text: Node3D):
+	if item.shotgun:
+		for child in get_parent().get_children():
+			if child.name.contains("cloned damage"): child.queue_free()
 	var new_damage: Node3D = damage_text.duplicate()
 	get_parent().add_child(new_damage)
 	new_damage.name = "cloned damage ind"
@@ -456,6 +492,7 @@ func show_damage(player, item, hit_head, damage_text: Node3D):
 			
 	await get_tree().create_timer(0.5,false,false,true).timeout
 	for i in range(100,0,-1):
+		if text == null: return
 		text.modulate.a = i * 0.01
 		text.outline_modulate.a = i * 0.01
 		await get_tree().create_timer(0.015,false,false,true).timeout
@@ -500,7 +537,7 @@ func check_for_win(won: bool):
 				if player is CharacterBody3D:
 					GDSync.lobby_kick_client(str(player.name).to_int())
 		else:
-			GDSync.synced_event_create("reset map", 0, ["hi"])
+			GDSync.synced_event_create("reset map", 0, ["hi", ""])
 
 func reset_map(signal_name, message):
 	if message[0] is Array: return
@@ -510,7 +547,7 @@ func reset_map(signal_name, message):
 	get_parent().manage_game("reset map")
 	for player in get_parent().get_children():
 		if player and player is CharacterBody3D:
-			GDSync.synced_event_create(player.name, 0, ["unequip"])
+			GDSync.synced_event_create(player.name, 0, ["unequip", ""])
 			for i in range(10):
 				player.set_meta("health", 100)
 				player.set_meta("shield", 100)
