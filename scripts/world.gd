@@ -31,7 +31,7 @@ func random_shi():
 	await get_tree().create_timer(3.35,false,false,true).timeout
 	get_tree().create_tween().tween_property(pic, "rotation_degrees", 360, 2)
 	
-func _ready() -> void:
+func _ready():
 	GDSync.connected.connect(connected)
 	GDSync.connection_failed.connect(connection_failed)
 	
@@ -47,8 +47,12 @@ func _ready() -> void:
 
 func connected() -> void:
 	task.text = "connected!"
+	await get_tree().create_timer(2,false,false,true).timeout
+	waiting.hide()
+	$"Account Handler/CanvasLayer/Login".show()
+	
+func look_for_lobbies():
 	GDSync.get_public_lobbies()
-	# GDSync.lobby_create("TestLobby")
 	
 func lobbies_received(lobbies: Array):
 	print(lobbies)

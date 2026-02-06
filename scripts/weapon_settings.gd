@@ -21,7 +21,7 @@ extends Node3D
 # Falloff damage Configuring
 @export var falloff_enabled: bool = true # deteremines if damage falloff is allowed.
 @export var falloff_start: int # distance where damage will start to fall off
-@export var falloff_damage: int = 1 # the amount of damage that falls off per m
+@export var falloff_damage: float = 1 # the amount of damage that falls off per meter
 @export var falloff_minimum: int = 1 # the least damage it can do after the max falloff distance is reached
 @export var target_multiplier: float = 1.0 # multiplier of the falloff start distance when aiming in
 # Burst Configuring

@@ -168,7 +168,6 @@ spread_reduction = 40
 weapon_range = 20
 reload_time = 1.4
 falloff_start = 10
-falloff_damage = 2
 falloff_minimum = 5
 target_multiplier = 1.3
 metadata/on_cooldown = false
@@ -250,6 +249,7 @@ texture = ExtResource("10_u1c27")
 
 [node name="thundersmg" parent="Camera3D" unique_id=313711346 instance=ExtResource("11_op7ga")]
 transform = Transform3D(1.8173629, 0, 0, 0, 1.9402418, 0, 0, 0, 2.19392, 0.6146188, -0.59943146, 0)
+visible = false
 script = ExtResource("3_ivps1")
 image = "res://images/thunder smg.png"
 hitscan = true
@@ -263,6 +263,7 @@ spread_reduction = 65
 weapon_range = 45
 reload_time = 2.5
 falloff_start = 16
+falloff_damage = 0.25
 target_multiplier = 1.2
 burst_enabled = true
 burst_amount = 3

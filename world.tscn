@@ -12,6 +12,12 @@
 [ext_resource type="FontFile" uid="uid://bn5sd81kmqgyh" path="res://fomnts/TitilliumWeb-Regular.ttf" id="10_ic0uy"]
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="11_k3n1d"]
 [ext_resource type="Script" uid="uid://bmh7xuocpa66r" path="res://account_handler.gd" id="12_k3n1d"]
+[ext_resource type="StyleBox" uid="uid://subcnq5fiw3h" path="res://box flats/red box flat.tres" id="13_2o6r5"]
+[ext_resource type="Script" uid="uid://bu4iecdxqpev5" path="res://check_instances.gd" id="13_ikiii"]
+[ext_resource type="FontFile" uid="uid://j7vbcj5u0tj5" path="res://fomnts/TitilliumWeb-Italic.ttf" id="14_70uel"]
+[ext_resource type="Script" uid="uid://bikpk7tk2fk12" path="res://password.gd" id="15_hiqwa"]
+[ext_resource type="StyleBox" uid="uid://f0gupwp4t18" path="res://box flats/transparent flat.tres" id="16_udxuc"]
+[ext_resource type="StyleBox" uid="uid://b3ijgvtrknnrw" path="res://box flats/pressed transparent flat.tres" id="17_ikiii"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -91,6 +97,75 @@ bg_color = Color(0, 0, 0, 1)
 size = Vector3(0.5, 14.5, 58.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_wse8f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbp6q"]
+bg_color = Color(0.80784315, 0.45490196, 0.5529412, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2u3nc"]
+bg_color = Color(0.5948067, 0.859375, 0.5102539, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.4406857, 0.65234375, 0.3720398, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udxuc"]
+bg_color = Color(0.51410115, 0.734375, 0.44177246, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.4406857, 0.65234375, 0.3720398, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ikiii"]
+bg_color = Color(0.51410115, 0.734375, 0.44177246, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.4406857, 0.65234375, 0.3720398, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26xuy"]
+bg_color = Color(0.55078125, 0.55078125, 0.55078125, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.38431373, 0.38431373, 0.38431373, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hiqwa"]
+bg_color = Color(0.80859375, 0.45483398, 0.5543289, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bc84e"]
+bg_color = Color(0.55078125, 0.55078125, 0.55078125, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.38431373, 0.38431373, 0.38431373, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wukud"]
+bg_color = Color(0.80784315, 0.45490196, 0.5529412, 1)
 
 [node name="world" type="Node" unique_id=967505589]
 script = ExtResource("1_f3sb7")
@@ -421,8 +496,10 @@ layout_mode = 0
 offset_left = 378.0
 offset_right = 775.0
 offset_bottom = 110.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
 theme_override_font_sizes/font_size = 80
 text = "rapid 1v1s"
+horizontal_alignment = 1
 
 [node name="task" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=474413694]
 layout_mode = 0
@@ -430,9 +507,22 @@ offset_left = -1.0
 offset_top = 598.0
 offset_right = 1151.0
 offset_bottom = 647.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
 theme_override_font_sizes/font_size = 35
 text = "waiting for client..."
 horizontal_alignment = 1
+
+[node name="notice" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=1947390031]
+layout_mode = 0
+offset_left = 214.0
+offset_top = 100.0
+offset_right = 959.0
+offset_bottom = 190.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 26
+text = "Notice: To prevent unfair advantages and cheating, no more than one game can be running at a time."
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="desc1" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=509235687]
 layout_mode = 0
@@ -440,6 +530,7 @@ offset_left = 693.0
 offset_top = 297.0
 offset_right = 1147.0
 offset_bottom = 450.0
+theme_override_fonts/font = ExtResource("14_70uel")
 theme_override_font_sizes/font_size = 35
 text = "\"who am i kidding bro i am not taking this seriously enough\" - milo"
 horizontal_alignment = 1
@@ -691,6 +782,8 @@ font_size = 80
 script = ExtResource("12_k3n1d")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Account Handler" unique_id=1063563662]
+script = ExtResource("13_ikiii")
+metadata/testing = true
 
 [node name="Signup" type="Control" parent="Account Handler/CanvasLayer" unique_id=1871016256]
 visible = false
@@ -708,40 +801,215 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cbp6q")
 
-[node name="email" type="LineEdit" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=714528209]
+[node name="password" type="LineEdit" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1284573894]
 layout_mode = 0
-offset_left = 414.0
-offset_top = 150.0
-offset_right = 873.0
-offset_bottom = 199.0
-placeholder_text = "email"
+offset_left = 432.0
+offset_top = 412.0
+offset_right = 1014.0
+offset_bottom = 485.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.74509805)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.38431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/read_only = ExtResource("13_2o6r5")
+theme_override_styles/focus = ExtResource("13_2o6r5")
+placeholder_text = " Password..."
+emoji_menu_enabled = false
+secret = true
+script = ExtResource("15_hiqwa")
 
-[node name="username" type="LineEdit" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1772060093]
-layout_mode = 0
-offset_left = 413.0
-offset_top = 222.0
-offset_right = 875.0
-offset_bottom = 265.0
-placeholder_text = "username"
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Signup/Panel/password" unique_id=1929403628]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -46.0
+offset_bottom = -81.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_70uel")
+theme_override_font_sizes/font_size = 24
+text = "Enter a Password for your account"
+horizontal_alignment = 1
+autowrap_mode = 2
 
-[node name="password" type="LineEdit" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1433964332]
+[node name="togglehide" type="Button" parent="Account Handler/CanvasLayer/Signup/Panel/password" unique_id=1016686914]
 layout_mode = 0
-offset_left = 413.0
-offset_top = 293.0
-offset_right = 874.0
-offset_bottom = 336.0
-placeholder_text = "password"
+offset_left = 595.0
+offset_right = 665.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.7058824)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.7058824)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.7058824)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.7058824)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.7058824)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/pressed = ExtResource("13_2o6r5")
+theme_override_styles/hover = ExtResource("13_2o6r5")
+text = "Show"
 
-[node name="signup" type="Button" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1813642912]
+[node name="username" type="LineEdit" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1528829750]
 layout_mode = 0
-offset_left = 414.0
-offset_top = 362.0
-offset_right = 876.0
-offset_bottom = 440.0
+offset_left = 432.0
+offset_top = 296.0
+offset_right = 1014.0
+offset_bottom = 369.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.74509805)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.38431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/read_only = ExtResource("13_2o6r5")
+theme_override_styles/focus = ExtResource("13_2o6r5")
+placeholder_text = "Username..."
+emoji_menu_enabled = false
+
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Signup/Panel/username" unique_id=524154111]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -77.0
+offset_bottom = -112.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_70uel")
+theme_override_font_sizes/font_size = 24
+text = "Enter a Username for your account"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="Account Handler/CanvasLayer/Signup/Panel/username" unique_id=481534737]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -43.0
+offset_right = 11.0
+offset_bottom = -78.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 24
+text = "Inapproriate usernames WILL result in a permanent ban."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="email" type="LineEdit" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1097030592]
+layout_mode = 0
+offset_left = 432.0
+offset_top = 144.0
+offset_right = 1014.0
+offset_bottom = 217.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.74509805)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.38431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/read_only = ExtResource("13_2o6r5")
+theme_override_styles/focus = ExtResource("13_2o6r5")
+placeholder_text = " Email..."
+structured_text_bidi_override = 3
+
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Signup/Panel/email" unique_id=1991577626]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -85.0
+offset_bottom = -115.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_70uel")
+theme_override_font_sizes/font_size = 24
+text = "This is the email that your account will be registered under."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="Account Handler/CanvasLayer/Signup/Panel/email" unique_id=1193751613]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -45.0
+offset_bottom = -79.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 24
+text = "Only ONE account can be registered per email."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="signup" type="Button" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=569284170]
+layout_mode = 0
+offset_left = 492.0
+offset_top = 513.0
+offset_right = 954.0
+offset_bottom = 591.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_2u3nc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_udxuc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ikiii")
 text = "Sign Up"
 
+[node name="Title" type="Label" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=969773152]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -19.0
+offset_top = 67.0
+offset_right = -719.0
+offset_bottom = -112.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 100
+text = "Create
+an
+account"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Error" type="Label" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=1029873350]
+layout_mode = 0
+offset_left = 453.0
+offset_top = 600.0
+offset_right = 1000.0
+offset_bottom = 641.0
+theme_override_colors/font_color = Color(0.3019608, 0.1254902, 0.1254902, 0.80784315)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_26xuy")
+
+[node name="Back" type="Button" parent="Account Handler/CanvasLayer/Signup/Panel" unique_id=46331408]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 213.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "< Back"
+
 [node name="Login" type="Control" parent="Account Handler/CanvasLayer" unique_id=2112449511]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -756,30 +1024,385 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hiqwa")
 
 [node name="email" type="LineEdit" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=1153985118]
 layout_mode = 0
-offset_left = 413.0
-offset_top = 219.0
-offset_right = 872.0
-offset_bottom = 268.0
-placeholder_text = "email"
+offset_left = 285.0
+offset_top = 206.0
+offset_right = 867.0
+offset_bottom = 279.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.74509805)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.38431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/read_only = ExtResource("13_2o6r5")
+theme_override_styles/focus = ExtResource("13_2o6r5")
+placeholder_text = " Email..."
+structured_text_bidi_override = 3
 
-[node name="password" type="LineEdit" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=915480170]
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Login/Panel/email" unique_id=1985200745]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -45.0
+offset_bottom = -82.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_70uel")
+theme_override_font_sizes/font_size = 24
+text = "Tip: Use the email that you used to create your account."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="password" type="LineEdit" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=1650096295]
 layout_mode = 0
-offset_left = 413.0
-offset_top = 293.0
-offset_right = 874.0
-offset_bottom = 336.0
-placeholder_text = "password"
+offset_left = 285.0
+offset_top = 353.0
+offset_right = 867.0
+offset_bottom = 426.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.74509805)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.38431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/read_only = ExtResource("13_2o6r5")
+theme_override_styles/focus = ExtResource("13_2o6r5")
+placeholder_text = " Password..."
+emoji_menu_enabled = false
+secret = true
+script = ExtResource("15_hiqwa")
+
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Login/Panel/password" unique_id=249108272]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -46.0
+offset_bottom = -81.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_70uel")
+theme_override_font_sizes/font_size = 24
+text = "Enter the password you used to create your account."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="togglehide" type="Button" parent="Account Handler/CanvasLayer/Login/Panel/password" unique_id=793293632]
+layout_mode = 0
+offset_left = 595.0
+offset_right = 665.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.7058824)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.7058824)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.7058824)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.7058824)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.7058824)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/pressed = ExtResource("13_2o6r5")
+theme_override_styles/hover = ExtResource("13_2o6r5")
+text = "Show"
 
 [node name="login" type="Button" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=2120839045]
 layout_mode = 0
-offset_left = 414.0
-offset_top = 362.0
-offset_right = 876.0
-offset_bottom = 440.0
-text = "Sign Up"
+offset_left = 345.0
+offset_top = 452.0
+offset_right = 807.0
+offset_bottom = 530.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_2u3nc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_udxuc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ikiii")
+text = "Log In"
 
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=615014478]
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 113.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 50
+text = "I'm sorry to say this, but you're going to have to log in to play."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Error" type="Label" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=1791860321]
+layout_mode = 0
+offset_left = 826.0
+offset_top = 455.0
+offset_right = 1141.0
+offset_bottom = 528.0
+theme_override_colors/font_color = Color(0.30078125, 0.12689209, 0.12689209, 0.80784315)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_bc84e")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Make" type="Button" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=811114089]
+layout_mode = 0
+offset_left = 626.0
+offset_top = 556.0
+offset_right = 841.0
+offset_bottom = 601.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.56078434)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.56078434)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.56078434)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.56078434)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.56078434)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = ExtResource("6_gbfbk")
+theme_override_styles/pressed = ExtResource("7_ioo17")
+theme_override_styles/hover = ExtResource("7_ioo17")
+text = "Make an account"
+
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Login/Panel/Make" unique_id=1598914525]
+layout_mode = 0
+offset_left = -321.0
+offset_top = -2.0
+offset_right = -2.0
+offset_bottom = 48.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 30
+text = "Don't have an account?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Verify" type="Control" parent="Account Handler/CanvasLayer" unique_id=688093788]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Account Handler/CanvasLayer/Verify" unique_id=229939230]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cbp6q")
+
+[node name="code" type="LineEdit" parent="Account Handler/CanvasLayer/Verify/Panel" unique_id=1200105360]
+layout_mode = 0
+offset_left = 285.0
+offset_top = 296.0
+offset_right = 867.0
+offset_bottom = 369.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.74509805)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.38431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/read_only = ExtResource("13_2o6r5")
+theme_override_styles/focus = ExtResource("13_2o6r5")
+placeholder_text = "Enter 6-Digit Code..."
+alignment = 1
+max_length = 6
+emoji_menu_enabled = false
+
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Verify/Panel/code" unique_id=1761106593]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -284.0
+offset_top = -55.5
+offset_right = 285.0
+offset_bottom = -79.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 31
+text = "Enter the 6-Digit code we sent to [email]."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="Account Handler/CanvasLayer/Verify/Panel/code" unique_id=754512862]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -284.0
+offset_top = 74.5
+offset_right = 285.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 31
+text = "Didn't get the code?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label3" type="Label" parent="Account Handler/CanvasLayer/Verify/Panel/code" unique_id=766780634]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -275.0
+offset_top = 193.0
+offset_right = -428.0
+offset_bottom = 169.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.27576202
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 26
+text = "Make sure to check your junk email!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="verify" type="Button" parent="Account Handler/CanvasLayer/Verify/Panel" unique_id=297529718]
+layout_mode = 0
+offset_left = 345.0
+offset_top = 513.0
+offset_right = 807.0
+offset_bottom = 591.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_2u3nc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_udxuc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ikiii")
+text = "Verify and Log In"
+
+[node name="resend" type="Button" parent="Account Handler/CanvasLayer/Verify/Panel" unique_id=996548774]
+layout_mode = 0
+offset_left = 447.0
+offset_top = 421.0
+offset_right = 704.0
+offset_bottom = 475.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Resend Code"
+
+[node name="Title" type="Label" parent="Account Handler/CanvasLayer/Verify/Panel" unique_id=1366309040]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 350.0
+offset_top = 3.0
+offset_right = -350.0
+offset_bottom = -492.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 100
+text = "Hold it!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Title2" type="Label" parent="Account Handler/CanvasLayer/Verify/Panel" unique_id=1117100207]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 122.0
+offset_right = -2.0
+offset_bottom = -434.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 60
+text = "You're going to need to verify your account."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Error" type="Label" parent="Account Handler/CanvasLayer/Verify/Panel" unique_id=1151252166]
+layout_mode = 0
+offset_left = 302.5
+offset_top = 600.0
+offset_right = 849.5
+offset_bottom = 641.0
+theme_override_colors/font_color = Color(0.3019608, 0.1254902, 0.1254902, 0.80784315)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_26xuy")
+
+[node name="Warning" type="Control" parent="Account Handler/CanvasLayer" unique_id=972117755]
+visible = false
+z_index = 5
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Account Handler/CanvasLayer/Warning" unique_id=1367106538]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wukud")
+
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Warning/Panel" unique_id=1672365311]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 1152.0
+offset_bottom = 211.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 110
+text = "Nice try lil bro..."
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Account Handler/CanvasLayer/Warning/Panel" unique_id=579178]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 198.0
+offset_right = 1152.0
+offset_bottom = 306.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 70
+text = "It looks like you already have a game running."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label3" type="Label" parent="Account Handler/CanvasLayer/Warning/Panel" unique_id=555469641]
+layout_mode = 0
+offset_top = 559.0
+offset_right = 1151.0
+offset_bottom = 636.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 50
+text = "This window will automatically close in 5 seconds."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/password/togglehide" to="Account Handler/CanvasLayer/Signup/Panel/password" method="_on_togglehide_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/signup" to="Account Handler" method="_on_signup_pressed"]
+[connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/Back" to="Account Handler" method="_on_back_pressed"]
+[connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/password/togglehide" to="Account Handler/CanvasLayer/Login/Panel/password" method="_on_togglehide_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/login" to="Account Handler" method="_on_login_pressed"]
+[connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/Make" to="Account Handler" method="_on_make_pressed"]
+[connection signal="pressed" from="Account Handler/CanvasLayer/Verify/Panel/resend" to="Account Handler" method="_on_resend_pressed"]

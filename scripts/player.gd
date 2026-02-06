@@ -57,7 +57,7 @@ func _unhandled_input(event) -> void:
 			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 	elif event is InputEvent:
 		if event.is_action_pressed("quit"):
-			get_tree().quit()
+			GDSync.quit()
 		elif Input.is_action_just_pressed("interact"):
 			var item = camera.get_node_or_null(get_meta("current_item"))
 			if item:
@@ -466,6 +466,8 @@ func set_damage(item: Node3D, distance, hit_head) -> int:
 	return return_damage
 			
 func show_damage(player, item, hit_head, damage_text: Node3D):
+	if item == null: return
+	
 	if item.shotgun:
 		for child in get_parent().get_children():
 			if child.name.contains("cloned damage"): child.queue_free()
@@ -500,7 +502,7 @@ func show_damage(player, item, hit_head, damage_text: Node3D):
 
 func show_elimed_player(player_name: String):
 	var gui = $"CanvasLayer/elim gui"
-	gui.get_node("plr name").text = player_name
+	gui.get_node("plr name").text = str(GDSync.player_get_username(player_name.to_int(), ""))
 	get_tree().create_tween().tween_property(gui, "position:y", 450, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	await get_tree().create_timer(2,false,false,true).timeout
 	get_tree().create_tween().tween_property(gui, "position:y", 665, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
