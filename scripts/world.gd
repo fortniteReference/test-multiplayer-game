@@ -45,11 +45,25 @@ func _ready():
 	task.text = "connecting..."
 	random_shi()
 
+func _unhandled_input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("quit"):
+		if GDSync.is_active():
+			GDSync.quit()
+		else:
+			get_tree().quit()
+
 func connected() -> void:
 	task.text = "connected!"
 	await get_tree().create_timer(2,false,false,true).timeout
-	waiting.hide()
-	$"Account Handler/CanvasLayer/Login".show()
+	
+	task.text = "attempting to log in..."
+	var response = await GDSync.account_login_from_session(3600)
+	
+	if response == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
+		look_for_lobbies()
+	else:
+		$"Account Handler/CanvasLayer/Login".show()
+		waiting.hide()
 	
 func look_for_lobbies():
 	GDSync.get_public_lobbies()

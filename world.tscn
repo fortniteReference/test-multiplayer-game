@@ -474,7 +474,6 @@ text = "Voting Ends In: 0"
 horizontal_alignment = 1
 
 [node name="Waiting" type="Control" parent="CanvasLayer" unique_id=438103401]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -520,7 +519,7 @@ offset_right = 959.0
 offset_bottom = 190.0
 theme_override_fonts/font = ExtResource("11_k3n1d")
 theme_override_font_sizes/font_size = 26
-text = "Notice: To prevent unfair advantages and cheating, no more than one game can be running at a time."
+text = "Pro Tip: If you've opened the game and successfully logged in within the past hour, you will automatically be logged in!"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -783,7 +782,7 @@ script = ExtResource("12_k3n1d")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Account Handler" unique_id=1063563662]
 script = ExtResource("13_ikiii")
-metadata/testing = true
+metadata/testing = false
 
 [node name="Signup" type="Control" parent="Account Handler/CanvasLayer" unique_id=1871016256]
 visible = false

@@ -88,9 +88,9 @@ func _on_resend_pressed():
 
 func verify_pressed():
 	var error = $CanvasLayer/Verify/Panel/Error
+	error.text = "Checking..."
 	var code = await GDSync.account_verify(current_email, $CanvasLayer/Verify/Panel/code.text, 600)
 	
-	error.text = "Checking..."
 	if code == ENUMS.ACCOUNT_VERIFICATION_RESPONSE_CODE.INCORRECT_CODE:
 		error.text = "ERROR: This doesn't seem to be the code for this account."
 	elif code == ENUMS.ACCOUNT_VERIFICATION_RESPONSE_CODE.ALREADY_VERIFIED:
@@ -107,6 +107,7 @@ func verify_pressed():
 		signup.hide()
 		login.hide()
 		verify.hide()
+		$CanvasLayer.hide()
 		world.look_for_lobbies()
 
 func _on_login_pressed() -> void:
@@ -123,7 +124,7 @@ func _on_login_pressed() -> void:
 			break
 	if check1 and str(password.text).length() >= 8:
 		error.text = "Attempting to login..."
-		var response = await GDSync.account_login(str(email.text), str(password.text), 900)
+		var response = await GDSync.account_login(str(email.text), str(password.text), 3600)
 		var code = response["Code"]
 		
 		print(code)
@@ -156,6 +157,7 @@ func _on_login_pressed() -> void:
 			await get_tree().create_timer(1.25,false,false,true).timeout
 			login.hide()
 			signup.hide()
+			$CanvasLayer.hide()
 			world.look_for_lobbies()
 	else:
 		if not check1:

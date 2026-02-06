@@ -21,3 +21,5 @@ func client_left(client_id : int) -> void:
 	var player = $"..".get_node_or_null(str(client_id))
 	if player:
 		player.queue_free()
+	$"../CanvasLayer/Game/Score/YourScore/score".text = "9/10"
+	$"..".manage_game("update scorewinner:" + str(GDSync.get_client_id()))

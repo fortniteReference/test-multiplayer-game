@@ -449,7 +449,7 @@ func receive_damage(player_name, name_item):
 			await get_tree().process_frame
 			
 func set_damage(item: Node3D, distance, hit_head) -> int:
-	var amount = item.falloff_damage * (distance - item.falloff_start)
+	var amount = round(item.falloff_damage * (distance - item.falloff_start))
 	var return_damage = 0
 	if amount < item.falloff_minimum and item.falloff_enabled:
 		amount = item.falloff_minimum
