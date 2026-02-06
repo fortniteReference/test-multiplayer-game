@@ -18,6 +18,8 @@
 [ext_resource type="Script" uid="uid://bikpk7tk2fk12" path="res://password.gd" id="15_hiqwa"]
 [ext_resource type="StyleBox" uid="uid://f0gupwp4t18" path="res://box flats/transparent flat.tres" id="16_udxuc"]
 [ext_resource type="StyleBox" uid="uid://b3ijgvtrknnrw" path="res://box flats/pressed transparent flat.tres" id="17_ikiii"]
+[ext_resource type="Script" uid="uid://bfqfqiswnhmie" path="res://data_handler.gd" id="19_cbp6q"]
+[ext_resource type="Script" uid="uid://corntdanb10gv" path="res://lobby.gd" id="20_26xuy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -166,6 +168,9 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wukud"]
 bg_color = Color(0.80784315, 0.45490196, 0.5529412, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_il2jm"]
+bg_color = Color(0.875, 0.6665039, 0.8277626, 1)
 
 [node name="world" type="Node" unique_id=967505589]
 script = ExtResource("1_f3sb7")
@@ -474,6 +479,7 @@ text = "Voting Ends In: 0"
 horizontal_alignment = 1
 
 [node name="Waiting" type="Control" parent="CanvasLayer" unique_id=438103401]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -511,7 +517,7 @@ theme_override_font_sizes/font_size = 35
 text = "waiting for client..."
 horizontal_alignment = 1
 
-[node name="notice" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=1947390031]
+[node name="tip" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=1947390031]
 layout_mode = 0
 offset_left = 214.0
 offset_top = 100.0
@@ -519,7 +525,7 @@ offset_right = 959.0
 offset_bottom = 190.0
 theme_override_fonts/font = ExtResource("11_k3n1d")
 theme_override_font_sizes/font_size = 26
-text = "Pro Tip: If you've opened the game and successfully logged in within the past hour, you will automatically be logged in!"
+text = "Pro Tip: If you've successfully logged in within the past day, you will automatically be logged in!"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -660,15 +666,6 @@ offset_bottom = 301.0
 theme_override_font_sizes/font_size = 70
 text = "Better luck next time!"
 
-[node name="Label3" type="Label" parent="CanvasLayer/Game/LoseScreen" unique_id=290115038]
-layout_mode = 0
-offset_left = 211.0
-offset_top = 559.0
-offset_right = 941.0
-offset_bottom = 640.0
-theme_override_font_sizes/font_size = 50
-text = "To play again, reopen the app."
-
 [node name="Label2" type="Label" parent="CanvasLayer/Game/LoseScreen" unique_id=829746431]
 layout_mode = 0
 offset_left = 211.0
@@ -678,6 +675,19 @@ offset_bottom = 218.0
 theme_override_font_sizes/font_size = 70
 text = "You lost..."
 horizontal_alignment = 1
+
+[node name="lobby" type="Button" parent="CanvasLayer/Game/LoseScreen" unique_id=678155416]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 551.0
+offset_right = 804.0
+offset_bottom = 635.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Back to Lobby"
 
 [node name="WinScreen" type="Panel" parent="CanvasLayer/Game" unique_id=794310210]
 visible = false
@@ -701,15 +711,6 @@ theme_override_font_sizes/font_size = 70
 text = "Nice Job!"
 horizontal_alignment = 1
 
-[node name="Label3" type="Label" parent="CanvasLayer/Game/WinScreen" unique_id=583049562]
-layout_mode = 0
-offset_left = 211.0
-offset_top = 559.0
-offset_right = 941.0
-offset_bottom = 640.0
-theme_override_font_sizes/font_size = 50
-text = "To play again, reopen the app."
-
 [node name="Label2" type="Label" parent="CanvasLayer/Game/WinScreen" unique_id=696776010]
 layout_mode = 0
 offset_left = 211.0
@@ -719,6 +720,19 @@ offset_bottom = 218.0
 theme_override_font_sizes/font_size = 70
 text = "You win!"
 horizontal_alignment = 1
+
+[node name="lobby" type="Button" parent="CanvasLayer/Game/WinScreen" unique_id=1979153776]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 551.0
+offset_right = 804.0
+offset_bottom = 635.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Back to Lobby"
 
 [node name="BetweenRounds" type="Panel" parent="CanvasLayer/Game" unique_id=326208777]
 z_index = 1
@@ -782,7 +796,7 @@ script = ExtResource("12_k3n1d")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Account Handler" unique_id=1063563662]
 script = ExtResource("13_ikiii")
-metadata/testing = false
+metadata/testing = true
 
 [node name="Signup" type="Control" parent="Account Handler/CanvasLayer" unique_id=1871016256]
 visible = false
@@ -1398,6 +1412,118 @@ text = "This window will automatically close in 5 seconds."
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="Data Handler" type="Node" parent="." unique_id=471746002]
+script = ExtResource("19_cbp6q")
+
+[node name="Lobby" type="CanvasLayer" parent="." unique_id=1927570283]
+layer = 4
+visible = false
+script = ExtResource("20_26xuy")
+
+[node name="main" type="Control" parent="Lobby" unique_id=381401308]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Lobby/main" unique_id=1935075537]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_il2jm")
+
+[node name="Play" type="Button" parent="Lobby/main/Panel" unique_id=1436169791]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 488.0
+offset_right = 330.0
+offset_bottom = 622.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("17_ikiii")
+text = "Play"
+
+[node name="Label" type="Label" parent="Lobby/main/Panel/Play" unique_id=1186490876]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -151.0
+offset_bottom = -151.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/focus = ExtResource("16_udxuc")
+text = "Finding Lobby...
+Time Elapsed: 0:00"
+horizontal_alignment = 1
+
+[node name="MenuButton" type="Control" parent="Lobby/main/Panel" unique_id=1313445727]
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 68.0
+
+[node name="Menu" type="Button" parent="Lobby/main/Panel/MenuButton" unique_id=1215283673]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 146.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Menu"
+
+[node name="Menu" type="Panel" parent="Lobby/main/Panel" unique_id=1282759256]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="back" type="Button" parent="Lobby/main/Panel/Menu" unique_id=1462682852]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 146.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Back"
+
+[node name="logout" type="Button" parent="Lobby/main/Panel/Menu" unique_id=918507040]
+layout_mode = 0
+offset_left = 385.5
+offset_top = 582.0
+offset_right = 766.5
+offset_bottom = 636.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Logout"
+
+[connection signal="pressed" from="CanvasLayer/Game/LoseScreen/lobby" to="." method="_on_lobby_pressed"]
+[connection signal="pressed" from="CanvasLayer/Game/WinScreen/lobby" to="." method="_on_lobby_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/password/togglehide" to="Account Handler/CanvasLayer/Signup/Panel/password" method="_on_togglehide_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/signup" to="Account Handler" method="_on_signup_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/Back" to="Account Handler" method="_on_back_pressed"]
@@ -1405,3 +1531,7 @@ autowrap_mode = 2
 [connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/login" to="Account Handler" method="_on_login_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/Make" to="Account Handler" method="_on_make_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Verify/Panel/resend" to="Account Handler" method="_on_resend_pressed"]
+[connection signal="pressed" from="Lobby/main/Panel/Play" to="Lobby" method="_on_play_pressed"]
+[connection signal="pressed" from="Lobby/main/Panel/MenuButton/Menu" to="Lobby" method="_on_menu_pressed"]
+[connection signal="pressed" from="Lobby/main/Panel/Menu/back" to="Lobby" method="_on_back_pressed"]
+[connection signal="pressed" from="Lobby/main/Panel/Menu/logout" to="Lobby" method="_on_logout_pressed"]

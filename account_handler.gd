@@ -96,19 +96,21 @@ func verify_pressed():
 	elif code == ENUMS.ACCOUNT_VERIFICATION_RESPONSE_CODE.ALREADY_VERIFIED:
 		error.text = "ERROR: This code is expired."
 	elif code == ENUMS.ACCOUNT_VERIFICATION_RESPONSE_CODE.SUCCESS:
-		await GDSync.account_login(current_email, current_password, 900)
+		await GDSync.account_login(current_email, current_password, 86400)
 		error.text = "Logged in, thank you!"
 		
 		waiting.position.y = -700
 		waiting.show()
-		get_tree().create_tween().tween_property(verify, "position:y", 700, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+		get_tree().create_tween().tween_property(login, "position:y", 700, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 		get_tree().create_tween().tween_property(waiting, "position:y", 0, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		await get_tree().create_timer(1.25,false,false,true).timeout
-		signup.hide()
 		login.hide()
-		verify.hide()
+		signup.hide()
 		$CanvasLayer.hide()
-		world.look_for_lobbies()
+		$"../Lobby".show()
+		await get_tree().create_timer(1.25,false,false,true).timeout
+		get_tree().create_tween().tween_property(waiting, "position:y", 700, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+		waiting.hide()
 
 func _on_login_pressed() -> void:
 	var email_checks = [".org", ".com"]
@@ -124,7 +126,7 @@ func _on_login_pressed() -> void:
 			break
 	if check1 and str(password.text).length() >= 8:
 		error.text = "Attempting to login..."
-		var response = await GDSync.account_login(str(email.text), str(password.text), 3600)
+		var response = await GDSync.account_login(str(email.text), str(password.text), 86400)
 		var code = response["Code"]
 		
 		print(code)
@@ -158,7 +160,10 @@ func _on_login_pressed() -> void:
 			login.hide()
 			signup.hide()
 			$CanvasLayer.hide()
-			world.look_for_lobbies()
+			$"../Lobby".show()
+			await get_tree().create_timer(1.25,false,false,true).timeout
+			get_tree().create_tween().tween_property(waiting, "position:y", 700, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+			waiting.hide()
 	else:
 		if not check1:
 			error.text = "ERROR: The provided email is not valid."

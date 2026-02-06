@@ -10,6 +10,8 @@ extends Node
 var lobby_status = ""
 var score_debounce = false
 
+var cooldown = 3
+
 func random_shi():
 	$AudioStreamPlayer.play()
 	waiting.show()
@@ -32,6 +34,7 @@ func random_shi():
 	get_tree().create_tween().tween_property(pic, "rotation_degrees", 360, 2)
 	
 func _ready():
+	get_tree().root.close_requested.connect(close_game)
 	GDSync.connected.connect(connected)
 	GDSync.connection_failed.connect(connection_failed)
 	
@@ -47,20 +50,20 @@ func _ready():
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("quit"):
-		if GDSync.is_active():
-			GDSync.quit()
-		else:
-			get_tree().quit()
+		close_game()
+		
+func close_game():
+	GDSync.quit()
 
 func connected() -> void:
 	task.text = "connected!"
 	await get_tree().create_timer(2,false,false,true).timeout
 	
 	task.text = "attempting to log in..."
-	var response = await GDSync.account_login_from_session(3600)
+	var response = await GDSync.account_login_from_session(86400)
 	
 	if response == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
-		look_for_lobbies()
+		$Lobby.show()
 	else:
 		$"Account Handler/CanvasLayer/Login".show()
 		waiting.hide()
@@ -82,11 +85,11 @@ func lobbies_received(lobbies: Array):
 			continue
 	if lobby_status == "join failed" or lobbies.size() == 0:
 		GDSync.lobby_create("lobby" + str(randi_range(100000,999999)))
+	$"Data Handler".get_settings()
+	$Lobby.found_lobby = true
 
 func connection_failed(error : int) -> void:
 	match(error):
-		ENUMS.CONNECTION_FAILED.INVALID_PUBLIC_KEY:
-			task.text = "no public/private key matches what you entered."
 		ENUMS.CONNECTION_FAILED.TIMEOUT:
 			task.text = "unable to connect. please check your internet and re-open the app."
 
@@ -187,10 +190,35 @@ func manage_game(command: String):
 				var amount_of_wins = str(str(enemy_text.text).replace("/10", "")).to_int() + 1
 				enemy_text.text = str(amount_of_wins) + "/10"
 				
-			await get_tree().create_timer(3).timeout
+			await get_tree().create_timer(cooldown).timeout
 			score_debounce = false
+			
+func check_for_leave():
+	var amount_of_players = 0
+	for child in get_children():
+		if child is CharacterBody3D:
+			amount_of_players += 1
+
+	if amount_of_players != 1: return
+	cooldown = 0.01
+	
+	var score_text = $CanvasLayer/Game/Score/YourScore/score
+	score_text.text = "10/10"
+	
+	$CanvasLayer/Game/WinScreen.position = Vector2.ZERO
+	$CanvasLayer/Game/WinScreen.show()
+	$CanvasLayer/Game/BetweenRounds.hide()
 
 func lobby_join_failed(lobby_name : String, _error):
 	lobby_status = "join failed"
 	task.add_theme_font_size_override("font_size", 18)
 	task.text = "the lobby " + lobby_name + " either doesn't exist, or has already began. Please try again later."
+
+func _on_lobby_pressed() -> void:
+	var lose = $CanvasLayer/Game/LoseScreen
+	var win = $CanvasLayer/Game/WinScreen
+	
+	lose.hide()
+	win.hide()
+	$Lobby.show()
+	$Lobby/main/Panel/Play.disabled = false

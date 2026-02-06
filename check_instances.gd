@@ -13,20 +13,20 @@ func check_instance_lock() -> void:
 		f.close()
 		
 		# 2. Verify if the instance is actually active. 
-		# If the timestamp is less than 10 seconds old, another window is open.
+		# If the timestamp is less than 5 seconds old, another window is open.
 		var current_time = Time.get_unix_time_from_system()
-		if current_time - last_heartbeat < 10 and get_meta("testing") == false:
+		if current_time - last_heartbeat < 5 and get_meta("testing") == false:
 			$Warning.show()
 			$"../../CanvasLayer".hide()
 			await get_tree().create_timer(5,false,false,true).timeout
-			get_tree().quit()
+			GDSync.quit()
 			return
 
 	# 3. Create/Update the lock file and start a heartbeat timer
 	update_lock_heartbeat()
 	
 	var timer = Timer.new()
-	timer.wait_time = 5.0 # Update every 5 seconds
+	timer.wait_time = 4.0 # Update every 4 seconds
 	timer.autostart = true
 	timer.timeout.connect(update_lock_heartbeat)
 	add_child(timer)
