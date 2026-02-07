@@ -41,10 +41,26 @@ func _on_play_pressed() -> void:
 	hide()
 
 func _on_menu_pressed() -> void:
-	pass # Replace with function body.
+	menu.show()
 
 func _on_back_pressed() -> void:
-	pass # Replace with function body.
+	menu.hide()
 
 func _on_logout_pressed() -> void:
-	pass # Replace with function body.
+	logout.text = "Logging Out..."
+	var res = await GDSync.account_logout()
+	
+	if res == ENUMS.ACCOUNT_LOGOUT_RESPONSE_CODE.SUCCESS:
+		var canvas = get_node("../Account Handler/CanvasLayer")
+		var login = get_node("../Account Handler/CanvasLayer/Login")
+		canvas.show()
+		login.show()
+		$"../CanvasLayer/Waiting".hide()
+		menu.hide()
+		hide()
+	else:
+		logout.text = "Failed to Logout."
+		print("couldn't log out. error: ", ENUMS.ACCOUNT_LOGOUT_RESPONSE_CODE.keys()[res])
+		await get_tree().create_timer(2,false,false,true).timeout
+		logout.text = "Logout"
+		

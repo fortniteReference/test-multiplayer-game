@@ -20,6 +20,7 @@
 [ext_resource type="StyleBox" uid="uid://b3ijgvtrknnrw" path="res://box flats/pressed transparent flat.tres" id="17_ikiii"]
 [ext_resource type="Script" uid="uid://bfqfqiswnhmie" path="res://data_handler.gd" id="19_cbp6q"]
 [ext_resource type="Script" uid="uid://corntdanb10gv" path="res://lobby.gd" id="20_26xuy"]
+[ext_resource type="Script" uid="uid://cxagovitafdqr" path="res://scripts/settings.gd" id="21_bc84e"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -171,6 +172,26 @@ bg_color = Color(0.80784315, 0.45490196, 0.5529412, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_il2jm"]
 bg_color = Color(0.875, 0.6665039, 0.8277626, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjb0r"]
+bg_color = Color(0.5617523, 0.5718088, 0.72265625, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mc2jv"]
+bg_color = Color(0.5144744, 0.88671875, 0.25978088, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bo7i5"]
+bg_color = Color(0.37056005, 0.83203125, 0.24050903, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4h6ng"]
+bg_color = Color(0, 0, 0, 0.70980394)
 
 [node name="world" type="Node" unique_id=967505589]
 script = ExtResource("1_f3sb7")
@@ -795,6 +816,7 @@ font_size = 80
 script = ExtResource("12_k3n1d")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Account Handler" unique_id=1063563662]
+layer = 6
 script = ExtResource("13_ikiii")
 metadata/testing = true
 
@@ -1522,6 +1544,171 @@ theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
 text = "Logout"
 
+[node name="settings" type="Button" parent="Lobby/main/Panel/Menu" unique_id=1880661270]
+layout_mode = 0
+offset_left = 385.5
+offset_top = 104.0
+offset_right = 766.5
+offset_bottom = 189.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Settings"
+
+[node name="Settings" type="Panel" parent="Lobby/main/Panel/Menu" unique_id=1379599886]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wjb0r")
+script = ExtResource("21_bc84e")
+
+[node name="AimSens" type="HSlider" parent="Lobby/main/Panel/Menu/Settings" unique_id=1156977610]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 161.0
+offset_right = 355.0
+offset_bottom = 197.0
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_mc2jv")
+value = 10.0
+rounded = true
+
+[node name="Percent" type="Label" parent="Lobby/main/Panel/Menu/Settings/AimSens" unique_id=1822060399]
+layout_mode = 0
+offset_left = 318.0
+offset_top = -3.0
+offset_right = 399.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 27
+text = "%null"
+
+[node name="HipSens" type="HSlider" parent="Lobby/main/Panel/Menu/Settings" unique_id=1422971303]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 225.0
+offset_right = 355.0
+offset_bottom = 261.0
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_bo7i5")
+value = 50.0
+rounded = true
+
+[node name="Percent" type="Label" parent="Lobby/main/Panel/Menu/Settings/HipSens" unique_id=457800703]
+layout_mode = 0
+offset_left = 318.0
+offset_top = -4.0
+offset_right = 399.0
+offset_bottom = 38.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 27
+text = "%null"
+
+[node name="Title" type="Label" parent="Lobby/main/Panel/Menu/Settings" unique_id=1254598220]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -13.0
+offset_right = 1152.0
+offset_bottom = 110.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 80
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="Header" type="Label" parent="Lobby/main/Panel/Menu/Settings" unique_id=825340841]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 52.0
+offset_right = 397.0
+offset_bottom = 137.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 55
+text = "Game"
+horizontal_alignment = 1
+
+[node name="Desc" type="Label" parent="Lobby/main/Panel/Menu/Settings" unique_id=477380042]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 126.0
+offset_right = 397.0
+offset_bottom = 172.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+text = "ADS Sensitivity"
+horizontal_alignment = 1
+
+[node name="Desc2" type="Label" parent="Lobby/main/Panel/Menu/Settings" unique_id=1043155895]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 188.0
+offset_right = 397.0
+offset_bottom = 234.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+text = "Hipfire Sensitivity"
+horizontal_alignment = 1
+
+[node name="Back" type="Button" parent="Lobby/main/Panel/Menu/Settings" unique_id=531256539]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 11.0
+offset_right = 126.0
+offset_bottom = 68.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 31
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "< Back"
+
+[node name="Apply" type="Button" parent="Lobby/main/Panel/Menu/Settings" unique_id=1122179177]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 579.0
+offset_right = 772.0
+offset_bottom = 636.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 31
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Apply Settings"
+
+[node name="Label" type="Label" parent="Lobby/main/Panel/Menu/Settings/Apply" unique_id=248644]
+layout_mode = 0
+offset_left = -366.0
+offset_top = -48.0
+offset_right = 4.0
+offset_bottom = 66.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 23
+text = "NOTICE: SETTINGS DO NOT SAVE AUTOMATICALLY! Press \"Apply Settings\" to save them."
+autowrap_mode = 2
+
+[node name="Loading" type="Panel" parent="Lobby/main/Panel/Menu/Settings" unique_id=1692334487]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4h6ng")
+
+[node name="Label" type="Label" parent="Lobby/main/Panel/Menu/Settings/Loading" unique_id=2079899744]
+layout_mode = 0
+offset_left = 387.0
+offset_top = 233.0
+offset_right = 746.0
+offset_bottom = 386.0
+theme_override_fonts/font = ExtResource("14_70uel")
+theme_override_font_sizes/font_size = 100
+text = "Loading..."
+
 [connection signal="pressed" from="CanvasLayer/Game/LoseScreen/lobby" to="." method="_on_lobby_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game/WinScreen/lobby" to="." method="_on_lobby_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/password/togglehide" to="Account Handler/CanvasLayer/Signup/Panel/password" method="_on_togglehide_pressed"]
@@ -1535,3 +1722,8 @@ text = "Logout"
 [connection signal="pressed" from="Lobby/main/Panel/MenuButton/Menu" to="Lobby" method="_on_menu_pressed"]
 [connection signal="pressed" from="Lobby/main/Panel/Menu/back" to="Lobby" method="_on_back_pressed"]
 [connection signal="pressed" from="Lobby/main/Panel/Menu/logout" to="Lobby" method="_on_logout_pressed"]
+[connection signal="pressed" from="Lobby/main/Panel/Menu/settings" to="Lobby/main/Panel/Menu/Settings" method="_on_settings_pressed"]
+[connection signal="value_changed" from="Lobby/main/Panel/Menu/Settings/AimSens" to="Lobby/main/Panel/Menu/Settings" method="_on_sens_value_changed"]
+[connection signal="value_changed" from="Lobby/main/Panel/Menu/Settings/HipSens" to="Lobby/main/Panel/Menu/Settings" method="_on_hip_sens_value_changed"]
+[connection signal="pressed" from="Lobby/main/Panel/Menu/Settings/Back" to="Lobby/main/Panel/Menu/Settings" method="_on_back_pressed"]
+[connection signal="pressed" from="Lobby/main/Panel/Menu/Settings/Apply" to="Lobby/main/Panel/Menu/Settings" method="_on_apply_pressed"]

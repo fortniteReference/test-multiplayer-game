@@ -18,9 +18,3 @@ func get_settings():
 		print("settings restored: ", response["Result"])
 	else:
 		print("settings did not restore. Error: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[res])
-		
-		var settings = {
-				"hip_sens": randf_range(0.001,0.01),
-				"aim_sens": randf_range(0.001,0.01)
-			}
-		$"../Data Handler".set_settings(settings)
