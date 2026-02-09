@@ -207,6 +207,8 @@ func check_for_leave():
 	
 	$CanvasLayer/Game/WinScreen.position = Vector2.ZERO
 	$CanvasLayer/Game/WinScreen.show()
+	$CanvasLayer.show()
+	$CanvasLayer/Game.show()
 	$CanvasLayer/Game/BetweenRounds.hide()
 
 func lobby_join_failed(lobby_name : String, _error):

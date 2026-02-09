@@ -18,6 +18,8 @@
 [ext_resource type="Texture2D" uid="uid://b0pt6kub4wmou" path="res://images/blue reticle.png" id="12_q13i1"]
 [ext_resource type="FontFile" uid="uid://j7vbcj5u0tj5" path="res://fomnts/TitilliumWeb-Italic.ttf" id="12_urp6f"]
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="13_bwjto"]
+[ext_resource type="Script" uid="uid://du3epatw0gvdb" path="res://custom_loot_handler.gd" id="19_pbfsw"]
+[ext_resource type="Script" uid="uid://qg1l82dle3ic" path="res://scripts/custom_loot.gd" id="20_5tmop"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 
@@ -130,6 +132,23 @@ bg_color = Color(0.15625, 0.15625, 0.15625, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ahtn"]
 bg_color = Color(1, 0.28125, 0.28125, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7lmhl"]
+bg_color = Color(0.2578125, 0.2578125, 0.2578125, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dx0e4"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jm5j8"]
+bg_color = Color(0.18359375, 0.18359375, 0.18359375, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
 
 [node name="player" type="CharacterBody3D" unique_id=1159846981]
 collision_layer = 2
@@ -830,3 +849,243 @@ theme_override_fonts/font = ExtResource("13_bwjto")
 theme_override_styles/normal = SubResource("StyleBoxFlat_5tmop")
 text = "player"
 horizontal_alignment = 1
+
+[node name="Custom Loot" type="Control" parent="CanvasLayer" unique_id=1690563238]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("19_pbfsw")
+
+[node name="Main" type="Panel" parent="CanvasLayer/Custom Loot" unique_id=165532427]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7lmhl")
+
+[node name="Splitter2" type="Panel" parent="CanvasLayer/Custom Loot/Main" unique_id=1971813623]
+layout_mode = 0
+offset_left = 874.0
+offset_top = 18.0
+offset_right = 881.0
+offset_bottom = 626.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dx0e4")
+
+[node name="Primary" type="Control" parent="CanvasLayer/Custom Loot/Main" unique_id=1374509660]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 125.0
+offset_right = 420.0
+offset_bottom = 631.0
+
+[node name="Slot" type="Panel" parent="CanvasLayer/Custom Loot/Main/Primary" unique_id=1907296719]
+visible = false
+layout_mode = 0
+offset_right = 134.0
+offset_bottom = 143.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Select" type="Button" parent="CanvasLayer/Custom Loot/Main/Primary/Slot" unique_id=1065032873]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 102.0
+offset_right = 125.0
+offset_bottom = 134.0
+text = "Select"
+
+[node name="Image" type="TextureRect" parent="CanvasLayer/Custom Loot/Main/Primary/Slot" unique_id=404541698]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 12.0
+offset_right = 113.0
+offset_bottom = 102.0
+expand_mode = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/Custom Loot/Main/Primary/Slot" unique_id=588729694]
+layout_mode = 0
+offset_right = 135.0
+offset_bottom = 30.0
+text = "title"
+horizontal_alignment = 1
+
+[node name="Slots" type="Control" parent="CanvasLayer/Custom Loot/Main/Primary" unique_id=217495588]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Custom Loot/Main/Primary" unique_id=2134792544]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -65.0
+offset_bottom = -10.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Primary Weapon"
+horizontal_alignment = 1
+
+[node name="Secondary" type="Control" parent="CanvasLayer/Custom Loot/Main" unique_id=1665662973]
+anchors_preset = 0
+offset_left = 462.0
+offset_top = 122.0
+offset_right = 862.0
+offset_bottom = 628.0
+
+[node name="Slot" type="Panel" parent="CanvasLayer/Custom Loot/Main/Secondary" unique_id=63171529]
+visible = false
+layout_mode = 0
+offset_right = 134.0
+offset_bottom = 143.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Select" type="Button" parent="CanvasLayer/Custom Loot/Main/Secondary/Slot" unique_id=842314529]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 102.0
+offset_right = 125.0
+offset_bottom = 134.0
+text = "Select"
+
+[node name="Image" type="TextureRect" parent="CanvasLayer/Custom Loot/Main/Secondary/Slot" unique_id=1095978314]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 12.0
+offset_right = 113.0
+offset_bottom = 102.0
+expand_mode = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/Custom Loot/Main/Secondary/Slot" unique_id=2043635269]
+layout_mode = 0
+offset_right = 135.0
+offset_bottom = 30.0
+text = "title"
+horizontal_alignment = 1
+
+[node name="Slots" type="Control" parent="CanvasLayer/Custom Loot/Main/Secondary" unique_id=2002042703]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Custom Loot/Main/Secondary" unique_id=1691230372]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -65.0
+offset_bottom = -10.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Secondary Weapon"
+horizontal_alignment = 1
+
+[node name="Current" type="Control" parent="CanvasLayer/Custom Loot/Main" unique_id=1517134486]
+anchors_preset = 0
+offset_top = 15.0
+offset_right = 40.0
+offset_bottom = 55.0
+
+[node name="Primary" type="Panel" parent="CanvasLayer/Custom Loot/Main/Current" unique_id=997489797]
+layout_mode = 0
+offset_left = 915.0
+offset_top = 20.0
+offset_right = 1115.0
+offset_bottom = 290.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jm5j8")
+
+[node name="Image" type="TextureRect" parent="CanvasLayer/Custom Loot/Main/Current/Primary" unique_id=84857408]
+layout_mode = 1
+offset_left = 23.0
+offset_top = 36.0
+offset_right = 175.0
+offset_bottom = 180.0
+expand_mode = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/Custom Loot/Main/Current/Primary" unique_id=1474049582]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 35.0
+theme_override_fonts/font = ExtResource("13_bwjto")
+theme_override_font_sizes/font_size = 25
+text = "Primary"
+horizontal_alignment = 1
+
+[node name="Item" type="Label" parent="CanvasLayer/Custom Loot/Main/Current/Primary" unique_id=1670322538]
+layout_mode = 0
+offset_top = 197.0
+offset_right = 200.0
+offset_bottom = 270.0
+theme_override_fonts/font = ExtResource("13_bwjto")
+theme_override_font_sizes/font_size = 25
+text = "item name"
+horizontal_alignment = 1
+
+[node name="Secondary" type="Panel" parent="CanvasLayer/Custom Loot/Main/Current" unique_id=2085879103]
+layout_mode = 0
+offset_left = 915.0
+offset_top = 325.0
+offset_right = 1115.0
+offset_bottom = 595.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jm5j8")
+
+[node name="Image" type="TextureRect" parent="CanvasLayer/Custom Loot/Main/Current/Secondary" unique_id=220783464]
+layout_mode = 1
+offset_left = 23.0
+offset_top = 36.0
+offset_right = 175.0
+offset_bottom = 180.0
+expand_mode = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/Custom Loot/Main/Current/Secondary" unique_id=689470549]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 35.0
+theme_override_fonts/font = ExtResource("13_bwjto")
+theme_override_font_sizes/font_size = 25
+text = "Secondary"
+horizontal_alignment = 1
+
+[node name="Item" type="Label" parent="CanvasLayer/Custom Loot/Main/Current/Secondary" unique_id=1844781106]
+layout_mode = 0
+offset_top = 197.0
+offset_right = 200.0
+offset_bottom = 270.0
+theme_override_fonts/font = ExtResource("13_bwjto")
+theme_override_font_sizes/font_size = 25
+text = "item name"
+horizontal_alignment = 1
+
+[node name="Splitter" type="Panel" parent="CanvasLayer/Custom Loot/Main" unique_id=1013930622]
+layout_mode = 0
+offset_left = 437.0
+offset_top = 65.0
+offset_right = 444.0
+offset_bottom = 627.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dx0e4")
+
+[node name="Time" type="Label" parent="CanvasLayer/Custom Loot/Main" unique_id=44869583]
+layout_mode = 0
+offset_left = 176.0
+offset_top = 8.0
+offset_right = 707.0
+offset_bottom = 54.0
+theme_override_font_sizes/font_size = 33
+text = "Time left to choose Items: 0:30"
+horizontal_alignment = 1
+
+[node name="Options" type="Node" parent="CanvasLayer/Custom Loot" unique_id=154457852]
+script = ExtResource("20_5tmop")
+primary_choices = ["pump"]
+secondary_choices = ["pistol", "sniper", "thundersmg"]

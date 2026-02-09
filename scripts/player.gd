@@ -43,17 +43,23 @@ func owner_changed(_owner_id : int) -> void:
 		get_node("CanvasLayer").show()
 
 func _unhandled_input(event) -> void:
-	# print("ran input, ", event)
 	if not GDSync.is_gdsync_owner(self): return
 	if event is InputEventMouseMotion:
+		var data_handler = get_parent().get_node_or_null("Data Handler")
+		
+		var aim_str = .001
+		var hip_str = .005
+		if data_handler:
+			aim_str = data_handler.settings.get("aim_sens", .001)
+			hip_str = data_handler.settings.get("hip_sens", .005)
 		if get_meta("current_item") != "" and Input.is_action_pressed("target"):
-			rotate_y(-event.relative.x * .001)
-			camera.rotate_x(-event.relative.y * .001)
+			rotate_y(-event.relative.x * aim_str)
+			camera.rotate_x(-event.relative.y * aim_str)
 			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 		else:
 			# print("event is mouse motion")
-			rotate_y(-event.relative.x * .005)
-			camera.rotate_x(-event.relative.y * .005)
+			rotate_y(-event.relative.x * hip_str)
+			camera.rotate_x(-event.relative.y * hip_str)
 			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 	elif event is InputEvent:
 		if event.is_action_pressed("quit"):

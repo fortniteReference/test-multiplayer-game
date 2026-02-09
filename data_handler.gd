@@ -1,5 +1,7 @@
 extends Node
 
+var settings = {}
+
 func set_settings(data: Dictionary):
 	print("adding settings")
 	var res = await GDSync.account_document_set("settings", data, false)
@@ -18,3 +20,4 @@ func get_settings():
 		print("settings restored: ", response["Result"])
 	else:
 		print("settings did not restore. Error: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[res])
+	settings = response["Result"]

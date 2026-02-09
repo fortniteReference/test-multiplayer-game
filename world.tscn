@@ -308,6 +308,7 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_gbfbk")
 text = "description"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Vote" type="Button" parent="CanvasLayer/Voting/Main/Voting1" unique_id=1313753458]
 layout_mode = 0
@@ -384,6 +385,7 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_gbfbk")
 text = "description"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Vote" type="Button" parent="CanvasLayer/Voting/Main/Voting2" unique_id=2058179736]
 layout_mode = 0
@@ -460,6 +462,7 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_gbfbk")
 text = "description"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Vote" type="Button" parent="CanvasLayer/Voting/Main/Voting3" unique_id=635885827]
 layout_mode = 0

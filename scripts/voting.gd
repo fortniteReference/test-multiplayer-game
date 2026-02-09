@@ -11,17 +11,18 @@ var option_index = 0
 var current_vote = ""
 var current_panel = ""
 var options = {
-	"Original": {"Items": ["pump", "thundersmg"], "Image": "", "Title": "Original", "Desc": "Nothing better than the og."},
-	"Random": {"Items": ["random"], "Image": "", "Title": "Random", "Desc": "ooh gambling!!!"},
-	"Snipers": {"Items": ["sniper"], "Image": "", "Title": "SNIPERS ONLY!!!", "Desc": "better have aim"}
+	"Original": {"Items": ["pump", "thundersmg"], "Image": "", "Title": "Original", "Desc": "Nothing better than the og."}
+	,"Random": {"Items": ["random"], "Image": "", "Title": "Random", "Desc": "ooh gambling!!!"}
+	,"Snipers": {"Items": ["sniper"], "Image": "", "Title": "SNIPERS ONLY!!!", "Desc": "better have aim"}
+	,"Custom": {"Items": ["custom"], "Image": "", "Title": "Choose Weapons", "Desc": "choose your own items from the available selection!"}
 }
 
 var index1 = 0
 var index2 = 0
 var index3 = 0
 
-var min_option = 0 # Minimum RNG option for voting options
-var max_option = 0 # Maximum RNG option for voting options
+var min_option = 3 # Minimum RNG option for voting options
+var max_option = 3 # Maximum RNG option for voting options
 
 var player_name = ""
 var items_to_add = []
@@ -200,9 +201,32 @@ func end_voting():
 	var option = options[final_choice]
 	var items = option.get("Items", null)
 	
-	items_to_add = items
-	can_add_items = true
-	hide()
+	if items[0] == "custom":
+		var player = world.get_node_or_null(str(GDSync.get_client_id()))
+		
+		if player:
+			var loot = player.get_node("CanvasLayer/Custom Loot")
+			loot.start_custom()
+			hide()
+			await get_tree().create_timer(30,false,false,true).timeout
+			
+			var primary = loot.current_primary
+			var secondary = loot.current_secondary
+			if primary == "":
+				primary = loot.get_node("Options").primary_choices[randi_range(0,-1)]
+			if secondary == "":
+				secondary = loot.get_node("Options").secondary_choices[randi_range(0,-1)]
+			
+			items_to_add = [primary, secondary]
+			can_add_items = true
+		else:
+			await get_tree().create_timer(30,false,false,true).timeout
+			items_to_add = ["pump", "pistol"]
+			can_add_items = true
+	else: 
+		items_to_add = items
+		can_add_items = true
+		hide()
 	
 func add_items(name_player, params):
 	if name_player != str(GDSync.get_client_id()) or not params[0] is Array: return
@@ -214,6 +238,7 @@ func add_items(name_player, params):
 	var items = params[0]
 	if items != null:
 		var player = world.get_node_or_null(name_player)
+
 		if items.has("random"):
 			# for now, keep like this. later, make it change every round.
 			print("mode is random")
