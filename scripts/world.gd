@@ -5,6 +5,7 @@ extends Node
 @onready var looking = $"CanvasLayer/Looking for player"
 @onready var voting = $CanvasLayer/Voting
 @onready var task = $CanvasLayer/Waiting/Panel/task
+@onready var try_again = $"CanvasLayer/Waiting/Panel/try again"
 # Called when the node enters the scene tree for the first time.
 
 var lobby_status = ""
@@ -47,6 +48,12 @@ func _ready():
 	GDSync.start_multiplayer()
 	task.text = "connecting..."
 	random_shi()
+	
+func _on_try_again_pressed() -> void:
+	try_again.hide()
+	try_again.disabled = true
+	GDSync.start_multiplayer()
+	task.text = "connecting..."
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("quit"):
@@ -91,7 +98,9 @@ func lobbies_received(lobbies: Array):
 func connection_failed(error : int) -> void:
 	match(error):
 		ENUMS.CONNECTION_FAILED.TIMEOUT:
-			task.text = "unable to connect. please check your internet and re-open the app."
+			task.text = "connection timeout; please check your internet."
+			try_again.show()
+			try_again.disabled = false
 
 func lobby_created(lobby_name : String) -> void:
 	task.text = "creating lobby..."

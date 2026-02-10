@@ -18,6 +18,8 @@ func start_custom():
 	
 	current_primary = ""
 	current_secondary = ""
+	
+	var current_slots: Control = null
 	for option in options.primary_choices:
 		var item = first_camera.get_node_or_null(str(option))
 		if not item: continue
@@ -31,8 +33,6 @@ func start_custom():
 		slot.position = Vector2.ZERO
 		slot.name = "cloned slot: " + str(option)
 		slot.show()
-		
-		check_position(slot, slots, 0)
 		
 		var button: Button = slot.get_node("Select")
 		var image: TextureRect = slot.get_node("Image")
@@ -50,6 +50,9 @@ func start_custom():
 			cur_text.text = str(title.text)
 			
 		button.pressed.connect(pressed_select)
+		
+		current_slots = slots
+	check_slots(current_slots, options.primary_choices)
 	for option in options.secondary_choices:
 		var item = first_camera.get_node_or_null(str(option))
 		if not item: continue
@@ -63,8 +66,6 @@ func start_custom():
 		slot.position = Vector2.ZERO
 		slot.name = "cloned slot: " + str(option)
 		slot.show()
-		
-		check_position(slot, slots, 0)
 		
 		var button: Button = slot.get_node("Select")
 		var image: TextureRect = slot.get_node("Image")
@@ -82,6 +83,9 @@ func start_custom():
 			cur_text.text = str(title.text)
 			
 		button.pressed.connect(pressed_select)
+		
+		current_slots = slots
+	check_slots(current_slots, options.secondary_choices)
 	for i in range(30,0,-1):
 		var text = $Main/Time
 		if i >= 10:
@@ -100,16 +104,14 @@ func clear_slots(clear_primary: bool, clear_secondary: bool):
 	if clear_secondary:
 		for i in secondary.get_children():
 			if i.name.contains("cloned slot"): i.queue_free()
-	
-func check_position(slot: Panel, folder: Control, checked: int):
-	var pos_checked = checked
-	for other in folder.get_children():
-		if other.name == slot.name: continue
-		
-		if other.position.x == slot.position.x:
-			if slot.position.y == other.position.y and (pos_checked == 3 or pos_checked == 6 or pos_checked == 9):
-				slot.position.y += 153
-				slot.position.x = 0
-			else:
-				slot.position.x += 144
-			check_position(slot, folder, checked + 1)
+			
+func check_slots(slots: Control, options_array: Array):
+	for option in options_array:
+		var count: Array = []
+		for slot in slots.get_children():
+			if slot.name.contains(str(option)): count.append(slot)
+		if count.size() >= 2:
+			for i in range(count.size()-1):
+				var obj: Control = count[0]
+				obj.queue_free()
+				count.remove_at(0)
