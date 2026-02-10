@@ -94,7 +94,7 @@ func verify_pressed():
 	if code == ENUMS.ACCOUNT_VERIFICATION_RESPONSE_CODE.INCORRECT_CODE:
 		error.text = "ERROR: This doesn't seem to be the code for this account."
 	elif code == ENUMS.ACCOUNT_VERIFICATION_RESPONSE_CODE.ALREADY_VERIFIED:
-		error.text = "ERROR: This code is expired."
+		error.text = "ERROR: This user is already verified."
 	elif code == ENUMS.ACCOUNT_VERIFICATION_RESPONSE_CODE.SUCCESS:
 		await GDSync.account_login(current_email, current_password, 86400)
 		error.text = "Logged in, thank you!"

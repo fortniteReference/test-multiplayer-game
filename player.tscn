@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://3fufb4itlvty" path="res://scripts/reticle.gd" id="12_ivps1"]
 [ext_resource type="Texture2D" uid="uid://b0pt6kub4wmou" path="res://images/blue reticle.png" id="12_q13i1"]
 [ext_resource type="FontFile" uid="uid://j7vbcj5u0tj5" path="res://fomnts/TitilliumWeb-Italic.ttf" id="12_urp6f"]
+[ext_resource type="PackedScene" uid="uid://ietkbbuke676" path="res://meshes/frenzyshotty.blend" id="13_5tmop"]
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="13_bwjto"]
 [ext_resource type="Script" uid="uid://du3epatw0gvdb" path="res://custom_loot_handler.gd" id="19_pbfsw"]
 [ext_resource type="Script" uid="uid://qg1l82dle3ic" path="res://scripts/custom_loot.gd" id="20_5tmop"]
@@ -298,6 +299,33 @@ metadata/new_pos = Vector3(0, -0.52, 0)
 [node name="scope" type="Sprite3D" parent="Camera3D/thundersmg" unique_id=210197828]
 transform = Transform3D(-0.0028285002, 0, 0, 0, 0.002574099, 0, 0, 0, 0.9999995, -4.9948692e-05, 0.26766744, -0.05973603)
 texture = ExtResource("12_q13i1")
+
+[node name="frenzyshotty" parent="Camera3D" unique_id=1929048286 instance=ExtResource("13_5tmop")]
+transform = Transform3D(1.4469951, 0, 0, 0, 1.5229673, 0, 0, 0, 1.7976495, 0.6135511, -0.6728506, 0.13923335)
+visible = false
+script = ExtResource("3_ivps1")
+image = "res://images/frenzy image.png"
+hitscan = true
+shotgun = true
+fov = 70
+custom_reticle = true
+ammo = 8
+damage = 5
+headshot_multiplier = 1.5
+cooldown = 0.35
+spread = 1.0
+spread_reduction = 40
+weapon_range = 15
+pellets = 15
+falloff_start = 5
+falloff_damage = 0.75
+target_multiplier = 1.3
+metadata/already_equipped = false
+metadata/on_cooldown = false
+metadata/current_ammo = 0
+metadata/current_spread = 1.0
+metadata/og_pos = Vector3(0.61, -0.6, 0.13)
+metadata/new_pos = Vector3(0, -0.6, 0.13)
 
 [node name="sync1" type="Node" parent="." unique_id=1829653401]
 script = ExtResource("2_onrkg")
@@ -957,6 +985,7 @@ horizontal_alignment = 1
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+columns = 3
 
 [node name="Slot" type="Panel" parent="CanvasLayer/Custom Loot/Main/Secondary" unique_id=63171529]
 visible = false
