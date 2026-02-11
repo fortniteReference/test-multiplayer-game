@@ -20,12 +20,20 @@
 [ext_resource type="PackedScene" uid="uid://ietkbbuke676" path="res://meshes/frenzyshotty.blend" id="13_5tmop"]
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="13_bwjto"]
 [ext_resource type="PackedScene" uid="uid://dx00k0uk8gl8i" path="res://meshes/strikerar.blend" id="14_7ahtn"]
+[ext_resource type="Texture2D" uid="uid://bhgluk7wf4ydd" path="res://images/holo optic.png" id="14_dx0e4"]
+[ext_resource type="Texture2D" uid="uid://odkomtkv7hwf" path="res://images/red dot placeholder.png" id="15_7lmhl"]
 [ext_resource type="Script" uid="uid://du3epatw0gvdb" path="res://custom_loot_handler.gd" id="19_pbfsw"]
 [ext_resource type="Script" uid="uid://qg1l82dle3ic" path="res://scripts/custom_loot.gd" id="20_5tmop"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dx0e4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jm5j8"]
+transparency = 1
+albedo_color = Color(0.7647059, 0.88235295, 0.85882354, 0.2901961)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7ghd"]
 bg_color = Color(0, 0, 0, 0.43137255)
@@ -319,7 +327,7 @@ spread_reduction = 40
 weapon_range = 15
 pellets = 15
 reload_time = 3.5
-falloff_start = 5
+falloff_start = 8
 falloff_damage = 1.3
 target_multiplier = 1.3
 metadata/already_equipped = false
@@ -328,6 +336,10 @@ metadata/current_ammo = 0
 metadata/current_spread = 1.0
 metadata/og_pos = Vector3(0.61, -0.6, 0.13)
 metadata/new_pos = Vector3(0, -0.6, 0.13)
+
+[node name="scope" type="Sprite3D" parent="Camera3D/frenzyshotty" unique_id=1674581789]
+transform = Transform3D(0.0047119698, 0, 0, 0, 0.0051437044, 0, 0, 0, 0.99999934, 0, 0.39639616, -0.16859919)
+texture = ExtResource("14_dx0e4")
 
 [node name="strikerar" parent="Camera3D" unique_id=1138430608 instance=ExtResource("14_7ahtn")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0.6060259, -0.24295747, 0.05627489)
@@ -355,6 +367,15 @@ metadata/current_ammo = 0
 metadata/current_spread = 0.0
 metadata/new_pos = Vector3(0.606, -0.2, 0.05)
 metadata/og_pos = Vector3(0.606, -0.2, 0.05)
+
+[node name="scope image" type="Sprite3D" parent="Camera3D/strikerar" unique_id=829425633]
+transform = Transform3D(0.000414404, 0, 0, 0, 0.00044540665, 0, 0, 0, 1, 0, 0.119801134, -0.15184844)
+texture = ExtResource("15_7lmhl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D/strikerar" unique_id=1907293859]
+transform = Transform3D(-0.035239533, 0, 0, 0, 1.2123612e-11, 0.035978116, 0, -0.00027735587, 1.5726531e-09, 0, 0.12022379, -0.16963124)
+mesh = SubResource("CylinderMesh_dx0e4")
+surface_material_override/0 = SubResource("StandardMaterial3D_jm5j8")
 
 [node name="sync1" type="Node" parent="." unique_id=1829653401]
 script = ExtResource("2_onrkg")
