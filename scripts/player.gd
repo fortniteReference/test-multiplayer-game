@@ -344,8 +344,7 @@ func reload(item: Node3D):
 	# -----------------------
 	var gui = get_node_or_null("CanvasLayer").get_node_or_null("HUD").get_node_or_null("Ammo")
 	if item.shotgun_reload == true:
-		if gui:
-			gui.get_node("reloading").show()
+		gui.get_node("reloading").show()
 		for i in range(ammo-item.get_meta("current_ammo")):
 			for u in range(round(reload_time*50)):
 				if Input.is_action_pressed("shoot") and item.get_meta("current_ammo") > 0:
@@ -358,10 +357,10 @@ func reload(item: Node3D):
 			gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
 	else:
 		item.set_meta("current_ammo", 0)
-		await get_tree().create_timer(reload_time,false,false,true).timeout
 		if gui:
 			gui.get_node("reloading").show()
 			gui.get_node("ammo").hide()
+		await get_tree().create_timer(reload_time,false,false,true).timeout
 	# -----------------------
 	reloading = false
 	item.set_meta("current_ammo", ammo)

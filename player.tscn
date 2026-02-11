@@ -19,6 +19,7 @@
 [ext_resource type="FontFile" uid="uid://j7vbcj5u0tj5" path="res://fomnts/TitilliumWeb-Italic.ttf" id="12_urp6f"]
 [ext_resource type="PackedScene" uid="uid://ietkbbuke676" path="res://meshes/frenzyshotty.blend" id="13_5tmop"]
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="13_bwjto"]
+[ext_resource type="PackedScene" uid="uid://dx00k0uk8gl8i" path="res://meshes/strikerar.blend" id="14_7ahtn"]
 [ext_resource type="Script" uid="uid://du3epatw0gvdb" path="res://custom_loot_handler.gd" id="19_pbfsw"]
 [ext_resource type="Script" uid="uid://qg1l82dle3ic" path="res://scripts/custom_loot.gd" id="20_5tmop"]
 
@@ -317,8 +318,9 @@ spread = 1.0
 spread_reduction = 40
 weapon_range = 15
 pellets = 15
+reload_time = 3.5
 falloff_start = 5
-falloff_damage = 0.75
+falloff_damage = 1.3
 target_multiplier = 1.3
 metadata/already_equipped = false
 metadata/on_cooldown = false
@@ -326,6 +328,33 @@ metadata/current_ammo = 0
 metadata/current_spread = 1.0
 metadata/og_pos = Vector3(0.61, -0.6, 0.13)
 metadata/new_pos = Vector3(0, -0.6, 0.13)
+
+[node name="strikerar" parent="Camera3D" unique_id=1138430608 instance=ExtResource("14_7ahtn")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0.6060259, -0.24295747, 0.05627489)
+visible = false
+script = ExtResource("3_ivps1")
+image = "res://images/striker image.png"
+hitscan = true
+fov = 70
+custom_reticle = true
+ammo = 25
+damage = 24
+headshot_multiplier = 1.67
+cooldown = 0.12
+spread = 1.2
+spread_reduction = 85
+weapon_range = 80
+reload_time = 2.68
+falloff_start = 45
+falloff_damage = 0.33
+falloff_minimum = 14
+target_multiplier = 1.25
+metadata/already_equipped = false
+metadata/on_cooldown = false
+metadata/current_ammo = 0
+metadata/current_spread = 0.0
+metadata/new_pos = Vector3(0.606, -0.2, 0.05)
+metadata/og_pos = Vector3(0.606, -0.2, 0.05)
 
 [node name="sync1" type="Node" parent="." unique_id=1829653401]
 script = ExtResource("2_onrkg")
@@ -1116,5 +1145,5 @@ horizontal_alignment = 1
 
 [node name="Options" type="Node" parent="CanvasLayer/Custom Loot" unique_id=154457852]
 script = ExtResource("20_5tmop")
-primary_choices = ["pump"]
-secondary_choices = ["pistol", "sniper", "thundersmg"]
+primary_choices = ["pump", "frenzyshotty"]
+secondary_choices = ["pistol", "sniper", "thundersmg", "strikerar"]
