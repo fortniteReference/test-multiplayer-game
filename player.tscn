@@ -22,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://dx00k0uk8gl8i" path="res://meshes/strikerar.blend" id="14_7ahtn"]
 [ext_resource type="Texture2D" uid="uid://bhgluk7wf4ydd" path="res://images/holo optic.png" id="14_dx0e4"]
 [ext_resource type="Texture2D" uid="uid://odkomtkv7hwf" path="res://images/red dot placeholder.png" id="15_7lmhl"]
-[ext_resource type="Script" uid="uid://du3epatw0gvdb" path="res://custom_loot_handler.gd" id="19_pbfsw"]
+[ext_resource type="Script" uid="uid://du3epatw0gvdb" path="res://scripts/custom_loot_handler.gd" id="19_pbfsw"]
 [ext_resource type="Script" uid="uid://qg1l82dle3ic" path="res://scripts/custom_loot.gd" id="20_5tmop"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
@@ -371,7 +371,7 @@ metadata/already_equipped = false
 metadata/on_cooldown = false
 metadata/current_ammo = 0
 metadata/current_spread = 0.0
-metadata/new_pos = Vector3(0.606, -0.2, 0.05)
+metadata/new_pos = Vector3(0, -0.1, 0.05)
 metadata/og_pos = Vector3(0.606, -0.2, 0.05)
 
 [node name="scope image" type="Sprite3D" parent="Camera3D/strikerar" unique_id=829425633]

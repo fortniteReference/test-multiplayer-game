@@ -30,6 +30,10 @@ config/icon="res://images/icon.svg"
 
 GDSync="*res://addons/GD-Sync/MultiplayerClient.gd"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/GD-Sync/plugin.cfg")

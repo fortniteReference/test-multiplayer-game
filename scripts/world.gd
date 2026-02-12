@@ -125,6 +125,9 @@ func lobby_joined(lobby_name : String) -> void:
 	look_for_players()
 	await get_tree().create_timer(2.1,false,false,true).timeout
 	waiting.hide()
+	$Lobby.hide()
+	if $"Friend Handler/CanvasLayer".visible:
+		$"Friend Handler/CanvasLayer".hide()
 
 func look_for_players():
 	var count = 0

@@ -21,7 +21,7 @@ var index1 = 0
 var index2 = 0
 var index3 = 0
 
-var min_option = 3 # Minimum RNG option for voting options
+var min_option = 0 # Minimum RNG option for voting options
 var max_option = 3 # Maximum RNG option for voting options
 
 var player_name = ""

@@ -456,16 +456,26 @@ func receive_damage(player_name, name_item):
 func set_damage(item: Node3D, distance, hit_head) -> int:
 	var amount = round(item.falloff_damage * (distance - item.falloff_start))
 	var return_damage = 0
+	var least_damage = false
 	if (item.damage - amount) < item.falloff_minimum and item.falloff_enabled:
 		amount = item.falloff_minimum
-			
+		least_damage = true
+	if amount < 0:
+		amount = 0
+		
 	if item.falloff_enabled:
-		return_damage = (item.damage - amount)
+		if least_damage:
+			return_damage = amount
+		else:
+			return_damage = (item.damage - amount)
 	else:
 		return_damage = item.damage
 	if hit_head == "true":
 		if item.falloff_enabled:
-			return_damage = round((item.damage - amount) * item.headshot_multiplier)
+			if least_damage:
+				return_damage = round(return_damage * item.headshot_multiplier)
+			else:
+				return_damage = round((item.damage - amount) * item.headshot_multiplier)
 		else:
 			return_damage = round(return_damage * item.headshot_multiplier)
 	return return_damage

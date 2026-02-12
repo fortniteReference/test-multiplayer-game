@@ -2,14 +2,12 @@ extends Control
 
 @onready var other = $Other
 @onready var shotgun = $Shotgun
-func adjust_reticle(item: Node3D, spread: float, is_shotgun: bool, custom: bool):
+func adjust_reticle(_item: Node3D, spread: float, is_shotgun: bool, custom: bool):
 	var weapon_range = 1
 	if custom:
 		other.hide()
 		shotgun.hide()
 		return
-	if item.weapon_range >= 75:
-		weapon_range = item.weapon_range
 	if is_shotgun:
 		other.hide()
 		shotgun.show()

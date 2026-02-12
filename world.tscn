@@ -11,17 +11,18 @@
 [ext_resource type="StyleBox" uid="uid://cesupc0new4fk" path="res://box flats/green button pressed.tres" id="7_ioo17"]
 [ext_resource type="FontFile" uid="uid://bn5sd81kmqgyh" path="res://fomnts/TitilliumWeb-Regular.ttf" id="10_ic0uy"]
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="11_k3n1d"]
-[ext_resource type="Script" uid="uid://bmh7xuocpa66r" path="res://account_handler.gd" id="12_k3n1d"]
+[ext_resource type="Script" uid="uid://bmh7xuocpa66r" path="res://scripts/account_handler.gd" id="12_k3n1d"]
 [ext_resource type="StyleBox" uid="uid://subcnq5fiw3h" path="res://box flats/red box flat.tres" id="13_2o6r5"]
-[ext_resource type="Script" uid="uid://bu4iecdxqpev5" path="res://check_instances.gd" id="13_ikiii"]
+[ext_resource type="Script" uid="uid://bu4iecdxqpev5" path="res://scripts/check_instances.gd" id="13_ikiii"]
 [ext_resource type="FontFile" uid="uid://j7vbcj5u0tj5" path="res://fomnts/TitilliumWeb-Italic.ttf" id="14_70uel"]
-[ext_resource type="Script" uid="uid://bikpk7tk2fk12" path="res://password.gd" id="15_hiqwa"]
+[ext_resource type="Script" uid="uid://bikpk7tk2fk12" path="res://scripts/password.gd" id="15_hiqwa"]
 [ext_resource type="StyleBox" uid="uid://f0gupwp4t18" path="res://box flats/transparent flat.tres" id="16_udxuc"]
 [ext_resource type="StyleBox" uid="uid://b3ijgvtrknnrw" path="res://box flats/pressed transparent flat.tres" id="17_ikiii"]
-[ext_resource type="Script" uid="uid://bfqfqiswnhmie" path="res://data_handler.gd" id="19_cbp6q"]
-[ext_resource type="Script" uid="uid://corntdanb10gv" path="res://lobby.gd" id="20_26xuy"]
+[ext_resource type="Script" uid="uid://bfqfqiswnhmie" path="res://scripts/data_handler.gd" id="19_cbp6q"]
+[ext_resource type="Script" uid="uid://corntdanb10gv" path="res://scripts/lobby.gd" id="20_26xuy"]
 [ext_resource type="Script" uid="uid://cxagovitafdqr" path="res://scripts/settings.gd" id="21_bc84e"]
 [ext_resource type="Script" uid="uid://yamtot2iff5s" path="res://scripts/friend_handler.gd" id="22_wukud"]
+[ext_resource type="Texture2D" uid="uid://hn8rriqj25xd" path="res://images/loadscreen.png" id="23_il2jm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -205,6 +206,217 @@ corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjb0r"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(0, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mc2jv"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(200, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bo7i5"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(400, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4h6ng"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(600, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3ebs"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(800, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k83mh"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(0, 200, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qktwf"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(200, 200, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bh8nc"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(400, 200, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjr1n"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(600, 200, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gggvi"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(800, 200, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w44yn"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(0, 400, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ah6f"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(200, 400, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1i3r"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(400, 400, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_my276"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(600, 400, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yx0jh"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(800, 400, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ew0l"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(0, 600, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ryup7"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(200, 600, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytpkv"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(400, 600, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jas3d"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(600, 600, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7htu6"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(800, 600, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qk3m"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(0, 800, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xpnt2"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(200, 800, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ruyqm"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(400, 800, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fnoqa"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(600, 800, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nx736"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(800, 800, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55kwu"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(0, 1000, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3o6s"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(200, 1000, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4lh7"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(400, 1000, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3lar"]
+atlas = ExtResource("23_il2jm")
+region = Rect2(600, 1000, 200, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_olr1q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjb0r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mc2jv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bo7i5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4h6ng")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3ebs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k83mh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qktwf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bh8nc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjr1n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gggvi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w44yn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ah6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1i3r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_my276")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yx0jh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ew0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ryup7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytpkv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jas3d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7htu6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qk3m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xpnt2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ruyqm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fnoqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nx736")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55kwu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3o6s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4lh7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3lar")
+}],
+"loop": true,
+"name": &"default",
+"speed": 20.0
+}]
 
 [node name="world" type="Node" unique_id=967505589]
 script = ExtResource("1_f3sb7")
@@ -1743,10 +1955,25 @@ theme_override_fonts/font = ExtResource("14_70uel")
 theme_override_font_sizes/font_size = 100
 text = "Loading..."
 
+[node name="Friends" type="Button" parent="Lobby/main/Panel" unique_id=972970905]
+layout_mode = 0
+offset_left = 161.0
+offset_top = 11.0
+offset_right = 297.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Friends"
+
 [node name="Friend Handler" type="Node" parent="." unique_id=1203872272]
 script = ExtResource("22_wukud")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Friend Handler" unique_id=858891244]
+layer = 5
+visible = false
 
 [node name="friend gui" type="Panel" parent="Friend Handler/CanvasLayer" unique_id=488147185]
 visible = false
@@ -1829,6 +2056,7 @@ offset_bottom = 60.0
 theme_override_styles/normal = ExtResource("16_udxuc")
 theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("16_udxuc")
 text = "Back"
 
 [node name="friend reqs" type="Button" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1545437572]
@@ -1840,9 +2068,17 @@ offset_bottom = 60.0
 theme_override_styles/normal = ExtResource("16_udxuc")
 theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("16_udxuc")
 text = "View friend requests"
 
+[node name="loading" type="AnimatedSprite2D" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1554428244]
+visible = false
+position = Vector2(211, 304.99997)
+scale = Vector2(0.61, 0.61)
+sprite_frames = SubResource("SpriteFrames_olr1q")
+
 [node name="request gui" type="Panel" parent="Friend Handler/CanvasLayer" unique_id=2074092708]
+visible = false
 offset_left = 700.0
 offset_top = 17.0
 offset_right = 1125.0
@@ -1914,6 +2150,38 @@ theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
 text = "Back"
 
+[node name="Search" type="LineEdit" parent="Friend Handler/CanvasLayer/request gui" unique_id=1134072778]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 13.0
+offset_right = 342.0
+offset_bottom = 60.0
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/read_only = ExtResource("16_udxuc")
+theme_override_styles/focus = ExtResource("16_udxuc")
+placeholder_text = " Search for user..."
+max_length = 20
+
+[node name="Add" type="Button" parent="Friend Handler/CanvasLayer/request gui" unique_id=1999128321]
+layout_mode = 0
+offset_left = 351.0
+offset_top = 12.0
+offset_right = 412.0
+offset_bottom = 61.0
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("6_gbfbk")
+theme_override_styles/pressed = ExtResource("7_ioo17")
+theme_override_styles/hover = ExtResource("7_ioo17")
+text = "Add"
+
+[node name="loading" type="AnimatedSprite2D" parent="Friend Handler/CanvasLayer/request gui" unique_id=1641972819]
+visible = false
+position = Vector2(211, 304.99997)
+scale = Vector2(0.61, 0.61)
+sprite_frames = SubResource("SpriteFrames_olr1q")
+
 [connection signal="pressed" from="CanvasLayer/Waiting/Panel/try again" to="." method="_on_try_again_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game/LoseScreen/lobby" to="." method="_on_lobby_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game/WinScreen/lobby" to="." method="_on_lobby_pressed"]
@@ -1933,3 +2201,8 @@ text = "Back"
 [connection signal="value_changed" from="Lobby/main/Panel/Menu/Settings/HipSens" to="Lobby/main/Panel/Menu/Settings" method="_on_hip_sens_value_changed"]
 [connection signal="pressed" from="Lobby/main/Panel/Menu/Settings/Back" to="Lobby/main/Panel/Menu/Settings" method="_on_back_pressed"]
 [connection signal="pressed" from="Lobby/main/Panel/Menu/Settings/Apply" to="Lobby/main/Panel/Menu/Settings" method="_on_apply_pressed"]
+[connection signal="pressed" from="Lobby/main/Panel/Friends" to="Friend Handler" method="_on_friends_pressed"]
+[connection signal="pressed" from="Friend Handler/CanvasLayer/friend gui/back" to="Friend Handler" method="_on_back_pressed"]
+[connection signal="pressed" from="Friend Handler/CanvasLayer/friend gui/friend reqs" to="Friend Handler" method="_on_friend_reqs_pressed"]
+[connection signal="pressed" from="Friend Handler/CanvasLayer/request gui/request gui back" to="Friend Handler" method="_on_request_gui_back_pressed"]
+[connection signal="pressed" from="Friend Handler/CanvasLayer/request gui/Add" to="Friend Handler" method="_on_add_pressed"]
