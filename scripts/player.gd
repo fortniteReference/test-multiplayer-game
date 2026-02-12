@@ -203,7 +203,7 @@ func equip_item(player_name: String, n_item):
 
 		if gui and GDSync.is_gdsync_owner(self):
 			gui.show()
-			gui.get_node("item name").text = name_item
+			gui.get_node("item name").text = item.item_name
 			gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
 			
 			var reticles = hud.get_node_or_null("Reticles")

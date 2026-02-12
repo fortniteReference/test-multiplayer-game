@@ -75,7 +75,7 @@ func start_custom():
 		var cur_text: Label = $Main/Current/Secondary/Item
 		
 		image.texture = load(item.image)
-		title.text = str(option)
+		title.text = item.item_name
 		
 		var pressed_select = func():
 			current_secondary = str(option)
