@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://bfqfqiswnhmie" path="res://scripts/data_handler.gd" id="19_cbp6q"]
 [ext_resource type="Script" uid="uid://corntdanb10gv" path="res://scripts/lobby.gd" id="20_26xuy"]
 [ext_resource type="Script" uid="uid://cxagovitafdqr" path="res://scripts/settings.gd" id="21_bc84e"]
+[ext_resource type="Script" uid="uid://budbwd4vhic3m" path="res://scripts/control_handler.gd" id="22_wjb0r"]
 [ext_resource type="Script" uid="uid://yamtot2iff5s" path="res://scripts/friend_handler.gd" id="22_wukud"]
 [ext_resource type="Texture2D" uid="uid://hn8rriqj25xd" path="res://images/loadscreen.png" id="23_il2jm"]
 
@@ -195,13 +196,37 @@ corner_radius_bottom_left = 10
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4h6ng"]
 bg_color = Color(0, 0, 0, 0.70980394)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3ebs"]
-bg_color = Color(0.4862745, 0.5372549, 0.81960785, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.2614746, 0.28839615, 0.4375, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k83mh"]
+bg_color = Color(0.5948067, 0.859375, 0.5102539, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.4406857, 0.65234375, 0.3720398, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qktwf"]
+bg_color = Color(0.51410115, 0.734375, 0.44177246, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.4406857, 0.65234375, 0.3720398, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bh8nc"]
+bg_color = Color(0.51410115, 0.734375, 0.44177246, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.4406857, 0.65234375, 0.3720398, 1)
 corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
@@ -417,6 +442,18 @@ animations = [{
 "name": &"default",
 "speed": 20.0
 }]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3ebs"]
+bg_color = Color(0.4862745, 0.5372549, 0.81960785, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.2614746, 0.28839615, 0.4375, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
 [node name="world" type="Node" unique_id=967505589]
 script = ExtResource("1_f3sb7")
@@ -1876,6 +1913,17 @@ theme_override_font_sizes/font_size = 55
 text = "Game"
 horizontal_alignment = 1
 
+[node name="Header2" type="Label" parent="Lobby/main/Panel/Menu/Settings" unique_id=715711374]
+layout_mode = 0
+offset_left = 748.0
+offset_top = 57.0
+offset_right = 1146.0
+offset_bottom = 142.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 55
+text = "Controls"
+horizontal_alignment = 1
+
 [node name="Desc" type="Label" parent="Lobby/main/Panel/Menu/Settings" unique_id=477380042]
 layout_mode = 0
 offset_left = -1.0
@@ -1909,6 +1957,7 @@ theme_override_font_sizes/font_size = 31
 theme_override_styles/normal = ExtResource("16_udxuc")
 theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("16_udxuc")
 text = "< Back"
 
 [node name="Apply" type="Button" parent="Lobby/main/Panel/Menu/Settings" unique_id=1122179177]
@@ -1922,6 +1971,7 @@ theme_override_font_sizes/font_size = 31
 theme_override_styles/normal = ExtResource("16_udxuc")
 theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("16_udxuc")
 text = "Apply Settings"
 
 [node name="Label" type="Label" parent="Lobby/main/Panel/Menu/Settings/Apply" unique_id=248644]
@@ -1955,6 +2005,69 @@ theme_override_fonts/font = ExtResource("14_70uel")
 theme_override_font_sizes/font_size = 100
 text = "Loading..."
 
+[node name="Controls" type="Control" parent="Lobby/main/Panel/Menu/Settings" unique_id=1783246333]
+anchors_preset = 0
+offset_left = 785.0
+offset_top = 142.0
+offset_right = 1140.0
+offset_bottom = 649.0
+script = ExtResource("22_wjb0r")
+
+[node name="scroll" type="ScrollContainer" parent="Lobby/main/Panel/Menu/Settings/Controls" unique_id=1453538707]
+layout_mode = 0
+offset_right = 349.0
+offset_bottom = 506.0
+
+[node name="v contain" type="VBoxContainer" parent="Lobby/main/Panel/Menu/Settings/Controls/scroll" unique_id=140775240]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="slot" type="Panel" parent="Lobby/main/Panel/Menu/Settings/Controls" unique_id=958946303]
+visible = false
+custom_minimum_size = Vector2(349, 77)
+layout_mode = 0
+offset_right = 349.0
+offset_bottom = 77.0
+theme_override_styles/panel = ExtResource("16_udxuc")
+metadata/action = ""
+metadata/key = ""
+metadata/listening = false
+
+[node name="change" type="Button" parent="Lobby/main/Panel/Menu/Settings/Controls/slot" unique_id=1694199470]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 11.0
+offset_right = 71.0
+offset_bottom = 67.0
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_styles/normal = SubResource("StyleBoxFlat_k83mh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qktwf")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bh8nc")
+text = "Change"
+
+[node name="action" type="Label" parent="Lobby/main/Panel/Menu/Settings/Controls/slot" unique_id=864351514]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 7.0
+offset_right = 337.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 21
+text = "current action"
+horizontal_alignment = 1
+
+[node name="key" type="Label" parent="Lobby/main/Panel/Menu/Settings/Controls/slot" unique_id=484452690]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 37.0
+offset_right = 337.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 21
+text = "current key"
+horizontal_alignment = 1
+
 [node name="Friends" type="Button" parent="Lobby/main/Panel" unique_id=972970905]
 layout_mode = 0
 offset_left = 161.0
@@ -1983,22 +2096,56 @@ offset_right = 1125.0
 offset_bottom = 629.0
 theme_override_styles/panel = ExtResource("16_udxuc")
 
-[node name="container" type="VBoxContainer" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1455316753]
+[node name="back" type="Button" parent="Friend Handler/CanvasLayer/friend gui" unique_id=278499139]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 118.0
-offset_right = 405.0
-offset_bottom = 168.0
+offset_left = 11.0
+offset_top = 13.0
+offset_right = 126.0
+offset_bottom = 60.0
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("16_udxuc")
+text = "Back"
+
+[node name="friend reqs" type="Button" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1545437572]
+layout_mode = 0
+offset_left = 143.0
+offset_top = 13.0
+offset_right = 325.0
+offset_bottom = 60.0
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("16_udxuc")
+text = "View friend requests"
+
+[node name="loading" type="AnimatedSprite2D" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1554428244]
+visible = false
+position = Vector2(211, 304.99997)
+scale = Vector2(0.61, 0.61)
+sprite_frames = SubResource("SpriteFrames_olr1q")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Friend Handler/CanvasLayer/friend gui" unique_id=2006684574]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 67.0
+offset_right = 402.0
+offset_bottom = 608.0
+horizontal_scroll_mode = 0
+
+[node name="container" type="VBoxContainer" parent="Friend Handler/CanvasLayer/friend gui/ScrollContainer" unique_id=1455316753]
+layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="slot" type="Panel" parent="Friend Handler/CanvasLayer/friend gui" unique_id=883678173]
 visible = false
 custom_minimum_size = Vector2(385, 107)
 layout_mode = 0
-offset_left = 20.0
-offset_top = 21.0
-offset_right = 405.0
-offset_bottom = 128.0
+offset_left = 17.0
+offset_top = 67.0
+offset_right = 402.0
+offset_bottom = 174.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_o3ebs")
 
 [node name="title" type="Label" parent="Friend Handler/CanvasLayer/friend gui/slot" unique_id=406834075]
@@ -2047,36 +2194,6 @@ theme_override_styles/pressed = ExtResource("13_2o6r5")
 theme_override_styles/hover = ExtResource("13_2o6r5")
 text = "Remove Friend"
 
-[node name="back" type="Button" parent="Friend Handler/CanvasLayer/friend gui" unique_id=278499139]
-layout_mode = 0
-offset_left = 11.0
-offset_top = 13.0
-offset_right = 126.0
-offset_bottom = 60.0
-theme_override_styles/normal = ExtResource("16_udxuc")
-theme_override_styles/pressed = ExtResource("17_ikiii")
-theme_override_styles/hover = ExtResource("17_ikiii")
-theme_override_styles/disabled = ExtResource("16_udxuc")
-text = "Back"
-
-[node name="friend reqs" type="Button" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1545437572]
-layout_mode = 0
-offset_left = 143.0
-offset_top = 13.0
-offset_right = 325.0
-offset_bottom = 60.0
-theme_override_styles/normal = ExtResource("16_udxuc")
-theme_override_styles/pressed = ExtResource("17_ikiii")
-theme_override_styles/hover = ExtResource("17_ikiii")
-theme_override_styles/disabled = ExtResource("16_udxuc")
-text = "View friend requests"
-
-[node name="loading" type="AnimatedSprite2D" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1554428244]
-visible = false
-position = Vector2(211, 304.99997)
-scale = Vector2(0.61, 0.61)
-sprite_frames = SubResource("SpriteFrames_olr1q")
-
 [node name="request gui" type="Panel" parent="Friend Handler/CanvasLayer" unique_id=2074092708]
 visible = false
 offset_left = 700.0
@@ -2084,60 +2201,6 @@ offset_top = 17.0
 offset_right = 1125.0
 offset_bottom = 629.0
 theme_override_styles/panel = ExtResource("16_udxuc")
-
-[node name="container" type="VBoxContainer" parent="Friend Handler/CanvasLayer/request gui" unique_id=643297550]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 118.0
-offset_right = 405.0
-offset_bottom = 168.0
-theme_override_constants/separation = 8
-
-[node name="slot" type="Panel" parent="Friend Handler/CanvasLayer/request gui" unique_id=1169354761]
-visible = false
-custom_minimum_size = Vector2(385, 107)
-layout_mode = 0
-offset_left = 20.0
-offset_top = 21.0
-offset_right = 405.0
-offset_bottom = 128.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_o3ebs")
-
-[node name="title" type="Label" parent="Friend Handler/CanvasLayer/request gui/slot" unique_id=1795223924]
-layout_mode = 0
-offset_left = 14.0
-offset_top = 5.0
-offset_right = 369.0
-offset_bottom = 43.0
-theme_override_fonts/font = ExtResource("11_k3n1d")
-theme_override_font_sizes/font_size = 24
-text = "username"
-
-[node name="accept" type="Button" parent="Friend Handler/CanvasLayer/request gui/slot" unique_id=1791148466]
-layout_mode = 0
-offset_left = 14.0
-offset_top = 65.0
-offset_right = 148.0
-offset_bottom = 99.0
-theme_override_constants/outline_size = 5
-theme_override_fonts/font = ExtResource("11_k3n1d")
-theme_override_styles/normal = ExtResource("6_gbfbk")
-theme_override_styles/pressed = ExtResource("7_ioo17")
-theme_override_styles/hover = ExtResource("7_ioo17")
-text = "Accept"
-
-[node name="decline" type="Button" parent="Friend Handler/CanvasLayer/request gui/slot" unique_id=65230006]
-layout_mode = 0
-offset_left = 243.0
-offset_top = 65.0
-offset_right = 377.0
-offset_bottom = 99.0
-theme_override_constants/outline_size = 5
-theme_override_fonts/font = ExtResource("11_k3n1d")
-theme_override_styles/normal = ExtResource("13_2o6r5")
-theme_override_styles/pressed = ExtResource("13_2o6r5")
-theme_override_styles/hover = ExtResource("13_2o6r5")
-text = "Decline"
 
 [node name="request gui back" type="Button" parent="Friend Handler/CanvasLayer/request gui" unique_id=357986449]
 layout_mode = 0
@@ -2181,6 +2244,74 @@ visible = false
 position = Vector2(211, 304.99997)
 scale = Vector2(0.61, 0.61)
 sprite_frames = SubResource("SpriteFrames_olr1q")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Friend Handler/CanvasLayer/request gui" unique_id=1394484879]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 79.0
+offset_right = 403.0
+offset_bottom = 606.0
+horizontal_scroll_mode = 0
+
+[node name="container" type="VBoxContainer" parent="Friend Handler/CanvasLayer/request gui/ScrollContainer" unique_id=643297550]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="slot" type="Panel" parent="Friend Handler/CanvasLayer/request gui" unique_id=1169354761]
+visible = false
+custom_minimum_size = Vector2(385, 107)
+layout_mode = 0
+offset_left = 18.0
+offset_top = 79.0
+offset_right = 403.0
+offset_bottom = 186.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_o3ebs")
+
+[node name="title" type="Label" parent="Friend Handler/CanvasLayer/request gui/slot" unique_id=1795223924]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 5.0
+offset_right = 369.0
+offset_bottom = 43.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 24
+text = "username"
+
+[node name="desc" type="Label" parent="Friend Handler/CanvasLayer/request gui/slot" unique_id=1697436609]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 34.0
+offset_right = 369.0
+offset_bottom = 67.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 21
+text = "sent you a friend request!"
+
+[node name="accept" type="Button" parent="Friend Handler/CanvasLayer/request gui/slot" unique_id=1791148466]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 65.0
+offset_right = 148.0
+offset_bottom = 99.0
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_styles/normal = ExtResource("6_gbfbk")
+theme_override_styles/pressed = ExtResource("7_ioo17")
+theme_override_styles/hover = ExtResource("7_ioo17")
+text = "Accept"
+
+[node name="decline" type="Button" parent="Friend Handler/CanvasLayer/request gui/slot" unique_id=65230006]
+layout_mode = 0
+offset_left = 243.0
+offset_top = 65.0
+offset_right = 377.0
+offset_bottom = 99.0
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/pressed = ExtResource("13_2o6r5")
+theme_override_styles/hover = ExtResource("13_2o6r5")
+text = "Decline"
 
 [connection signal="pressed" from="CanvasLayer/Waiting/Panel/try again" to="." method="_on_try_again_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game/LoseScreen/lobby" to="." method="_on_lobby_pressed"]

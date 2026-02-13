@@ -5,8 +5,8 @@ extends Node
 @onready var request_gui = $"CanvasLayer/request gui"
 @onready var friend_slot = $"CanvasLayer/friend gui/slot"
 @onready var request_slot = $"CanvasLayer/request gui/slot"
-@onready var f_container = $"CanvasLayer/friend gui/container"
-@onready var r_container = $"CanvasLayer/request gui/container"
+@onready var f_container = $"CanvasLayer/friend gui/ScrollContainer"
+@onready var r_container = $"CanvasLayer/request gui/ScrollContainer"
 @onready var f_loading = $"CanvasLayer/friend gui/loading"
 @onready var r_loading = $"CanvasLayer/request gui/loading"
 # Buttons

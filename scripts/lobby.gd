@@ -42,9 +42,11 @@ func _on_play_pressed() -> void:
 
 func _on_menu_pressed() -> void:
 	menu.show()
+	$main/Panel/Friends.hide()
 
 func _on_back_pressed() -> void:
 	menu.hide()
+	$main/Panel/Friends.show()
 
 func _on_logout_pressed() -> void:
 	logout.text = "Logging Out..."

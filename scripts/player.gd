@@ -20,6 +20,8 @@ var fallback_damage = 20
 var fallback_cooldown = 0.0
 var fallback_ammo = 20
 
+var actions = {}
+
 func _ready() -> void:
 	GDSync.connect_gdsync_owner_changed(self, owner_changed)
 	GDSync.synced_event_triggered.connect(reset_map)
@@ -41,6 +43,36 @@ func owner_changed(_owner_id : int) -> void:
 	if is_owner:
 		get_node("CanvasLayer").get_node("player name").text = name
 		get_node("CanvasLayer").show()
+		
+		var res = await GDSync.account_get_document("controls")
+		var code = res["Code"]
+		
+		if code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS:
+			print("retrieved settings.")
+			actions = res["Result"]
+			
+			for action in res["Result"]:
+				var set_action = str(action)
+				if set_action == "forward":
+					set_action = "up"
+				elif set_action == "backward":
+					set_action = "down"
+				elif set_action == "reload":
+					set_action = "interact"
+					
+				var key = actions[action]["key"]
+				var keycode = OS.find_keycode_from_string(str(key))
+				
+				var new_event
+				if action == "mouse1" or action == "mouse2":
+					new_event = InputEventMouseButton.new()
+					new_event.button_index = str(action.replace("mouse", "")).to_int()
+				else:
+					new_event = InputEventKey.new()
+					new_event.keycode = keycode
+				
+				InputMap.action_erase_events(set_action)
+				InputMap.action_add_event(set_action, new_event)
 
 func _unhandled_input(event) -> void:
 	if not GDSync.is_gdsync_owner(self): return

@@ -10,6 +10,7 @@ func set_settings(data: Dictionary):
 		print("settings changed: ", data)
 	else:
 		print("settings did not change. Error: ", ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.keys()[res])
+	$"../Lobby/main/Panel/Menu/Settings".applied_aim = true
 
 func get_settings():
 	print("retriving settings...")

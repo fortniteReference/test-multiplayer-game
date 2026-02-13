@@ -168,6 +168,8 @@ func manage_game(command: String):
 		if command == "start game" or command == "reset map":
 			if command == "start game":
 				game.show()
+				$CanvasLayer/Game/Score/YourScore/score.text = "0/10"
+				$CanvasLayer/Game/Score/EnemyScore/score.text = "0/10"
 			barrier.show()
 			barrier.get_node("CollisionShape3D").disabled = false
 			barrier_panel.show()
@@ -217,11 +219,15 @@ func check_for_leave():
 	var score_text = $CanvasLayer/Game/Score/YourScore/score
 	score_text.text = "10/10"
 	
+	var player = get_node_or_null(str(GDSync.get_client_id()))
+	if player: player.set_input_mode(false)
+	
+	GDSync.lobby_leave()
 	$CanvasLayer/Game/WinScreen.position = Vector2.ZERO
-	$CanvasLayer/Game/WinScreen.show()
+	$CanvasLayer/Game/WinScreen.hide()
 	$CanvasLayer.show()
-	$CanvasLayer/Game.show()
-	$CanvasLayer/Game/BetweenRounds.hide()
+	$CanvasLayer/Game.hide()
+	$Lobby.show()
 
 func lobby_join_failed(lobby_name : String, _error):
 	lobby_status = "join failed"
