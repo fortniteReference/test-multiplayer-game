@@ -33,7 +33,7 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jm5j8"]
 transparency = 1
-albedo_color = Color(0.7647059, 0.88235295, 0.85882354, 0.2901961)
+albedo_color = Color(0.7647059, 0.88235295, 0.85882354, 0.11372549)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7ghd"]
 bg_color = Color(0, 0, 0, 0.43137255)
@@ -201,6 +201,8 @@ falloff_start = 40
 falloff_damage = 0.25
 falloff_minimum = 15
 target_multiplier = 1.3
+rotate_degrees = 10
+flash_muzzle = true
 metadata/on_cooldown = false
 metadata/already_equipped = false
 metadata/current_ammo = 0
@@ -213,6 +215,9 @@ stream = ExtResource("4_urp6f")
 
 [node name="reload" type="AudioStreamPlayer3D" parent="Camera3D/pistol" unique_id=1309184475]
 stream = ExtResource("5_bwjto")
+
+[node name="muzzle pos" type="Node3D" parent="Camera3D/pistol" unique_id=997661037]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62622774, -0.35416055)
 
 [node name="pump" parent="Camera3D" unique_id=1237360331 instance=ExtResource("6_606se")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.79452455, 0, 0.16597405)
@@ -234,6 +239,9 @@ reload_time = 0.5
 shotgun_reload = true
 falloff_start = 7
 target_multiplier = 1.5
+rotate_degrees = 8
+rotate_axis = "z"
+flash_muzzle = true
 metadata/already_equipped = false
 metadata/current_ammo = 0
 metadata/on_cooldown = false
@@ -244,6 +252,9 @@ metadata/new_pos = Vector3(0, -0.2, 0.16)
 [node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/pump" unique_id=1158726146]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.5193428, -0.60443425, 0.011557579)
 stream = ExtResource("7_u1c27")
+
+[node name="muzzle pos" type="Node3D" parent="Camera3D/pump" unique_id=2837891]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5725913, 0.049955904, -0.001656115)
 
 [node name="sniper" parent="Camera3D" unique_id=800456516 instance=ExtResource("8_bwjto")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.773, -0.114, -0.03)
@@ -264,6 +275,11 @@ weapon_range = 100
 bullet_time = 0.1
 reload_time = 3.5
 falloff_enabled = false
+rotate_degrees = -7
+reset_time = 0.6
+rotate_axis = "z"
+flash_muzzle = true
+muzzle_size = 0.1
 metadata/already_equipped = false
 metadata/on_cooldown = false
 metadata/current_ammo = 0
@@ -279,6 +295,9 @@ volume_db = 4.0
 [node name="scope image" type="Sprite3D" parent="Camera3D/sniper" unique_id=829165002]
 transform = Transform3D(-1.1421316e-09, 0, 1, 0, 0.028024726, 0, -0.026128925, 0, -4.371139e-08, -0.13830513, 0.27740654, 0)
 texture = ExtResource("10_u1c27")
+
+[node name="muzzle pos" type="Node3D" parent="Camera3D/sniper" unique_id=1679567153]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.708531, 0.089423746, -0.019868314)
 
 [node name="thundersmg" parent="Camera3D" unique_id=313711346 instance=ExtResource("11_op7ga")]
 transform = Transform3D(1.8173629, 0, 0, 0, 1.9402418, 0, 0, 0, 2.19392, 0.6146188, -0.59943146, 0)
@@ -302,6 +321,7 @@ target_multiplier = 1.2
 burst_enabled = true
 burst_amount = 3
 burst_cooldown = 0.06
+flash_muzzle = true
 metadata/already_equipped = false
 metadata/on_cooldown = false
 metadata/current_ammo = 0
@@ -312,6 +332,9 @@ metadata/new_pos = Vector3(0, -0.52, 0)
 [node name="scope" type="Sprite3D" parent="Camera3D/thundersmg" unique_id=210197828]
 transform = Transform3D(-0.0028285002, 0, 0, 0, 0.002574099, 0, 0, 0, 0.9999995, -4.9948692e-05, 0.26766744, -0.05973603)
 texture = ExtResource("12_q13i1")
+
+[node name="muzzle pos" type="Node3D" parent="Camera3D/thundersmg" unique_id=398982261]
+transform = Transform3D(-2.4052097e-08, 0, 0.55024785, 0, 0.5153989, 0, -0.45580477, 0, -1.9923872e-08, 0.0009788573, 0.19524534, -0.49516878)
 
 [node name="frenzyshotty" parent="Camera3D" unique_id=1929048286 instance=ExtResource("13_5tmop")]
 transform = Transform3D(1.4469951, 0, 0, 0, 1.5229673, 0, 0, 0, 1.7976495, 0.6135511, -0.6728506, 0.13923335)
@@ -335,6 +358,7 @@ reload_time = 3.5
 falloff_start = 8
 falloff_damage = 1.3
 target_multiplier = 1.3
+flash_muzzle = true
 metadata/already_equipped = false
 metadata/on_cooldown = false
 metadata/current_ammo = 0
@@ -345,6 +369,9 @@ metadata/new_pos = Vector3(0, -0.6, 0.13)
 [node name="scope" type="Sprite3D" parent="Camera3D/frenzyshotty" unique_id=1674581789]
 transform = Transform3D(0.0047119698, 0, 0, 0, 0.0051437044, 0, 0, 0, 0.99999934, 0, 0.39639616, -0.16859919)
 texture = ExtResource("14_dx0e4")
+
+[node name="muzzle pos" type="Node3D" parent="Camera3D/frenzyshotty" unique_id=1048215132]
+transform = Transform3D(-3.0208387e-08, 0, 0.6910873, 0, 0.6566119, 0, -0.55628145, 0, -2.431585e-08, 0.001967281, 0.29694813, -0.68177575)
 
 [node name="strikerar" parent="Camera3D" unique_id=1138430608 instance=ExtResource("14_7ahtn")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0.6060259, -0.24295747, 0.05627489)
@@ -367,11 +394,14 @@ falloff_start = 45
 falloff_damage = 0.33
 falloff_minimum = 14
 target_multiplier = 1.25
+rotate_degrees = 2
+reset_time = 0.1
+flash_muzzle = true
 metadata/already_equipped = false
 metadata/on_cooldown = false
 metadata/current_ammo = 0
 metadata/current_spread = 0.0
-metadata/new_pos = Vector3(0, -0.1, 0.05)
+metadata/new_pos = Vector3(0, -0.165, 0.05)
 metadata/og_pos = Vector3(0.606, -0.2, 0.05)
 
 [node name="scope image" type="Sprite3D" parent="Camera3D/strikerar" unique_id=829425633]
@@ -382,6 +412,21 @@ texture = ExtResource("15_7lmhl")
 transform = Transform3D(-0.035239533, 0, 0, 0, 1.2123612e-11, 0.035978116, 0, -0.00027735587, 1.5726531e-09, 0, 0.12022379, -0.16963124)
 mesh = SubResource("CylinderMesh_dx0e4")
 surface_material_override/0 = SubResource("StandardMaterial3D_jm5j8")
+
+[node name="muzzle pos" type="Node3D" parent="Camera3D/strikerar" unique_id=936684853]
+transform = Transform3D(-3.122242e-08, 0, 0.71428573, 0, 0.71428466, 0, -0.7142851, 0, -3.1222413e-08, 0.00740847, -0.0053283125, -1.0156919)
+
+[node name="RayCast flash" type="Sprite3D" parent="Camera3D" unique_id=624636210]
+transform = Transform3D(9.553427e-17, 2.1855695e-09, -0.05, 0.05, -2.1855695e-09, 0, -2.1855695e-09, -0.05, -2.1855695e-09, 0.8004612, 0, -0.71807563)
+visible = false
+modulate = Color(0.9140625, 0.7868893, 0.5677185, 1)
+billboard = 1
+
+[node name="RayCast light" type="OmniLight3D" parent="Camera3D" unique_id=1539281132]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0782597, 0, 0)
+visible = false
+light_color = Color(0.9137255, 0.7882353, 0.5686275, 1)
+light_size = 1.0
 
 [node name="sync1" type="Node" parent="." unique_id=1829653401]
 script = ExtResource("2_onrkg")

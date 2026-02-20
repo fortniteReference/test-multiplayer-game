@@ -1,13 +1,16 @@
 extends Node3D
 # Essentials
+@export_group("Essentials")
 @export var image: String # Image displayed on the hotbar. res:// path required
 @export var item_name: String
 @export var hitscan: bool # whether the weapon is hitscan (uses raycast), or not.
 @export var shotgun: bool # enables pellets and special reticle
 # Aiming in
+@export_group("Aiming In")
 @export var fov: int = 75 # FOV for aiming in. Less = more zoomed in, and vice versa
 @export var custom_reticle: bool # disables the reticle when aiming in if enabled
 # Weapon Configuring
+@export_group("Weapon Configuring")
 @export var ammo: int # ammo given before having to reload
 @export var damage: int # damage dealt to the player
 @export var headshot_multiplier: float = 1.0 # Multiplier when the player hits a headshot
@@ -20,12 +23,23 @@ extends Node3D
 @export var reload_time: float # time (secs) for it to reload
 @export var shotgun_reload: bool # Determines if the weapon reloads one-at-a-time
 # Falloff damage Configuring
+@export_group("Falloff Damage")
 @export var falloff_enabled: bool = true # deteremines if damage falloff is allowed.
 @export var falloff_start: int # distance where damage will start to fall off
 @export var falloff_damage: float = 1 # the amount of damage that falls off per meter
 @export var falloff_minimum: int = 1 # the least damage it can do after the max falloff distance is reached
 @export var target_multiplier: float = 1.0 # multiplier of the falloff start distance when aiming in
 # Burst Configuring
+@export_group("Burst Settings")
 @export var burst_enabled: bool # determines whether burst fire is enabled
 @export var burst_amount: int # amount of shots per burst. only works if burst_enabled is true
 @export var burst_cooldown: float # cooldown between bullets. only works if burst_enabled is true
+# Animation of weapon
+@export_group("Animation Settings")
+@export var play_animation: bool = true
+@export var rotate_degrees: int = 5
+@export var reset_time: float = 0.3
+@export var rotate_axis: String = "x"
+@export var flash_muzzle: bool
+@export var muzzle_size: float = 0.05
+@export var muzzle_image: String = "res://addons/kenney_particle_pack/muzzle_02.png"

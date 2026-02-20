@@ -48,7 +48,8 @@ func owner_changed(_owner_id : int) -> void:
 		var code = res["Code"]
 		
 		if code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS:
-			print("retrieved settings.")
+			print("retrieved settings for: ", GDSync.player_get_username())
+			print("settings: ", res["Result"])
 			actions = res["Result"]
 			
 			for action in res["Result"]:
@@ -64,15 +65,16 @@ func owner_changed(_owner_id : int) -> void:
 				var keycode = OS.find_keycode_from_string(str(key))
 				
 				var new_event
-				if action == "mouse1" or action == "mouse2":
+				if str(key).contains("mouse"):
 					new_event = InputEventMouseButton.new()
-					new_event.button_index = str(action.replace("mouse", "")).to_int()
+					new_event.button_index = str(str(key).replace("mouse", "")).to_int()
 				else:
 					new_event = InputEventKey.new()
 					new_event.keycode = keycode
 				
 				InputMap.action_erase_events(set_action)
 				InputMap.action_add_event(set_action, new_event)
+				# print("set action: ", set_action, ", to event: ", new_event)
 
 func _unhandled_input(event) -> void:
 	if not GDSync.is_gdsync_owner(self): return
@@ -400,6 +402,24 @@ func reload(item: Node3D):
 		gui.get_node("reloading").hide()
 		gui.get_node("ammo").show()
 		gui.get_node("ammo").text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
+
+func play_animation(item: Node3D, degrees: int, reset_time: float, axis = "x"):
+	# item determines the item being animated
+	# degrees is the degrees of rotation
+	# axis default is x, but some items have different rotation axes set.
+	var setting: String = "rotation_degrees:" + str(axis)
+	var tween: Tween
+	
+	@warning_ignore("unassigned_variable")
+	if tween and tween.is_valid():
+		@warning_ignore("unassigned_variable")
+		tween.kill()
+	tween = item.create_tween()
+	
+	tween.tween_property(item, setting, degrees, 0.05)
+	await get_tree().create_timer(0.05,false,false,true).timeout
+	tween = item.create_tween()
+	tween.tween_property(item, setting, 0, reset_time)
 	
 func play_effects(player_name, message):
 	if message[0] is Array: return
@@ -411,19 +431,36 @@ func play_effects(player_name, message):
 		return
 	if item.has_node("shoot"):
 		item.get_node("shoot").play()
+	# -------------------------
+	if item.play_animation:
+		play_animation(item, item.rotate_degrees, item.reset_time, str(item.rotate_axis))
 		
-	# var flash = item.get_node("MuzzleFlash")
-	"""
-	anim_player.stop()
-	anim_player.play(str(get_meta("current_item")) + "_shoot")
-	"""
-	# flash.restart()
-	# flash.emitting = true
-	# stop_effects(flash)
-	
-func stop_effects(flash):
-	await get_tree().create_timer(0.3,false,false,true).timeout
-	flash.emitting = false
+		var og_flash: Sprite3D = camera.get_node("RayCast flash")
+		var og_light: OmniLight3D = camera.get_node("RayCast light")
+		var muzzle: Node3D = item.get_node_or_null("muzzle pos")
+		if item.flash_muzzle and muzzle:
+			og_flash.texture = load(str(item.muzzle_image))
+			# ----------------------------
+			var old_flash: Sprite3D = item.get_node_or_null("cloned flash")
+			if old_flash: old_flash.queue_free()
+			var old_light: OmniLight3D = item.get_node_or_null("cloned light")
+			if old_light: old_light.queue_free()
+			# ----------------------------
+			var flash: Sprite3D = og_flash.duplicate()
+			var light: OmniLight3D = og_light.duplicate()
+			item.add_child(flash)
+			item.add_child(light)
+			flash.name = "cloned flash"
+			light.name = "cloned light"
+			flash.show()
+			light.show()
+			light.position = muzzle.position + Vector3(0,0,-0.3)
+			flash.position = muzzle.position
+			flash.scale = Vector3(item.muzzle_size,item.muzzle_size,item.muzzle_size)
+			# ----------------------------
+			await get_tree().create_timer(0.15,false,false,true).timeout
+			if light != null: light.queue_free()
+			if flash != null: flash.queue_free()
 
 func receive_damage(player_name, name_item):
 	if player_name == "reset map" or str(name_item[0]).contains("equip"): return

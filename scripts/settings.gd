@@ -27,6 +27,13 @@ func _on_settings_pressed() -> void:
 	elif code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.DOESNT_EXIST:
 		aimsens.value = 10
 		hipsens.value = 50
+		loading.hide()
+		
+		var settings = {
+			"aim_sens": (0.0001 * aimsens.value),
+			"hip_sens": (0.0001 * hipsens.value)
+		}
+		data_handler.set_settings(settings)
 	else:
 		loading.hide()
 		hide()

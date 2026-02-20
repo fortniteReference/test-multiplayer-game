@@ -74,16 +74,30 @@ func connected() -> void:
 	else:
 		$"Account Handler/CanvasLayer/Login".show()
 		waiting.hide()
-	
-func look_for_lobbies():
+
+var current_tag: String = ""
+var current_limit: int = 0
+func look_for_lobbies(tag, limit):
+	current_tag = tag
+	current_limit = limit
 	GDSync.get_public_lobbies()
 	
 func lobbies_received(lobbies: Array):
-	print(lobbies)
 	for lobby in lobbies:
 		print(lobby)
 		lobby_status = ""
-		GDSync.lobby_join(str(lobby.get("Name", null)))
+		var lobby_name = str(lobby.get("Name", null))
+		if lobby_name == null: continue
+		# ----------------------------
+		var start_pos = lobby_name.find("tag:") + 4
+		var end_pos = lobby_name.find(", id:", start_pos) # Find end_key after start_pos
+		var length = end_pos - start_pos
+		var tag = lobby_name.substr(start_pos, length)
+		print(tag)
+		
+		if tag != current_tag: continue
+		# ----------------------------
+		GDSync.lobby_join(lobby_name)
 		while lobby_status == "":
 			await get_tree().create_timer(0.01).timeout
 		if lobby_status == "joined":
@@ -91,7 +105,7 @@ func lobbies_received(lobbies: Array):
 		else:
 			continue
 	if lobby_status == "join failed" or lobbies.size() == 0:
-		GDSync.lobby_create("lobby" + str(randi_range(100000,999999)))
+		GDSync.lobby_create("lobby, tag:" + current_tag + ", id:" + str(randi_range(100000,999999)), "", true, current_limit)
 	$"Data Handler".get_settings()
 	$Lobby.found_lobby = true
 
@@ -122,6 +136,7 @@ func lobby_joined(lobby_name : String) -> void:
 	get_tree().create_tween().tween_property(waiting, "position:y", 1500, 2.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	looking.show()
 	
+	current_limit = GDSync.lobby_get_player_limit()
 	look_for_players()
 	await get_tree().create_timer(2.1,false,false,true).timeout
 	waiting.hide()
@@ -131,11 +146,11 @@ func lobby_joined(lobby_name : String) -> void:
 
 func look_for_players():
 	var count = 0
-	while count != 2:
+	while count != current_limit:
 		for child in get_children():
 			if child is CharacterBody3D:
 				count += 1
-		if count == 2:
+		if count == current_limit:
 			break
 		else:
 			count = 0

@@ -110,16 +110,22 @@ func get_friend_requests():
 			var decline_button: Button = slot.get_node("accept")
 			var accept = func():
 				accept_button.disabled = true
+				slot.get_node("desc").text = "Accepting..."
 				var res = await GDSync.account_accept_friend_request(str(user))
 				
 				if res == ENUMS.ACCOUNT_ACCEPT_FRIEND_REQUEST_RESPONSE_CODE.SUCCESS:
 					if slot != null:
+						slot.get_node("desc").text = "Accepted!"
+						await get_tree().create_timer(2,false,false,true).timeout
 						slot.queue_free()
-					print("accepted friend: ", user)
 				else:
-					print("did not accept friend. error: ", ENUMS.ACCOUNT_ACCEPT_FRIEND_REQUEST_RESPONSE_CODE.keys()[res])
+					if slot != null:
+						slot.get_node("desc").text = "Error Accepting: " + str(ENUMS.ACCOUNT_ACCEPT_FRIEND_REQUEST_RESPONSE_CODE.keys()[res])
+						await get_tree().create_timer(2,false,false,true).timeout
+						slot.get_node("desc").text = "sent you a friend request!"
 				if slot != null: accept_button.disabled = false
 			var decline = func():
+				slot.get_node("desc").text = "Declining..."
 				var res = await GDSync.account_remove_friend(str(user))
 				
 				if res == ENUMS.ACCOUNT_REMOVE_FRIEND_RESPONSE_CODE.SUCCESS:
