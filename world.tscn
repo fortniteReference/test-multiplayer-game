@@ -521,6 +521,26 @@ offset_bottom = 356.0
 theme_override_font_sizes/font_size = 50
 text = "Looking for an opponent... (1/2)"
 
+[node name="id" type="Label" parent="CanvasLayer/Looking for player/Panel" unique_id=2077491986]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 10.0
+offset_right = 916.0
+offset_bottom = 79.0
+theme_override_font_sizes/font_size = 50
+text = "Lobby ID: 000000"
+horizontal_alignment = 1
+
+[node name="tag" type="Label" parent="CanvasLayer/Looking for player/Panel" unique_id=7620568]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 74.0
+offset_right = 916.0
+offset_bottom = 143.0
+theme_override_font_sizes/font_size = 50
+text = "Lobby Type: null"
+horizontal_alignment = 1
+
 [node name="Voting" type="Control" parent="CanvasLayer" unique_id=1684295938]
 visible = false
 layout_mode = 3
@@ -1741,7 +1761,6 @@ script = ExtResource("19_cbp6q")
 
 [node name="Lobby" type="CanvasLayer" parent="." unique_id=1927570283]
 layer = 4
-visible = false
 script = ExtResource("20_26xuy")
 
 [node name="main" type="Control" parent="Lobby" unique_id=381401308]
@@ -2101,7 +2120,6 @@ theme_override_styles/hover = ExtResource("17_ikiii")
 text = "Friends"
 
 [node name="Mode Selection" type="Panel" parent="Lobby/main/Panel" unique_id=1102764817]
-visible = false
 layout_mode = 0
 offset_left = -575.0
 offset_right = -23.0
@@ -2213,6 +2231,94 @@ text = "Sorry, we're closed!
 This mode is under development."
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="last slot" type="Panel" parent="Lobby/main/Panel/Mode Selection" unique_id=135438916]
+visible = false
+custom_minimum_size = Vector2(500, 118)
+layout_mode = 0
+offset_left = 15.0
+offset_top = -243.0
+offset_right = 515.0
+offset_bottom = -125.0
+theme_override_styles/panel = ExtResource("13_2o6r5")
+
+[node name="join" type="Button" parent="Lobby/main/Panel/Mode Selection/last slot" unique_id=1187908862]
+layout_mode = 0
+offset_left = 343.0
+offset_top = 66.0
+offset_right = 491.0
+offset_bottom = 107.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.6627451)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.6627451)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.6627451)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.6627451)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.6627451)
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = ExtResource("6_gbfbk")
+theme_override_styles/pressed = ExtResource("7_ioo17")
+theme_override_styles/hover = ExtResource("7_ioo17")
+text = "Find Lobby"
+
+[node name="select tag" type="Button" parent="Lobby/main/Panel/Mode Selection/last slot" unique_id=189833434]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 66.0
+offset_right = 171.0
+offset_bottom = 107.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.6627451)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.6627451)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.6627451)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.6627451)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.6627451)
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = ExtResource("6_gbfbk")
+theme_override_styles/pressed = ExtResource("7_ioo17")
+theme_override_styles/hover = ExtResource("7_ioo17")
+text = "Choose Mode..."
+
+[node name="not enabled" type="Label" parent="Lobby/main/Panel/Mode Selection/last slot" unique_id=898359314]
+visible = false
+layout_mode = 0
+offset_left = 6.0
+offset_top = 38.0
+offset_right = 173.0
+offset_bottom = 108.0
+theme_override_constants/line_spacing = -4
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 16
+text = "Sorry, we're closed! 
+This mode is under development."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="manual mode" type="Panel" parent="Lobby/main/Panel/Mode Selection/last slot" unique_id=1951679555]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 127.0
+offset_right = 174.0
+offset_bottom = 236.0
+
+[node name="scroll" type="ScrollContainer" parent="Lobby/main/Panel/Mode Selection/last slot/manual mode" unique_id=1470203975]
+layout_mode = 0
+offset_right = 168.0
+offset_bottom = 108.0
+horizontal_scroll_mode = 0
+
+[node name="vbox" type="VBoxContainer" parent="Lobby/main/Panel/Mode Selection/last slot/manual mode/scroll" unique_id=1964876862]
+layout_mode = 2
+
+[node name="mode" type="Button" parent="Lobby/main/Panel/Mode Selection/last slot/manual mode" unique_id=1714362389]
+visible = false
+custom_minimum_size = Vector2(160, 44)
+layout_mode = 0
+offset_left = 4.0
+offset_top = 7.0
+offset_right = 164.0
+offset_bottom = 51.0
+text = "null"
+metadata/mode = ""
 
 [node name="Modes" type="Node" parent="Lobby/main/Panel/Mode Selection" unique_id=1156452614]
 

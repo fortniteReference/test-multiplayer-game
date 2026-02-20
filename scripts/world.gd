@@ -9,6 +9,7 @@ extends Node
 # Called when the node enters the scene tree for the first time.
 
 var lobby_status = ""
+var manual_status = ""
 var score_debounce = false
 
 var cooldown = 3
@@ -77,12 +78,15 @@ func connected() -> void:
 
 var current_tag: String = ""
 var current_limit: int = 0
-func look_for_lobbies(tag, limit):
+var current_id: int = 0
+func look_for_lobbies(tag, limit, id = 0):
 	current_tag = tag
 	current_limit = limit
+	current_id = id
 	GDSync.get_public_lobbies()
 	
 func lobbies_received(lobbies: Array):
+	var manual_mode = false
 	for lobby in lobbies:
 		print(lobby)
 		lobby_status = ""
@@ -95,7 +99,17 @@ func lobbies_received(lobbies: Array):
 		var tag = lobby_name.substr(start_pos, length)
 		print(tag)
 		
-		if tag != current_tag: continue
+		if current_id >= 100000:
+			if not manual_mode: manual_mode = true
+			if lobby_name.contains(str(current_id)):
+				GDSync.lobby_join(lobby_name)
+				manual_status = "trying"
+				while manual_status == "trying":
+					await get_tree().create_timer(0.01).timeout
+				break
+		if tag != current_tag:
+			lobby_status = "join failed"
+			continue
 		# ----------------------------
 		GDSync.lobby_join(lobby_name)
 		while lobby_status == "":
@@ -106,6 +120,7 @@ func lobbies_received(lobbies: Array):
 			continue
 	if lobby_status == "join failed" or lobbies.size() == 0:
 		GDSync.lobby_create("lobby, tag:" + current_tag + ", id:" + str(randi_range(100000,999999)), "", true, current_limit)
+		print("created lobby")
 	$"Data Handler".get_settings()
 	$Lobby.found_lobby = true
 
@@ -146,6 +161,13 @@ func lobby_joined(lobby_name : String) -> void:
 
 func look_for_players():
 	var count = 0
+	# ---------------------------
+	var lobby_name = GDSync.lobby_get_name()
+	var start_pos = lobby_name.find(", id: ") + 6
+	var id = lobby_name.substr(start_pos, 6)
+	# ---------------------------
+	looking.get_node("Panel/id").text = "Lobby ID: " + id
+	looking.get_node("Panel/tag").text = "Lobby Type: " + current_tag
 	while count != current_limit:
 		for child in get_children():
 			if child is CharacterBody3D:
@@ -158,8 +180,7 @@ func look_for_players():
 	looking.get_node("Panel/Label").text = "Found Player! Loading..."
 	await get_tree().create_timer(2).timeout
 	looking.get_node("Panel/Label").text = "Waiting for launcher to verify..."
-	
-	# change the randi_range amount here to change available options
+
 	if GDSync.is_host():
 		voting.start_voting_call()
 	voting.wait_add_items()

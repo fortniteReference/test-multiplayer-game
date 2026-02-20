@@ -46,3 +46,33 @@ func create_slots():
 		
 		select.pressed.connect(select_pressed)
 		desc.resized.connect(desc_size_changed)
+	# -----------------------
+	# Manual
+	# -----------------------
+	var last_slot = $"last slot".duplicate()
+	container.add_child(last_slot)
+	last_slot.show()
+	
+	var l_select: Button = last_slot.get_node("select tag")
+	var find: Button = last_slot.get_node("join")
+	var display: Panel = last_slot.get_node("manual mode")
+	var vbox: VBoxContainer = display.get_node("scroll/vbox")
+	var dis_button: Button = display.get_node("mode")
+	
+	var pressed_tag = func():
+		for button in vbox.get_children():
+			button.queue_free()
+		display.show()
+		for mode in modes.get_children():
+			var button: Button = dis_button.duplicate()
+			vbox.add_child(button)
+			button.show()
+			button.text = mode.get_meta("tag")
+			
+			var button_pressed = func():
+				l_select.text = str(button.text)
+				for child in vbox.get_children():
+					child.queue_free()
+				display.hide()
+			button.pressed.connect(button_pressed)
+	l_select.pressed.connect(pressed_tag)
