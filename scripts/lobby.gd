@@ -22,14 +22,18 @@ func _on_play_pressed() -> void:
 	$main/Panel/Friends.hide()
 	
 func _on_exit_pressed() -> void:
+	exit_selection()
+
+func exit_selection(enable_play = true):
 	get_tree().create_tween().tween_property($"main/Panel/Mode Selection", "position:x", -575, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	$main/Panel/MenuButton/Menu.show()
-	$main/Panel/Friends.show()
 	await get_tree().create_timer(0.75,false,false,true).timeout
-	play.disabled = false
+	if enable_play:
+		$main/Panel/MenuButton/Menu.show()
+		$main/Panel/Friends.show()
+		play.disabled = false
 	
-func find_lobby(tag: String, limit: int):
-	world.look_for_lobbies(tag, limit)
+func find_lobby(tag: String, limit: int, id = 0):
+	world.look_for_lobbies(tag, limit, id)
 	
 	play_label.show()
 	play_label.text = "Finding a " + tag + " Lobby...\nTime Elapsed: 0:00"

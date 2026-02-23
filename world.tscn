@@ -1761,6 +1761,7 @@ script = ExtResource("19_cbp6q")
 
 [node name="Lobby" type="CanvasLayer" parent="." unique_id=1927570283]
 layer = 4
+visible = false
 script = ExtResource("20_26xuy")
 
 [node name="main" type="Control" parent="Lobby" unique_id=381401308]
@@ -2277,28 +2278,29 @@ theme_override_styles/normal = ExtResource("6_gbfbk")
 theme_override_styles/pressed = ExtResource("7_ioo17")
 theme_override_styles/hover = ExtResource("7_ioo17")
 text = "Choose Mode..."
+metadata/limit = 0
 
-[node name="not enabled" type="Label" parent="Lobby/main/Panel/Mode Selection/last slot" unique_id=898359314]
-visible = false
+[node name="title" type="Label" parent="Lobby/main/Panel/Mode Selection/last slot" unique_id=898359314]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 38.0
-offset_right = 173.0
-offset_bottom = 108.0
+offset_left = 12.0
+offset_top = 11.0
+offset_right = 276.0
+offset_bottom = 59.0
 theme_override_constants/line_spacing = -4
 theme_override_fonts/font = ExtResource("11_k3n1d")
 theme_override_font_sizes/font_size = 16
-text = "Sorry, we're closed! 
-This mode is under development."
+text = "Manual Join: Enter in an ID and mode to join a specific lobby."
 horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="manual mode" type="Panel" parent="Lobby/main/Panel/Mode Selection/last slot" unique_id=1951679555]
+visible = false
 layout_mode = 0
 offset_left = 5.0
 offset_top = 127.0
 offset_right = 174.0
 offset_bottom = 236.0
+theme_override_styles/panel = ExtResource("16_udxuc")
 
 [node name="scroll" type="ScrollContainer" parent="Lobby/main/Panel/Mode Selection/last slot/manual mode" unique_id=1470203975]
 layout_mode = 0
@@ -2317,8 +2319,26 @@ offset_left = 4.0
 offset_top = 7.0
 offset_right = 164.0
 offset_bottom = 51.0
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
 text = "null"
-metadata/mode = ""
+metadata/limit = 0
+
+[node name="id" type="LineEdit" parent="Lobby/main/Panel/Mode Selection/last slot" unique_id=602563837]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 14.0
+offset_right = 486.5
+offset_bottom = 60.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/read_only = ExtResource("16_udxuc")
+theme_override_styles/focus = ExtResource("16_udxuc")
+placeholder_text = "Enter Lobby ID..."
+alignment = 1
+max_length = 6
 
 [node name="Modes" type="Node" parent="Lobby/main/Panel/Mode Selection" unique_id=1156452614]
 

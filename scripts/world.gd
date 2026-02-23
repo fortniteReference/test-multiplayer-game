@@ -142,11 +142,8 @@ func lobby_creation_failed(lobby_name : String, error : int) -> void:
 		task.text = "lobby creation failed. (err lobby exists)"
 		GDSync.lobby_join(lobby_name)
 
-func lobby_joined(lobby_name : String) -> void:
+func lobby_joined(_lobby_name : String) -> void:
 	lobby_status = "joined"
-	task.text = "joining lobby " + lobby_name + "..."
-	await get_tree().create_timer(1).timeout
-	task.text = "ready to play!"
 	await get_tree().create_timer(0.5).timeout
 	get_tree().create_tween().tween_property(waiting, "position:y", 1500, 2.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	looking.show()
@@ -163,7 +160,7 @@ func look_for_players():
 	var count = 0
 	# ---------------------------
 	var lobby_name = GDSync.lobby_get_name()
-	var start_pos = lobby_name.find(", id: ") + 6
+	var start_pos = lobby_name.find(", id:") + 5
 	var id = lobby_name.substr(start_pos, 6)
 	# ---------------------------
 	looking.get_node("Panel/id").text = "Lobby ID: " + id

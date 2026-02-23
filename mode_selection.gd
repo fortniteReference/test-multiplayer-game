@@ -3,6 +3,7 @@ extends Panel
 @onready var modes = $Modes
 @onready var og_slot = $slot
 @onready var container = $container/vbox
+@onready var world = $"../../.."
 
 func create_slots():
 	for slot in container.get_children():
@@ -55,6 +56,7 @@ func create_slots():
 	
 	var l_select: Button = last_slot.get_node("select tag")
 	var find: Button = last_slot.get_node("join")
+	var id: LineEdit = last_slot.get_node("id")
 	var display: Panel = last_slot.get_node("manual mode")
 	var vbox: VBoxContainer = display.get_node("scroll/vbox")
 	var dis_button: Button = display.get_node("mode")
@@ -74,5 +76,11 @@ func create_slots():
 				for child in vbox.get_children():
 					child.queue_free()
 				display.hide()
+				l_select.set_meta("limit", mode.get_meta("player_limit"))
 			button.pressed.connect(button_pressed)
+	var pressed_find = func():
+		world.find_lobby(str(l_select.text), l_select.get_meta("limit"), str(id.text).to_int())
+		world.exit_selection(false)
+		
 	l_select.pressed.connect(pressed_tag)
+	find.pressed.connect(pressed_find)
