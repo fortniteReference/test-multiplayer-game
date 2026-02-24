@@ -101,23 +101,24 @@ func lobbies_received(lobbies: Array):
 		
 		if current_id >= 100000:
 			if not manual_mode: manual_mode = true
-			if lobby_name.contains(str(current_id)):
+			if lobby_name.contains(str(current_id)) and tag == current_tag:
 				GDSync.lobby_join(lobby_name)
 				manual_status = "trying"
 				while manual_status == "trying":
 					await get_tree().create_timer(0.01).timeout
 				break
-		if tag != current_tag:
-			lobby_status = "join failed"
-			continue
-		# ----------------------------
-		GDSync.lobby_join(lobby_name)
-		while lobby_status == "":
-			await get_tree().create_timer(0.01).timeout
-		if lobby_status == "joined":
-			break
 		else:
-			continue
+			if tag != current_tag:
+				lobby_status = "join failed"
+				continue
+			# ----------------------------
+			GDSync.lobby_join(lobby_name)
+			while lobby_status == "":
+				await get_tree().create_timer(0.01).timeout
+			if lobby_status == "joined":
+				break
+			else:
+				continue
 	if lobby_status == "join failed" or lobbies.size() == 0:
 		GDSync.lobby_create("lobby, tag:" + current_tag + ", id:" + str(randi_range(100000,999999)), "", true, current_limit)
 		print("created lobby")
@@ -143,6 +144,7 @@ func lobby_creation_failed(lobby_name : String, error : int) -> void:
 		GDSync.lobby_join(lobby_name)
 
 func lobby_joined(_lobby_name : String) -> void:
+	$Lobby.found_lobby = true
 	lobby_status = "joined"
 	await get_tree().create_timer(0.5).timeout
 	get_tree().create_tween().tween_property(waiting, "position:y", 1500, 2.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
@@ -155,7 +157,7 @@ func lobby_joined(_lobby_name : String) -> void:
 	$Lobby.hide()
 	if $"Friend Handler/CanvasLayer".visible:
 		$"Friend Handler/CanvasLayer".hide()
-
+		
 func look_for_players():
 	var count = 0
 	# ---------------------------

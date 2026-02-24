@@ -7,11 +7,6 @@ func _ready() -> void:
 	GDSync.client_left.connect(client_left)
 
 func client_joined(client_id : int) -> void:
-	# print("Client joined ", client_id)
-
-	# if client_id == GDSync.get_client_id():
-		# print("Own id ", client_id)
-
 	var player = player_scene.instantiate()
 	$"..".add_child(player)
 	player.name = str(client_id)

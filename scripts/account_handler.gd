@@ -152,6 +152,8 @@ func _on_login_pressed() -> void:
 		elif code == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
 			print("account logged in")
 			
+			$"../Shop Handler".current_email = str(email.text)
+			$"../Shop Handler".current_pass = str(password.text)
 			waiting.position.y = -700
 			waiting.show()
 			get_tree().create_tween().tween_property(login, "position:y", 700, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)

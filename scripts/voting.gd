@@ -158,9 +158,9 @@ func end_voting():
 	main.get_node("VotingTime").text = "Calculating all Votes..."
 	await get_tree().create_timer(5,false,false,true).timeout
 	var best_vote = 0
-	var best_option = "none"
+	var best_option = 0
 	var ties = []
-	var final_choice = ""
+	var final_choice = 0
 	# ------------------------
 	var panel1_amount = 0
 	var panel2_amount = 0
@@ -181,24 +181,24 @@ func end_voting():
 		
 		if num_of_votes > best_vote:
 			best_vote = num_of_votes
-			best_option = str(options.keys()[panel.get_meta("key")])
+			best_option = str(options.values()[panel.get_meta("key")])
 		elif num_of_votes == best_vote and best_vote > 0:
-			var extra_option = str(options.keys()[panel.get_meta("key")])
+			var extra_option = str(options.values()[panel.get_meta("key")])
 			if not ties.has(best_option):
 				ties.append(best_option)
 			if not ties.has(extra_option):
 				ties.append(extra_option)
 		elif panel1_amount == 0 and panel2_amount == 0 and panel3_amount == 0:
-			var extra_option = str(options.keys()[panel.get_meta("key")])
+			var extra_option = str(options.values()[panel.get_meta("key")])
 			ties.append(extra_option)
 			
 	if ties.size() > 1:
 		var index = randi_range(0,ties.size()-1)
-		final_choice = str(ties[index])
+		final_choice = ties[index]
 	else:
 		final_choice = best_option
 		
-	var option = options[final_choice]
+	var option = options.values()[final_choice]
 	var items = option.get("Items", null)
 	
 	if items[0] == "custom":
