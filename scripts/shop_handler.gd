@@ -78,8 +78,12 @@ func create_slots(shop_items: Array):
 		var slot: Panel = og_slot.duplicate()
 		container.add_child(slot)
 		slot.show()
-		slot.get_theme_stylebox("panel").bg_color = item.get_meta("slot_color")
-		slot.get_theme_stylebox("panel").border_color = item.get_meta("slot_color").darkened(0.2)
+		
+		var flat: StyleBoxFlat = slot.get_theme_stylebox("panel").duplicate()
+		
+		flat.bg_color = item.get_meta("slot_color")
+		flat.border_color = item.get_meta("slot_color").darkened(0.2)
+		slot.add_theme_stylebox_override("panel", flat)
 		
 		var title: Label = slot.get_node("title")
 		var image: TextureRect = slot.get_node("image")
@@ -106,6 +110,8 @@ func create_slots(shop_items: Array):
 		view.pressed.connect(pressed_view)
 
 func _on_purchase_pressed() -> void:
+	if str(pur_button.text) != "Purchase": return
+	
 	var item_price: int = str(price.text).replace("Price: ", "").replace(" Credits", "").to_int()
 	if data.currency >= item_price:
 		data.items.append(current_id)
@@ -115,6 +121,10 @@ func _on_purchase_pressed() -> void:
 		for item in items.get_children():
 			if item.get_meta("id") == current_id:
 				item.set_meta("purchased", true)
+	else:
+		pur_button.text = "Not enough Credits"
+		await get_tree().create_timer(1.5).timeout
+		pur_button.text = "Purchase"
 
 func _on_exit_pressed() -> void:
 	canvas.hide()

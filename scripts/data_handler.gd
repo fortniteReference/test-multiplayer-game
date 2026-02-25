@@ -9,8 +9,8 @@ var saved_currency = false
 var loaded_items = false
 var loaded_currency = false
 
-func set_items(get_i = false):
-	if not loaded_items: 
+func set_items(code = ""):
+	if not loaded_items and not code.containsn("add items"): 
 		saved_items = true
 		return
 	
@@ -20,7 +20,7 @@ func set_items(get_i = false):
 	
 	if res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
 		print("successfully set items.")
-		if get_i:
+		if code.containsn("get items"):
 			get_items()
 	else:
 		print("error setting items: ", ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.keys()[res])
@@ -41,20 +41,27 @@ func get_items():
 			$"../Lobby/main/Panel/Locker".disabled = false
 	elif code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.DOESNT_EXIST:
 		print("items doesn't exist.")
-		set_items(true)
+		set_items("add items, get items")
 	else:
 		print("error getting items: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
 	
 func set_currency(amount: int):
-	if not loaded_currency:
+	if not loaded_currency and amount != -1:
 		saved_currency = true
 		return
 	saved_currency = false
 	print("setting currency of amount: ", amount)
-	var res = await GDSync.account_document_set("currency", {"amount": amount})
+	var final = 0
+	if amount == -1:
+		final = 0
+	else:
+		final = amount
+	var res = await GDSync.account_document_set("currency", {"amount": final})
 	
 	if res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
 		print("successfully set currency.")
+		if amount == -1:
+			get_currency()
 	else:
 		print("error setting currency: ", ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.keys()[res])
 	saved_currency = true
@@ -70,7 +77,7 @@ func get_currency():
 		loaded_currency = true
 	elif code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.DOESNT_EXIST:
 		print("currency doesn't exist.")
-		set_currency(0)
+		set_currency(-1) # -1 will add the currency document
 	else:
 		print("error getting currency: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
 func set_settings(data: Dictionary, get_data = false):

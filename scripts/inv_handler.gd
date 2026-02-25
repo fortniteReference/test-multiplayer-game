@@ -37,8 +37,11 @@ func create_slots():
 		var slot: Panel = og_slot.duplicate()
 		container.add_child(slot)
 		slot.show()
-		slot.get_theme_stylebox("panel").bg_color = item.get_meta("slot_color")
-		slot.get_theme_stylebox("panel").border_color = item.get_meta("slot_color").darkened(0.2)
+		var flat: StyleBoxFlat = slot.get_theme_stylebox("panel").duplicate()
+		
+		flat.bg_color = item.get_meta("slot_color")
+		flat.border_color = item.get_meta("slot_color").darkened(0.2)
+		slot.add_theme_stylebox_override("panel", flat)
 		
 		var title: Label = slot.get_node("title")
 		var image: TextureRect = slot.get_node("image")
