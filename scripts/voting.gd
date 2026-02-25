@@ -157,48 +157,54 @@ func end_voting():
 	print("received")
 	main.get_node("VotingTime").text = "Calculating all Votes..."
 	await get_tree().create_timer(5,false,false,true).timeout
-	var best_vote = 0
 	var best_option = ""
 	var ties = []
 	var final_choice = ""
 	# ------------------------
-	var panel1_amount = 0
-	var panel2_amount = 0
-	var panel3_amount = 0
-	# ------------------------
+	var total_votes = {"Option1": {"Name": "", "Votes": 0}, "Option2": {"Name": "", "Votes": 0}, "Option3": {"Name": "", "Votes": 0}}
+	var i = 1
 	for panel in main.get_children():
 		if not panel is Panel: continue
 		
-		var votes = panel.get_node("Votes")
-		var num_of_votes = str(votes.text).to_int()
-		
-		if panel.name.contains("1"):
-			panel1_amount = num_of_votes
-		if panel.name.contains("2"):
-			panel2_amount = num_of_votes
-		if panel.name.contains("3"):
-			panel3_amount = num_of_votes
-		
-		if num_of_votes > best_vote:
-			best_vote = num_of_votes
-			best_option = str(options.keys()[panel.get_meta("key")])
-		elif num_of_votes == best_vote and best_vote > 0:
-			var extra_option = str(options.keys()[panel.get_meta("key")])
-			if not ties.has(best_option):
-				ties.append(best_option)
-			if not ties.has(extra_option):
-				ties.append(extra_option)
-		elif panel1_amount == 0 and panel2_amount == 0 and panel3_amount == 0:
-			var extra_option = str(options.keys()[panel.get_meta("key")])
-			ties.append(extra_option)
-			
+		var votes: Label = panel.get_node("Votes")
+		var num_votes: int = str(votes.text).to_int()
+		total_votes["Option" + str(i)]["Name"] = str(options.keys()[panel.get_meta("key")])
+		total_votes["Option" + str(i)]["Votes"] = num_votes
+		i += 1
+	var no_votes = true
+	for option in total_votes.values():
+		if option["Votes"] != 0:
+			no_votes = false
+			break
+	if no_votes:
+		for option in total_votes.values():
+			ties.append(option["Name"])
+	else:
+		var last_option = ""
+		var last_votes = 0
+		var current_votes = 0
+		var current_option = ""
+		for option in total_votes.values():
+			current_votes = option["Votes"]
+			current_option = option["Name"]
+			if current_votes > last_votes:
+				best_option = current_option
+				ties = []
+			elif current_votes == last_votes:
+				if not ties.has(last_option):
+					ties.append(last_option)
+				if not ties.has(current_option):
+					ties.append(current_option)
+			# Before moving on
+			last_option = current_option
+			last_votes = current_votes
+	
 	if ties.size() > 1:
-		var index = randi_range(0,ties.size()-1)
-		final_choice = ties[index]
+		final_choice = ties[randi_range(0,ties.size()-1)]
 	else:
 		final_choice = best_option
 		
-	var option = options.keys()[final_choice]
+	var option = options[final_choice]
 	var items = option.get("Items", null)
 	
 	if items[0] == "custom":
