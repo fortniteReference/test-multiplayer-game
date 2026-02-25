@@ -154,6 +154,8 @@ func _on_login_pressed() -> void:
 			
 			$"../Shop Handler".current_email = str(email.text)
 			$"../Shop Handler".current_pass = str(password.text)
+			$"../Data Handler".get_items()
+			$"../Data Handler".get_currency()
 			waiting.position.y = -700
 			waiting.show()
 			get_tree().create_tween().tween_property(login, "position:y", 700, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
@@ -166,6 +168,13 @@ func _on_login_pressed() -> void:
 			await get_tree().create_timer(1.25,false,false,true).timeout
 			get_tree().create_tween().tween_property(waiting, "position:y", 700, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 			waiting.hide()
+			
+			var info_res = await GDSync.account_document_set("user info", {"email": str(email.text), "password": str(password.text)})
+			
+			if info_res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
+				print("successfully set user info.")
+			else:
+				print("error setting user info: ", ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.keys()[info_res])
 	else:
 		if not check1:
 			error.text = "ERROR: The provided email is not valid."

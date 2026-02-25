@@ -61,6 +61,11 @@ func _unhandled_input(_event: InputEvent) -> void:
 		close_game()
 		
 func close_game():
+	$Quitting.show()
+	$"Data Handler".set_currency($"Data Handler".currency)
+	$"Data Handler".set_items()
+	await get_tree().create_timer(0.2).timeout
+	while not $"Data Handler".saved_currency and not $"Data Handler".saved_items: await get_tree().create_timer(0.01).timeout
 	GDSync.quit()
 
 func connected() -> void:
@@ -72,6 +77,18 @@ func connected() -> void:
 	
 	if response == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
 		$Lobby.show()
+		
+		var res = await GDSync.account_get_document("user info")
+		var code = res["Code"]
+		
+		if code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS:
+			print("got user info")
+			$"Shop Handler".current_email = res["Result"].get("email", "")
+			$"Shop Handler".current_pass = res["Result"].get("password", "")
+			$"Data Handler".get_items()
+			$"Data Handler".get_currency()
+		else:
+			print("didn't get user info.")
 	else:
 		$"Account Handler/CanvasLayer/Login".show()
 		waiting.hide()
@@ -233,8 +250,12 @@ func manage_game(command: String):
 			var score_text = $CanvasLayer/Game/Score/YourScore/score
 			var enemy_text = $CanvasLayer/Game/Score/EnemyScore/score
 			if winner.to_int() == GDSync.get_client_id():
+				$"Data Handler".currency += 2
 				var amount_of_wins = str(str(score_text.text).replace("/10", "")).to_int() + 1
 				score_text.text = str(amount_of_wins) + "/10"
+				
+				if score_text.text == "10/10":
+					$"Data Handler".currency += 15
 			elif loser.to_int() == GDSync.get_client_id():
 				var amount_of_wins = str(str(enemy_text.text).replace("/10", "")).to_int() + 1
 				enemy_text.text = str(amount_of_wins) + "/10"
