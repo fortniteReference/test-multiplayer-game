@@ -57,11 +57,14 @@ func create_slots():
 				view_image.texture = load(str(item.get_meta("image")))
 			current_id = item.get_meta("id")
 			
+			var found_item = false
 			for eq_item in equipped_items:
 				if eq_item == current_id:
-					view_button.show()
-					break
-				else: view_button.hide()
+					found_item = true
+			if found_item:
+				view_button.hide()
+			else:
+				view_button.show()
 			print(equipped_items)
 			
 		view.pressed.connect(pressed_view)
