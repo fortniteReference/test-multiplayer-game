@@ -2666,7 +2666,7 @@ script = ExtResource("27_4h6ng")
 [node name="Item" type="Node" parent="Shop Handler/Items" unique_id=365461208]
 metadata/name = "Lime"
 metadata/description = "A color for your character."
-metadata/price = 0
+metadata/price = 25
 metadata/rarity = "common"
 metadata/enabled = true
 metadata/purchased = false
@@ -2678,7 +2678,7 @@ metadata/reference = NodePath("../../Colors/Accessory - Lime")
 [node name="Item2" type="Node" parent="Shop Handler/Items" unique_id=762129907]
 metadata/name = "Red"
 metadata/description = "A color for your character."
-metadata/price = 0
+metadata/price = 50
 metadata/rarity = "uncommon"
 metadata/enabled = true
 metadata/purchased = false
@@ -2690,7 +2690,7 @@ metadata/reference = NodePath("../../Colors/Accessory - Red")
 [node name="Item3" type="Node" parent="Shop Handler/Items" unique_id=1785246460]
 metadata/name = "Orange"
 metadata/description = "A color for your character."
-metadata/price = 0
+metadata/price = 80
 metadata/rarity = "rare"
 metadata/enabled = true
 metadata/purchased = false
@@ -2702,7 +2702,7 @@ metadata/reference = NodePath("../../Colors/Accessory - Orange")
 [node name="Item4" type="Node" parent="Shop Handler/Items" unique_id=1036946888]
 metadata/name = "Dark Blue"
 metadata/description = "A color for your character."
-metadata/price = 0
+metadata/price = 110
 metadata/rarity = "epic"
 metadata/enabled = true
 metadata/purchased = false
@@ -2714,7 +2714,7 @@ metadata/reference = NodePath("../../Colors/Accessory - Dark Blue")
 [node name="Item5" type="Node" parent="Shop Handler/Items" unique_id=1998935768]
 metadata/name = "Metallic Red"
 metadata/description = "A color for your character."
-metadata/price = 0
+metadata/price = 160
 metadata/rarity = "legendary"
 metadata/enabled = true
 metadata/purchased = false

@@ -29,12 +29,46 @@ func _ready() -> void:
 	GDSync.synced_event_triggered.connect(equip_item)
 	GDSync.synced_event_triggered.connect(unequip_items)
 	GDSync.synced_event_triggered.connect(play_effects)
+	GDSync.synced_event_triggered.connect(display_accessories)
 	
 func set_input_mode(on: bool):
 	if on:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+func display_accessories(player_name: String, params: Array):
+	if params[0] is Array: return
+	if params[0] != "change player acc": return
+	
+	var world = get_parent()
+	var player = world.get_node_or_null(player_name)
+	if not player: return
+	
+	var inv: Node = player.get_node("../Inv Handler")
+	var shop: Node = player.get_node("../Shop Handler/Items")
+	if inv and shop:
+		for id in inv.equipped_items:
+			var item_node: Node = null
+			for item in shop.get_children():
+				if item.get_meta("id") == id:
+					item_node = item
+					break
+			if not item_node: continue
+			var reference: Node = item_node.get_node(item_node.get_meta("reference"))
+			
+			print("reference: ", reference)
+			if not reference:
+				print("no reference found")
+				continue
+			else:
+				if reference.color_enabled:
+					var og_mat = $MeshInstance3D.get_active_material(0)
+					var mat: StandardMaterial3D = og_mat.duplicate()
+					$MeshInstance3D.set_surface_override_material(0, mat)
+					mat.albedo_color = reference.color
+					mat.roughness = reference.roughness
+					mat.metallic = reference.metallic
 
 func owner_changed(_owner_id : int) -> void:
 	var is_owner : bool = GDSync.is_gdsync_owner(self)
@@ -44,31 +78,7 @@ func owner_changed(_owner_id : int) -> void:
 		get_node("CanvasLayer").get_node("player name").text = name
 		get_node("CanvasLayer").show()
 		
-		var world = get_parent()
-		var inv: Node = world.get_node("Inv Handler")
-		var shop: Node = world.get_node("Shop Handler/Items")
-		if inv and shop:
-			for id in inv.equipped_items:
-				var item_node: Node = null
-				for item in shop.get_children():
-					if item.get_meta("id") == id:
-						item_node = item
-						break
-				if not item_node: continue
-				var reference: Node = item_node.get_node(item_node.get_meta("reference"))
-				
-				print("reference: ", reference)
-				if not reference:
-					print("no reference found")
-					continue
-				else:
-					if reference.color_enabled:
-						var og_mat = $MeshInstance3D.get_active_material(0)
-						var mat: StandardMaterial3D = og_mat.duplicate()
-						$MeshInstance3D.set_surface_override_material(0, mat)
-						mat.albedo_color = reference.color
-						mat.roughness = reference.roughness
-						mat.metallic = reference.metallic
+		GDSync.synced_event_create(name, 0, ["change player acc", ""])
 		
 		var res = await GDSync.account_get_document("controls")
 		var code = res["Code"]

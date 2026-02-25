@@ -160,7 +160,7 @@ func end_voting():
 	var best_vote = 0
 	var best_option = ""
 	var ties = []
-	var final_choice = 0
+	var final_choice = ""
 	# ------------------------
 	var panel1_amount = 0
 	var panel2_amount = 0
