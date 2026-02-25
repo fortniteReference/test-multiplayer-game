@@ -61,14 +61,16 @@ func find_lobby(tag: String, limit: int, id = 0):
 
 func _on_menu_pressed() -> void:
 	menu.show()
-	$main/Panel/Friends.hide()
 	$"../Friend Handler/CanvasLayer".hide()
 	$"../Friend Handler/CanvasLayer/friend gui".hide()
 	$"../Friend Handler/CanvasLayer/request gui".hide()
+	for object in $main/Panel.get_children():
+		if object.name != "Menu": object.hide()
 
 func _on_back_pressed() -> void:
 	menu.hide()
-	$main/Panel/Friends.show()
+	for object in $main/Panel.get_children():
+		if object.name != "Menu": object.show()
 
 func _on_logout_pressed() -> void:
 	logout.text = "Logging Out..."

@@ -2725,7 +2725,6 @@ metadata/reference = NodePath("../../Colors/Accessory - M Red")
 
 [node name="Canvas" type="CanvasLayer" parent="Shop Handler" unique_id=1419369938]
 layer = 5
-visible = false
 
 [node name="main" type="Panel" parent="Shop Handler/Canvas" unique_id=513511041]
 anchors_preset = 15
@@ -2750,6 +2749,7 @@ theme_override_styles/disabled = ExtResource("16_udxuc")
 text = "< Back"
 
 [node name="reset" type="Button" parent="Shop Handler/Canvas/main" unique_id=1586712805]
+visible = false
 layout_mode = 0
 offset_left = 389.0
 offset_top = 14.0
@@ -2914,6 +2914,17 @@ theme_override_font_sizes/font_size = 24
 text = "You have 0 credits."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label" type="Label" parent="Shop Handler/Canvas" unique_id=641788930]
+offset_left = 524.0
+offset_top = 8.0
+offset_right = 805.0
+offset_bottom = 67.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 19
+text = "Tip: Shop resets every day at midnight UTC time."
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Colors" type="Node" parent="Shop Handler" unique_id=1436900156]
 

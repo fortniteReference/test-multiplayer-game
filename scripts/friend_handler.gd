@@ -17,6 +17,7 @@ extends Node
 
 func get_friends():
 	clear_container(f_container)
+	$"../Lobby/main/Panel/MenuButton".hide()
 	$"CanvasLayer/friend gui/back".disabled = true
 	f_loading.play()
 	f_loading.show()
@@ -144,6 +145,7 @@ func clear_container(container: Control):
 
 func _on_back_pressed() -> void:
 	canvas.hide()
+	$"../Lobby/main/Panel/MenuButton".show()
 
 func _on_friend_reqs_pressed() -> void:
 	get_friend_requests()

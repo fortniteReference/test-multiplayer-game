@@ -17,6 +17,8 @@ extends Node
 var current_email = ""
 var current_pass = ""
 var current_id = ""
+var date_set = false
+var changing_date = false
 
 func select_items() -> Array:
 	var selected_items = []
@@ -133,12 +135,15 @@ func _on_shop_pressed() -> void:
 	refresh_shop()
 
 func refresh_shop():
+	for child in container.get_children(): child.queue_free()
 	canvas.show()
+
 	var res = await GDSync.account_get_external_document("shop_handler", "shop")
 	var code = res["Code"]
 	
 	if code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS:
 		print("successfully recieved shop")
+
 		var result: Dictionary = res["Result"]
 		# var can_refresh: bool = result.get("can_refresh", false)
 		var shop_items: Array = result.get("items", [])
@@ -148,17 +153,84 @@ func refresh_shop():
 			return
 		
 		create_slots(shop_items)
+		check_date()
 	elif code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.DOESNT_EXIST:
 		set_shop()
 	else:
 		print("error getting shop: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
 
+func keep_checking_date():
+	while canvas.visible:
+		for i in range(120):
+			await get_tree().create_timer(1).timeout
+			if not canvas.visible: return
+		check_date()
+	
+func check_date():
+	if changing_date: return
+	
+	var res = await GDSync.account_get_external_document("shop_handler", "date")
+	var code = res["Code"]
+	
+	if code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS:
+		print("successfully recieved date")
+
+		var refreshed = res["Result"]["refreshed"]
+		var date: Dictionary = res["Result"]["date"]
+		var today = Time.get_date_dict_from_system(true)
+		var day = date["day"]
+		
+		if (day != today["day"]):
+			refreshed = false
+		
+		if (day != today["day"]) and not refreshed:
+			set_date()
+			await get_tree().create_timer(0.5).timeout
+			while not date_set: await get_tree().create_timer(0.05).timeout
+			set_shop()
+	elif code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.DOESNT_EXIST:
+		set_date()
+	else:
+		print("error getting shop date: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
+		
 func _on_reset_pressed() -> void:
 	set_shop()
 
+func set_date():
+	for child in container.get_children(): child.queue_free()
+	
+	date_set = false
+	changing_date = true
+	var login_res = await GDSync.account_login("milokirsten@icloud.com", "20140971", 30)
+	var login_code = login_res["Code"]
+
+	if login_code == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
+		print("logged into shop to change date")
+		pass
+	else:
+		print("couldn't log into shop to change date. error: ", ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.keys()[login_code])
+		return
+
+	var set_res = await GDSync.account_document_set("date", {"date": Time.get_date_dict_from_system(), "refreshed": true}, true)
+	
+	if set_res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
+		print("set date, logging out.")
+		var reset_res = await GDSync.account_login(current_email, current_pass, 86400)
+		var reset_code = reset_res["Code"]
+		
+		if reset_code == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
+			print("re-logged in.")
+			refresh_shop()
+		else:
+			print("could not re-log in. error: ", ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.keys()[reset_code])
+	else:
+		print("error setting date: ", ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.keys()[set_res])
+	changing_date = false
+	date_set = true
+	
 func set_shop():
 	var shop_items = []
-
+	
 	shop_items = select_items()
 	print(shop_items)
 	var login_res = await GDSync.account_login("milokirsten@icloud.com", "20140971", 30)
@@ -170,7 +242,8 @@ func set_shop():
 	else:
 		print("couldn't log into shop. error: ", ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.keys()[login_code])
 		return
-	var set_res = await GDSync.account_document_set("shop", {"items": shop_items, "can_refresh": false}, true)
+
+	var set_res = await GDSync.account_document_set("shop", {"items": shop_items, "refreshed": false}, true)
 	
 	if set_res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
 		print("set shop, logging out.")
@@ -184,3 +257,8 @@ func set_shop():
 			print("could not re-log in. error: ", ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.keys()[reset_code])
 	else:
 		print("error setting shop: ", ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.keys()[set_res])
+
+func get_reset_time() -> int:
+	var now = Time.get_time_dict_from_system()
+	var secs = (now.hour * 3600) + (now.minute * 60) + now.second
+	return 86400 - secs
