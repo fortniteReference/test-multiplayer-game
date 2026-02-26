@@ -29,7 +29,6 @@ func _ready() -> void:
 	GDSync.synced_event_triggered.connect(equip_item)
 	GDSync.synced_event_triggered.connect(unequip_items)
 	GDSync.synced_event_triggered.connect(play_effects)
-	GDSync.synced_event_triggered.connect(display_accessories)
 	
 func set_input_mode(on: bool):
 	if on:
@@ -37,22 +36,32 @@ func set_input_mode(on: bool):
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-func display_accessories(player_name: String, params: Array):
-	if params[0] is Array: return
-	if params[0] != "change player acc": return
+func get_player_equipped_items():
+	var player_names = []
+	for player in get_parent().get_children():
+		if player is CharacterBody3D: player_names.append(player.name)
 	
-	var world = get_parent()
-	var player = world.get_node_or_null(str(GDSync.get_client_id())) # world.get_node_or_null(player_name)
-	if not player:
-		print("no player found, returning")
-		return
-	print(player, player_name)
+	print(player_names)
+	for plr_name in player_names:
+		var username: String = GDSync.player_get_username(str(plr_name).to_int())
+		var res = await GDSync.account_get_external_document(username, "items")
+		var code = res["Code"]
+		
+		if code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS:
+			print("got user items from player ", username)
+			
+			var equipped: Array = res["Result"]["equipped"]
+			var player = get_node_or_null("../" + str(plr_name))
+			
+			display_accessories(player, equipped)
+		else:
+			print("did not get user items from player " + username, ", error: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
 	
-	var shop: Node = player.get_node("../Shop Handler/Items")
-	var inv: Node = player.get_node("../Inv Handler")
-	var equipped_items = params[0]
-	if shop and inv:
-		for id in inv.equipped_items:
+func display_accessories(player, equipped_items: Array):
+	var shop: Node = get_node("../Shop Handler/Items")
+
+	if shop and equipped_items.size() > 0:
+		for id in equipped_items:
 			var item_node: Node = null
 			for item in shop.get_children():
 				if item.get_meta("id") == id:
@@ -67,6 +76,7 @@ func display_accessories(player_name: String, params: Array):
 				continue
 			else:
 				if reference.color_enabled:
+					print("color is enabled")
 					var mesh = player.get_node("MeshInstance3D")
 					var og_mat = mesh.get_active_material(0)
 					var mat: StandardMaterial3D = og_mat.duplicate()
@@ -504,11 +514,7 @@ func play_effects(player_name, message):
 func receive_damage(player_name, name_item):
 	if player_name == "reset map" or str(name_item[0]).contains("equip"): return
 	if name_item[0] is Array: return
-	
-	var found_item = false
-	
-	if get_meta("current_item").contains(str(name_item[0]).replace("true", "").replace(" ", "").replace("equip", "")): found_item = true
-	if not found_item: return
+	if name_item[0] == "hi" or name_item[0] == "play sound": return
 	
 	var player = get_parent().get_node_or_null(str(player_name))
 

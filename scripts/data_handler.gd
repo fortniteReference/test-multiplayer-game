@@ -16,7 +16,7 @@ func set_items(code = ""):
 	
 	saved_items = false
 	print("setting items: ", items)
-	var res = await GDSync.account_document_set("items", {"items": items, "equipped": $"../Inv Handler".equipped_items})
+	var res = await GDSync.account_document_set("items", {"items": items, "equipped": $"../Inv Handler".equipped_items}, true)
 	
 	if res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
 		print("successfully set items.")
