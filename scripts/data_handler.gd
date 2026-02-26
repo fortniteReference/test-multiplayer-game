@@ -39,6 +39,7 @@ func get_items():
 		loaded_items = true
 		if $"../Lobby/main/Panel/Locker".disabled:
 			$"../Lobby/main/Panel/Locker".disabled = false
+		$"../Inv Handler".play_lobby_music()
 	elif code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.DOESNT_EXIST:
 		print("items doesn't exist.")
 		set_items("add items, get items")
