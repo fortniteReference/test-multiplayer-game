@@ -5,6 +5,7 @@ extends Node3D
 func _ready() -> void:
 	GDSync.client_joined.connect(client_joined)
 	GDSync.client_left.connect(client_left)
+	$"..".child_exiting_tree.connect(player_left)
 
 func client_joined(client_id : int) -> void:
 	var player = player_scene.instantiate()
@@ -19,5 +20,7 @@ func client_left(client_id : int) -> void:
 	var player = $"..".get_node_or_null(str(client_id))
 	if player:
 		player.queue_free()
-	$"../CanvasLayer/Game/Score/YourScore/score".text = "9/10"
-	$"..".manage_game("update scorewinner:" + str(GDSync.get_client_id()))
+
+func player_left(node: Node):
+	if not node is CharacterBody3D: return
+	$"..".check_for_leave("player left")

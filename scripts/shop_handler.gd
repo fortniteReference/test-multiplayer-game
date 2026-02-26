@@ -19,6 +19,7 @@ var current_pass = ""
 var current_id = ""
 var date_set = false
 var changing_date = false
+var testing_music = false
 
 func select_items() -> Array:
 	var selected_items = []
@@ -43,7 +44,7 @@ func select_items() -> Array:
 				epic.append(item.get_meta("id"))
 			"legendary":
 				legendary.append(item.get_meta("id"))
-	for i in range(5):
+	for i in range(9):
 		var chance = randi_range(1,100)
 		if chance == 1:
 			selected_items.append(legendary[randi_range(0,legendary.size()-1)])
@@ -130,21 +131,56 @@ func create_slots(shop_items: Array):
 				pur_button.hide()
 			else:
 				pur_button.show()
+			if current_id.containsn("lobby_"):
+				testing_music = true
+				for music in $"../Shop Handler/Lobby Music".get_children():
+					if music.playing: music.stop()
+					
+				var reference = item.get_meta("reference")
+				var sound = item.get_node(reference)
+				if sound and sound is AudioStreamPlayer: sound.play()
+			elif testing_music:
+				reset_to_lobby_music()
 			
 		view.pressed.connect(pressed_view)
 
+func reset_to_lobby_music():
+	testing_music = false
+	for music in $"../Shop Handler/Lobby Music".get_children():
+		if music.playing: music.stop()
+				
+	var music_id = ""
+	for m_id in $"../Inv Handler".equipped_items:
+		if not m_id.contains("lobby_"): continue
+		music_id = m_id
+
+	var music: Node = null
+	for item_node in items.get_children():
+		if item_node.get_meta("id").contains(str(music_id)):
+			music = item_node
+	if music != null:
+		var reference = music.get_meta("reference")
+		var sound = music.get_node(reference)
+		if sound and sound is AudioStreamPlayer: sound.play()
+		
 func _on_purchase_pressed() -> void:
 	if str(pur_button.text) != "Purchase": return
 	
 	var item_price: int = str(price.text).replace("Price: ", "").replace(" Credits", "").to_int()
 	if data.currency >= item_price:
+		pur_button.text = "Purchasing..."
 		data.items.append(current_id)
 		data.currency -= item_price
 		data.set_items()
 		data.set_currency(data.currency)
+		$Canvas/main/amount/amount.text = "You have " + str(data.currency) + " credits."
 		for item in items.get_children():
 			if item.get_meta("id") == current_id:
 				item.set_meta("purchased", true)
+		pur_button.text = "Purchased!"
+		await get_tree().create_timer(1.5).timeout
+		pur_button.hide()
+		pur_button.text = "Purchase"
 	else:
 		pur_button.text = "Not enough Credits"
 		await get_tree().create_timer(1.5).timeout
@@ -152,6 +188,8 @@ func _on_purchase_pressed() -> void:
 
 func _on_exit_pressed() -> void:
 	canvas.hide()
+	if testing_music:
+		reset_to_lobby_music()
 	
 func _on_shop_pressed() -> void:
 	refresh_shop()

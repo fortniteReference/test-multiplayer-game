@@ -44,7 +44,7 @@ func get_items():
 		set_items("add items, get items")
 	else:
 		print("error getting items: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
-	
+
 func set_currency(amount: int):
 	if not loaded_currency and amount != -1:
 		saved_currency = true

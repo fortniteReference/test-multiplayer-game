@@ -29,6 +29,7 @@
 [ext_resource type="Script" uid="uid://dh4tnv1rsiyii" path="res://scripts/shop_handler.gd" id="27_4h6ng"]
 [ext_resource type="Script" uid="uid://teusum7wkwn3" path="res://accessories.gd" id="28_o3ebs"]
 [ext_resource type="Script" uid="uid://dcn1m3xaatatj" path="res://scripts/inv_handler.gd" id="29_k83mh"]
+[ext_resource type="AudioStream" uid="uid://dl0rt32t8wltt" path="res://audio/mansion idle.mp3" id="29_qktwf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -521,10 +522,6 @@ player_scene = ExtResource("3_tlwt5")
 
 [node name="map1" parent="." unique_id=572550900 instance=ExtResource("4_dwbse")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=273600560]
-stream = ExtResource("5_036b0")
-volume_db = 5.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1267453288]
 layer = 3
@@ -2666,7 +2663,7 @@ script = ExtResource("27_4h6ng")
 [node name="Item" type="Node" parent="Shop Handler/Items" unique_id=365461208]
 metadata/name = "Lime"
 metadata/description = "A color for your character."
-metadata/price = 25
+metadata/price = 50
 metadata/rarity = "common"
 metadata/enabled = true
 metadata/purchased = false
@@ -2678,7 +2675,7 @@ metadata/reference = NodePath("../../Colors/Accessory - Lime")
 [node name="Item2" type="Node" parent="Shop Handler/Items" unique_id=762129907]
 metadata/name = "Red"
 metadata/description = "A color for your character."
-metadata/price = 50
+metadata/price = 90
 metadata/rarity = "uncommon"
 metadata/enabled = true
 metadata/purchased = false
@@ -2690,7 +2687,7 @@ metadata/reference = NodePath("../../Colors/Accessory - Red")
 [node name="Item3" type="Node" parent="Shop Handler/Items" unique_id=1785246460]
 metadata/name = "Orange"
 metadata/description = "A color for your character."
-metadata/price = 80
+metadata/price = 120
 metadata/rarity = "rare"
 metadata/enabled = true
 metadata/purchased = false
@@ -2702,7 +2699,7 @@ metadata/reference = NodePath("../../Colors/Accessory - Orange")
 [node name="Item4" type="Node" parent="Shop Handler/Items" unique_id=1036946888]
 metadata/name = "Dark Blue"
 metadata/description = "A color for your character."
-metadata/price = 110
+metadata/price = 190
 metadata/rarity = "epic"
 metadata/enabled = true
 metadata/purchased = false
@@ -2714,7 +2711,7 @@ metadata/reference = NodePath("../../Colors/Accessory - Dark Blue")
 [node name="Item5" type="Node" parent="Shop Handler/Items" unique_id=1998935768]
 metadata/name = "Metallic Red"
 metadata/description = "A color for your character."
-metadata/price = 160
+metadata/price = 250
 metadata/rarity = "legendary"
 metadata/enabled = true
 metadata/purchased = false
@@ -2722,6 +2719,30 @@ metadata/image = ""
 metadata/id = "color_mred"
 metadata/slot_color = Color(0.8980392, 0.7001226, 0.2313726, 1)
 metadata/reference = NodePath("../../Colors/Accessory - M Red")
+
+[node name="Item6" type="Node" parent="Shop Handler/Items" unique_id=1918595786]
+metadata/name = "Ambiance"
+metadata/description = "A lobby music sound effect that will play while you are in the lobby, or waiting for another player."
+metadata/price = 70
+metadata/rarity = "uncommon"
+metadata/enabled = true
+metadata/purchased = false
+metadata/image = ""
+metadata/id = "lobby_ambiance"
+metadata/slot_color = Color(0.50980395, 0.8901961, 0.41568628, 1)
+metadata/reference = NodePath("../../Lobby Music/Accessory - ambiance")
+
+[node name="Item7" type="Node" parent="Shop Handler/Items" unique_id=1618789218]
+metadata/name = "The Mansion Lobby"
+metadata/description = "A lobby music sound effect that will play while you are in the lobby, or waiting for another player."
+metadata/price = 180
+metadata/rarity = "epic"
+metadata/enabled = true
+metadata/purchased = false
+metadata/image = "res://item images/audio.png"
+metadata/id = "lobby_lair"
+metadata/slot_color = Color(0.4392157, 0.23137255, 0.8980392, 1)
+metadata/reference = NodePath("../../Lobby Music/Accessory - lair")
 
 [node name="Canvas" type="CanvasLayer" parent="Shop Handler" unique_id=1419369938]
 layer = 5
@@ -2750,7 +2771,6 @@ theme_override_styles/disabled = ExtResource("16_udxuc")
 text = "< Back"
 
 [node name="reset" type="Button" parent="Shop Handler/Canvas/main" unique_id=1586712805]
-visible = false
 layout_mode = 0
 offset_left = 389.0
 offset_top = 14.0
@@ -2955,6 +2975,18 @@ script = ExtResource("28_o3ebs")
 color_enabled = true
 color = Color(0.9140625, 0.32492065, 0.32492065, 1)
 metallic = 0.75
+
+[node name="Lobby Music" type="Node" parent="Shop Handler" unique_id=1225742874]
+
+[node name="Accessory - ambiance" type="AudioStreamPlayer" parent="Shop Handler/Lobby Music" unique_id=919313891]
+stream = ExtResource("5_036b0")
+script = ExtResource("28_o3ebs")
+lobby_music_enabled = true
+
+[node name="Accessory - lair" type="AudioStreamPlayer" parent="Shop Handler/Lobby Music" unique_id=1170354278]
+stream = ExtResource("29_qktwf")
+script = ExtResource("28_o3ebs")
+lobby_music_enabled = true
 
 [node name="Inv Handler" type="Node" parent="." unique_id=134027499]
 script = ExtResource("29_k83mh")

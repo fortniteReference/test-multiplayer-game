@@ -15,6 +15,20 @@ var current_id = ""
 var owned_items = []
 var equipped_items = []
 
+func play_lobby_music():
+	for id: String in equipped_items:
+		if not id.contains("lobby_"): continue
+		
+		var item: Node = null
+		for item_node in items.get_children():
+			if item_node.get_meta("id").contains(str(id)):
+				item = item_node
+		if item == null: continue
+		
+		var reference = item.get_meta("reference")
+		var sound: AudioStreamPlayer = item.get_node(reference)
+		sound.play()
+		
 func create_slots():
 	canvas.show()
 	view_title.text = ""
@@ -76,11 +90,19 @@ func _on_exit_pressed() -> void:
 	canvas.hide()
 
 func _on_equip_pressed() -> void:
-	if current_id.containsn("color"):
+	if current_id.containsn("color_"):
 		for id in equipped_items:
-			if id.containsn("color"): equipped_items.erase(id)
+			if id.containsn("color_"): equipped_items.erase(id)
+	if current_id.containsn("lobby_"):
+		for id in equipped_items:
+			if id.containsn("lobby_"): equipped_items.erase(id)
 	for item in items.get_children():
 		if item.get_meta("id") == current_id and not equipped_items.has(current_id): equipped_items.append(current_id)
+	
+	if current_id.containsn("lobby_"):
+		for music in $"../Shop Handler/Lobby Music".get_children():
+			if music.playing: music.stop()
+		play_lobby_music()
 
 func _on_locker_pressed() -> void:
 	create_slots()

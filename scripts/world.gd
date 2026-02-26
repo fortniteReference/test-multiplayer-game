@@ -11,11 +11,11 @@ extends Node
 var lobby_status = ""
 var manual_status = ""
 var score_debounce = false
+var player_left = false
 
 var cooldown = 3
 
 func random_shi():
-	$AudioStreamPlayer.play()
 	waiting.show()
 	
 	var pic = $"CanvasLayer/Waiting/Panel/random shi"
@@ -219,9 +219,13 @@ func manage_game(command: String):
 	if player:
 		if command == "start game" or command == "reset map":
 			if command == "start game":
+				player_left = false
 				game.show()
+				$CanvasLayer/Game/Score.show()
 				$CanvasLayer/Game/Score/YourScore/score.text = "0/10"
 				$CanvasLayer/Game/Score/EnemyScore/score.text = "0/10"
+				for music in $"Shop Handler/Lobby Music".get_children():
+					if music.playing: music.stop()
 			barrier.show()
 			barrier.get_node("CollisionShape3D").disabled = false
 			barrier_panel.show()
@@ -250,11 +254,11 @@ func manage_game(command: String):
 			var score_text = $CanvasLayer/Game/Score/YourScore/score
 			var enemy_text = $CanvasLayer/Game/Score/EnemyScore/score
 			if winner.to_int() == GDSync.get_client_id():
-				$"Data Handler".currency += 2
+				$"Data Handler".currency += 100
 				var amount_of_wins = str(str(score_text.text).replace("/10", "")).to_int() + 1
 				score_text.text = str(amount_of_wins) + "/10"
 				
-				if score_text.text == "10/10":
+				if score_text.text == "10/10" and not player_left:
 					$"Data Handler".currency += 15
 			elif loser.to_int() == GDSync.get_client_id():
 				var amount_of_wins = str(str(enemy_text.text).replace("/10", "")).to_int() + 1
@@ -265,27 +269,37 @@ func manage_game(command: String):
 			await get_tree().create_timer(cooldown).timeout
 			score_debounce = false
 			
-func check_for_leave():
+func check_for_leave(code = ""):
+	if code == "": return
+	await get_tree().create_timer(3).timeout
+	
 	var amount_of_players = 0
 	for child in get_children():
 		if child is CharacterBody3D:
 			amount_of_players += 1
 
+	print("amount of players is: ", amount_of_players)
 	if amount_of_players != 1: return
 	cooldown = 0.01
+	player_left = true
 	
 	var score_text = $CanvasLayer/Game/Score/YourScore/score
 	score_text.text = "10/10"
 	
 	var player = get_node_or_null(str(GDSync.get_client_id()))
-	if player: player.set_input_mode(false)
+	if player:
+		player.set_input_mode(false)
+		if player.get_node("CanvasLayer") != null: player.get_node("CanvasLayer").queue_free()
+		if player != null: player.queue_free()
 	
 	GDSync.lobby_leave()
 	$CanvasLayer/Game/WinScreen.position = Vector2.ZERO
-	$CanvasLayer/Game/WinScreen.hide()
+	$CanvasLayer/Game/WinScreen.show()
 	$CanvasLayer.show()
-	$CanvasLayer/Game.hide()
-	$Lobby.show()
+	$CanvasLayer/Game/Score.hide()
+	await get_tree().create_timer(2).timeout
+	for client in get_children():
+		if client is CharacterBody3D: client.queue_free()
 
 func lobby_join_failed(lobby_name : String, _error):
 	lobby_status = "join failed"
@@ -300,3 +314,9 @@ func _on_lobby_pressed() -> void:
 	win.hide()
 	$Lobby.show()
 	$Lobby/main/Panel/Play.disabled = false
+	$Lobby/main/Panel/Play/Label.hide()
+	for button in $Lobby/main/Panel.get_children():
+		if button is Button:
+			button.show()
+			button.disabled = false
+	$"Inv Handler".play_lobby_music()

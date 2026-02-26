@@ -41,14 +41,13 @@ func get_player_equipped_items():
 	for player in get_parent().get_children():
 		if player is CharacterBody3D: player_names.append(player.name)
 	
-	print(player_names)
 	for plr_name in player_names:
 		var username: String = GDSync.player_get_username(str(plr_name).to_int())
 		var res = await GDSync.account_get_external_document(username, "items")
 		var code = res["Code"]
 		
 		if code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS:
-			print("got user items from player ", username)
+			# print("got user items from player ", username)
 			
 			var equipped: Array = res["Result"]["equipped"]
 			var player = get_node_or_null("../" + str(plr_name))
@@ -70,13 +69,12 @@ func display_accessories(player, equipped_items: Array):
 			if not item_node: continue
 			var reference: Node = item_node.get_node(item_node.get_meta("reference"))
 			
-			print("reference: ", reference)
+			# print("reference: ", reference)
 			if not reference:
 				print("no reference found")
 				continue
 			else:
 				if reference.color_enabled:
-					print("color is enabled")
 					var mesh = player.get_node("MeshInstance3D")
 					var og_mat = mesh.get_active_material(0)
 					var mat: StandardMaterial3D = og_mat.duplicate()
