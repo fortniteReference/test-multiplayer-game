@@ -57,6 +57,20 @@ func select_items() -> Array:
 			selected_items.append(common[randi_range(0,common.size()-1)])
 	return selected_items
 
+func get_local_midnight_utc():
+	# Get timezone info (returns a dict with "bias" in minutes)
+	var tz_info = Time.get_time_zone_from_system()
+	var bias_minutes = tz_info["bias"]
+	
+	# Convert bias to hours (e.g., -300 minutes = -5 hours)
+	var bias_hours = bias_minutes / 60.0
+	
+	# Midnight UTC is 0. Local time is 0 + bias_hours.
+	# We use fposmod to handle negative offsets (like -5 becoming 19:00)
+	var local_hour = fposmod(bias_hours, 24)
+	
+	return local_hour
+
 func create_slots(shop_items: Array):
 	$Canvas/main/amount/amount.text = "You have " + str($"../Data Handler".currency) + " Credits."
 	$Canvas/main/purchase.hide()
@@ -67,6 +81,14 @@ func create_slots(shop_items: Array):
 	pur_image.texture = null
 	pur_button.hide()
 	$Canvas/main/purchase.show()
+	
+	var prefix = "am"
+	
+	var hour = get_local_midnight_utc()
+	if hour > 12:
+		hour -= 12
+		prefix = "pm"
+	$"Canvas/main/time tip".text = "Tip: The Shop resets at midnight UTC Time. (" + str(hour).replace(".0", "") + ":00 " + prefix + " your local time)"
 	
 	for slot in container.get_children(): slot.queue_free()
 	
@@ -101,13 +123,13 @@ func create_slots(shop_items: Array):
 			pur_rarity.text = item.get_meta("rarity")
 			pur_rarity.add_theme_color_override("font_color", item.get_meta("slot_color"))
 			price.text = "Price: " + str(item.get_meta("price")) + " Credits"
+			current_id = item.get_meta("id")
 			if item.get_meta("image") != "":
 				pur_image.texture = load(str(item.get_meta("image")))
-			if item.get_meta("purchased") == true:
+			if $"../Inv Handler".owned_items.has(current_id):
 				pur_button.hide()
 			else:
 				pur_button.show()
-			current_id = item.get_meta("id")
 			
 		view.pressed.connect(pressed_view)
 
@@ -211,7 +233,7 @@ func set_date():
 		print("couldn't log into shop to change date. error: ", ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.keys()[login_code])
 		return
 
-	var set_res = await GDSync.account_document_set("date", {"date": Time.get_date_dict_from_system(), "refreshed": true}, true)
+	var set_res = await GDSync.account_document_set("date", {"date": Time.get_date_dict_from_system(true), "refreshed": true}, true)
 	
 	if set_res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
 		print("set date, logging out.")
@@ -221,6 +243,7 @@ func set_date():
 		if reset_code == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
 			print("re-logged in.")
 			refresh_shop()
+			await get_tree().create_timer(7).timeout
 		else:
 			print("could not re-log in. error: ", ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.keys()[reset_code])
 	else:

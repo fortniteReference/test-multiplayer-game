@@ -259,6 +259,8 @@ func manage_game(command: String):
 			elif loser.to_int() == GDSync.get_client_id():
 				var amount_of_wins = str(str(enemy_text.text).replace("/10", "")).to_int() + 1
 				enemy_text.text = str(amount_of_wins) + "/10"
+			if score_text.text == "10/10" or enemy_text.text == "10/10":
+				player.set_input_mode(false)
 				
 			await get_tree().create_timer(cooldown).timeout
 			score_debounce = false

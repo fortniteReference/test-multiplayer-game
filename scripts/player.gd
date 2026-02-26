@@ -42,12 +42,16 @@ func display_accessories(player_name: String, params: Array):
 	if params[0] != "change player acc": return
 	
 	var world = get_parent()
-	var player = world.get_node_or_null(player_name)
-	if not player: return
+	var player = world.get_node_or_null(str(GDSync.get_client_id())) # world.get_node_or_null(player_name)
+	if not player:
+		print("no player found, returning")
+		return
+	print(player, player_name)
 	
-	var inv: Node = player.get_node("../Inv Handler")
 	var shop: Node = player.get_node("../Shop Handler/Items")
-	if inv and shop:
+	var inv: Node = player.get_node("../Inv Handler")
+	var equipped_items = params[0]
+	if shop and inv:
 		for id in inv.equipped_items:
 			var item_node: Node = null
 			for item in shop.get_children():
@@ -63,9 +67,10 @@ func display_accessories(player_name: String, params: Array):
 				continue
 			else:
 				if reference.color_enabled:
-					var og_mat = $MeshInstance3D.get_active_material(0)
+					var mesh = player.get_node("MeshInstance3D")
+					var og_mat = mesh.get_active_material(0)
 					var mat: StandardMaterial3D = og_mat.duplicate()
-					$MeshInstance3D.set_surface_override_material(0, mat)
+					mesh.set_surface_override_material(0, mat)
 					mat.albedo_color = reference.color
 					mat.roughness = reference.roughness
 					mat.metallic = reference.metallic
@@ -77,8 +82,6 @@ func owner_changed(_owner_id : int) -> void:
 	if is_owner:
 		get_node("CanvasLayer").get_node("player name").text = name
 		get_node("CanvasLayer").show()
-		
-		GDSync.synced_event_create(name, 0, ["change player acc", ""])
 		
 		var res = await GDSync.account_get_document("controls")
 		var code = res["Code"]
@@ -501,7 +504,11 @@ func play_effects(player_name, message):
 func receive_damage(player_name, name_item):
 	if player_name == "reset map" or str(name_item[0]).contains("equip"): return
 	if name_item[0] is Array: return
-	if name_item[0] == "hi" or name_item[0] == "play sound": return
+	
+	var found_item = false
+	
+	if get_meta("current_item").contains(str(name_item[0]).replace("true", "").replace(" ", "").replace("equip", "")): found_item = true
+	if not found_item: return
 	
 	var player = get_parent().get_node_or_null(str(player_name))
 
@@ -619,7 +626,8 @@ func show_damage(player, item, hit_head, damage_text: Node3D):
 		text.modulate.a = i * 0.01
 		text.outline_modulate.a = i * 0.01
 		await get_tree().create_timer(0.015,false,false,true).timeout
-	new_damage.queue_free()
+	if new_damage != null:
+		new_damage.queue_free()
 
 func show_elimed_player(player_name: String):
 	var gui = $"CanvasLayer/elim gui"

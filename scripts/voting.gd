@@ -236,6 +236,7 @@ func end_voting():
 	
 func add_items(name_player, params):
 	if name_player != str(GDSync.get_client_id()) or not params[0] is Array: return
+	
 	print(params[0])
 	if params[0].size() == 0:
 		print("not enough items, returned")

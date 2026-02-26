@@ -59,7 +59,7 @@ func set_currency(amount: int):
 	var res = await GDSync.account_document_set("currency", {"amount": final})
 	
 	if res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
-		print("successfully set currency.")
+		print("successfully set currency of amount: ", final)
 		if amount == -1:
 			get_currency()
 	else:

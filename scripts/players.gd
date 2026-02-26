@@ -11,6 +11,9 @@ func client_joined(client_id : int) -> void:
 	$"..".add_child(player)
 	player.name = str(client_id)
 	GDSync.set_gdsync_owner(player, client_id)
+	
+	for user in get_parent().get_children():
+		if user is CharacterBody3D: GDSync.synced_event_create(user.name, 0, ["change player acc", ""])
 
 func client_left(client_id : int) -> void:
 	var player = $"..".get_node_or_null(str(client_id))
