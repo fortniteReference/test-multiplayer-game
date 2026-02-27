@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://odkomtkv7hwf" path="res://images/red dot placeholder.png" id="15_7lmhl"]
 [ext_resource type="Script" uid="uid://du3epatw0gvdb" path="res://scripts/custom_loot_handler.gd" id="19_pbfsw"]
 [ext_resource type="Script" uid="uid://qg1l82dle3ic" path="res://scripts/custom_loot.gd" id="20_5tmop"]
+[ext_resource type="FontFile" uid="uid://bn5sd81kmqgyh" path="res://fomnts/TitilliumWeb-Regular.ttf" id="20_jm5j8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 
@@ -128,6 +129,18 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0.47843137, 0.8901961, 0.5686275, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7hik5"]
+bg_color = Color(0.36862746, 0.36862746, 0.36862746, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.14453125, 0.14453125, 0.14453125, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -456,11 +469,16 @@ extrapolated = false
 max_extrapolation_time = 0.2
 metadata/_custom_type_script = "uid://2yrdre6vxurd"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1207792076]
+[node name="CanvasLayer" type="Control" parent="." unique_id=168725556]
 visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="HUD" type="Control" parent="CanvasLayer" unique_id=1457016375]
-layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -666,33 +684,42 @@ expand_mode = 1
 visible = false
 layout_mode = 0
 offset_left = 920.0
-offset_top = 391.0
+offset_top = 425.0
 offset_right = 1106.0
 offset_bottom = 511.0
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7hik5")
 
 [node name="item name" type="Label" parent="CanvasLayer/HUD/Ammo" unique_id=1313730878]
 layout_mode = 0
-offset_top = 1.0
+offset_top = -1.0
 offset_right = 187.0
-offset_bottom = 24.0
+offset_bottom = 35.0
+theme_override_fonts/font = ExtResource("20_jm5j8")
+theme_override_font_sizes/font_size = 23
 text = "name"
 horizontal_alignment = 1
 
 [node name="reloading" type="Label" parent="CanvasLayer/HUD/Ammo" unique_id=609571481]
+visible = false
 layout_mode = 0
-offset_top = 86.0
+offset_top = 66.0
 offset_right = 187.0
-offset_bottom = 109.0
+offset_bottom = 111.0
+theme_override_colors/font_color = Color(0.9765625, 0.5683899, 0.5683899, 1)
+theme_override_fonts/font = ExtResource("20_jm5j8")
+theme_override_font_sizes/font_size = 30
 text = "reloading..."
 horizontal_alignment = 1
 
 [node name="ammo" type="Label" parent="CanvasLayer/HUD/Ammo" unique_id=879990989]
 layout_mode = 0
 offset_left = 1.0
-offset_top = 27.0
+offset_top = 25.0
 offset_right = 187.0
-offset_bottom = 50.0
+offset_bottom = 91.0
+theme_override_fonts/font = ExtResource("13_bwjto")
+theme_override_font_sizes/font_size = 40
 text = "0/0"
 horizontal_alignment = 1
 
@@ -940,12 +967,14 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 metadata/og_position = Vector2(39, 30)
 
 [node name="player name" type="Label" parent="CanvasLayer" unique_id=912249686]
+layout_mode = 0
 offset_right = 322.0
 offset_bottom = 137.0
 theme_override_font_sizes/font_size = 100
 text = "edewd"
 
 [node name="elim gui" type="Label" parent="CanvasLayer" unique_id=1823093850]
+layout_mode = 0
 offset_left = 497.0
 offset_top = 662.0
 offset_right = 577.0
@@ -986,7 +1015,7 @@ horizontal_alignment = 1
 
 [node name="Custom Loot" type="Control" parent="CanvasLayer" unique_id=1690563238]
 visible = false
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

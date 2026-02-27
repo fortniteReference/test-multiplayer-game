@@ -31,6 +31,7 @@
 [ext_resource type="Script" uid="uid://dcn1m3xaatatj" path="res://scripts/inv_handler.gd" id="29_k83mh"]
 [ext_resource type="AudioStream" uid="uid://dl0rt32t8wltt" path="res://audio/mansion idle.mp3" id="29_qktwf"]
 [ext_resource type="AudioStream" uid="uid://ctd8cvmcxcq0c" path="res://audio/Fortnite  CRIMSON BARONY Music Pack - v34.00.mp3" id="30_bh8nc"]
+[ext_resource type="PackedScene" uid="uid://d3klwmtqedn3b" path="res://accessories/cone.blend" id="31_jjr1n"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -833,6 +834,7 @@ horizontal_alignment = 1
 
 [node name="Waiting" type="Control" parent="CanvasLayer" unique_id=438103401]
 visible = false
+z_index = 10
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -2728,7 +2730,7 @@ metadata/price = 70
 metadata/rarity = "uncommon"
 metadata/enabled = true
 metadata/purchased = false
-metadata/image = ""
+metadata/image = "res://item images/audio.png"
 metadata/id = "lobby_ambiance"
 metadata/slot_color = Color(0.50980395, 0.8901961, 0.41568628, 1)
 metadata/reference = NodePath("../../Lobby Music/Accessory - ambiance")
@@ -2756,6 +2758,18 @@ metadata/image = "res://item images/audio.png"
 metadata/id = "lobby_barony"
 metadata/slot_color = Color(0.8980392, 0.7019608, 0.23137255, 1)
 metadata/reference = NodePath("../../Lobby Music/Accessory - barony")
+
+[node name="Item9" type="Node" parent="Shop Handler/Items" unique_id=120799205]
+metadata/name = "Cone"
+metadata/description = "An Accessory that appears on your character while playing"
+metadata/price = 130
+metadata/rarity = "rare"
+metadata/enabled = true
+metadata/purchased = false
+metadata/image = "res://item images/audio.png"
+metadata/id = "accessory_cone"
+metadata/slot_color = Color(0.23137255, 0.58431375, 0.8980392, 1)
+metadata/reference = NodePath("../../Accessories/Accessory - Cone")
 
 [node name="Canvas" type="CanvasLayer" parent="Shop Handler" unique_id=1419369938]
 layer = 5
@@ -3005,6 +3019,15 @@ lobby_music_enabled = true
 stream = ExtResource("30_bh8nc")
 script = ExtResource("28_o3ebs")
 lobby_music_enabled = true
+
+[node name="Accessories" type="Node" parent="Shop Handler" unique_id=1680073724]
+
+[node name="Accessory - Cone" type="Node" parent="Shop Handler/Accessories" unique_id=2027756137]
+script = ExtResource("28_o3ebs")
+accessory_enabled = true
+accessory = ExtResource("31_jjr1n")
+acc_position = Vector3(0, 0.7, 0)
+hide_on_owner = true
 
 [node name="Inv Handler" type="Node" parent="." unique_id=134027499]
 script = ExtResource("29_k83mh")

@@ -69,7 +69,7 @@ func display_accessories(player, equipped_items: Array):
 			if not item_node: continue
 			var reference: Node = item_node.get_node(item_node.get_meta("reference"))
 			
-			# print("reference: ", reference)
+			print("reference: ", reference, ", id: ", id)
 			if not reference:
 				print("no reference found")
 				continue
@@ -82,6 +82,16 @@ func display_accessories(player, equipped_items: Array):
 					mat.albedo_color = reference.color
 					mat.roughness = reference.roughness
 					mat.metallic = reference.metallic
+				elif reference.accessory_enabled:
+					var accessory_scene: PackedScene = reference.accessory
+					var accessory: Node3D = accessory_scene.instantiate()
+					player.add_child(accessory)
+					accessory.position = reference.acc_position
+					accessory.rotation = reference.acc_rotation
+					accessory.name = item_node.get_meta("id")
+					
+					if str(player.name).to_int() == GDSync.get_client_id() and reference.hide_on_owner == true:
+						accessory.hide()
 
 func owner_changed(_owner_id : int) -> void:
 	var is_owner : bool = GDSync.is_gdsync_owner(self)
@@ -402,7 +412,7 @@ func check_hit(item: Node3D):
 					var hit_pos = round(raycast.global_position.distance_to(raycast.get_collision_point()))
 					
 					if collision_pos.y > 0.55:
-						GDSync.synced_event_create(hit_player.name, 0, [item.name + " true", hit_pos])
+						GDSync.synced_event_create(hit_player.name, 0, [item.name + "true", hit_pos])
 					else:
 						GDSync.synced_event_create(hit_player.name, 0, [item.name, hit_pos])
 		await get_tree().create_timer(item.burst_cooldown,false,false,true).timeout

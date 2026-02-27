@@ -163,10 +163,13 @@ func _on_login_pressed() -> void:
 			await get_tree().create_timer(1.25,false,false,true).timeout
 			login.hide()
 			signup.hide()
-			$CanvasLayer.hide()
+			
+			$"../CanvasLayer/Waiting/Panel/task".text = "Loading Data..."
+			while not $"../Data Handler".loaded_items: await get_tree().create_timer(0.01).timeout
+			
 			$"../Lobby".show()
-			await get_tree().create_timer(1.25,false,false,true).timeout
-			get_tree().create_tween().tween_property(waiting, "position:y", 700, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+			get_tree().create_tween().tween_property(waiting, "position:y", 700, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+			await get_tree().create_timer(0.75,false,false,true).timeout
 			waiting.hide()
 			
 			var info_res = await GDSync.account_document_set("user info", {"email": str(email.text), "password": str(password.text)})

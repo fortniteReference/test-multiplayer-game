@@ -76,7 +76,26 @@ func connected() -> void:
 	var response = await GDSync.account_login_from_session(86400)
 	
 	if response == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
+		var login = $"Account Handler/CanvasLayer/Login"
+		var signup = $"Account Handler/CanvasLayer/Signup"
+		
+		$"Data Handler".get_items("play lobby")
+		$"Data Handler".get_currency()
+		
+		waiting.position.y = 0
+		waiting.show()
+		login.hide()
+		signup.hide()
+		get_tree().create_tween().tween_property(login, "position:y", 700, 1.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+		await get_tree().create_timer(1.25,false,false,true).timeout
+			
+		$"CanvasLayer/Waiting/Panel/task".text = "Loading Data..."
+		while not $"Data Handler".loaded_items: await get_tree().create_timer(0.01).timeout
+		
 		$Lobby.show()
+		get_tree().create_tween().tween_property(waiting, "position:y", 700, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+		await get_tree().create_timer(0.75,false,false,true).timeout
+		waiting.hide()
 		
 		var res = await GDSync.account_get_document("user info")
 		var code = res["Code"]
@@ -85,8 +104,6 @@ func connected() -> void:
 			print("got user info")
 			$"Shop Handler".current_email = res["Result"].get("email", "")
 			$"Shop Handler".current_pass = res["Result"].get("password", "")
-			$"Data Handler".get_items("play lobby")
-			$"Data Handler".get_currency()
 		else:
 			print("didn't get user info.")
 	else:
@@ -254,7 +271,7 @@ func manage_game(command: String):
 			var score_text = $CanvasLayer/Game/Score/YourScore/score
 			var enemy_text = $CanvasLayer/Game/Score/EnemyScore/score
 			if winner.to_int() == GDSync.get_client_id():
-				$"Data Handler".currency += 100
+				$"Data Handler".currency += 2
 				var amount_of_wins = str(str(score_text.text).replace("/10", "")).to_int() + 1
 				score_text.text = str(amount_of_wins) + "/10"
 				
