@@ -154,7 +154,7 @@ func _on_login_pressed() -> void:
 			
 			$"../Shop Handler".current_email = str(email.text)
 			$"../Shop Handler".current_pass = str(password.text)
-			$"../Data Handler".get_items()
+			$"../Data Handler".get_items("play lobby")
 			$"../Data Handler".get_currency()
 			waiting.position.y = -700
 			waiting.show()

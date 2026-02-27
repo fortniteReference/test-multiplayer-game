@@ -26,7 +26,7 @@ func set_items(code = ""):
 		print("error setting items: ", ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.keys()[res])
 	saved_items = true
 
-func get_items():
+func get_items(h_code = ""):
 	print("getting items...")
 	var res = await GDSync.account_get_document("items")
 	var code = res["Code"]
@@ -39,7 +39,8 @@ func get_items():
 		loaded_items = true
 		if $"../Lobby/main/Panel/Locker".disabled:
 			$"../Lobby/main/Panel/Locker".disabled = false
-		$"../Inv Handler".play_lobby_music()
+		if h_code.containsn("play lobby"):
+			$"../Inv Handler".play_lobby_music()
 	elif code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.DOESNT_EXIST:
 		print("items doesn't exist.")
 		set_items("add items, get items")

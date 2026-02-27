@@ -30,6 +30,7 @@
 [ext_resource type="Script" uid="uid://teusum7wkwn3" path="res://accessories.gd" id="28_o3ebs"]
 [ext_resource type="Script" uid="uid://dcn1m3xaatatj" path="res://scripts/inv_handler.gd" id="29_k83mh"]
 [ext_resource type="AudioStream" uid="uid://dl0rt32t8wltt" path="res://audio/mansion idle.mp3" id="29_qktwf"]
+[ext_resource type="AudioStream" uid="uid://ctd8cvmcxcq0c" path="res://audio/Fortnite  CRIMSON BARONY Music Pack - v34.00.mp3" id="30_bh8nc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -2744,6 +2745,18 @@ metadata/id = "lobby_lair"
 metadata/slot_color = Color(0.4392157, 0.23137255, 0.8980392, 1)
 metadata/reference = NodePath("../../Lobby Music/Accessory - lair")
 
+[node name="Item8" type="Node" parent="Shop Handler/Items" unique_id=2136866145]
+metadata/name = "Crimson Barony"
+metadata/description = "A lobby music sound effect that will play while you are in the lobby, or waiting for another player."
+metadata/price = 250
+metadata/rarity = "legendary"
+metadata/enabled = true
+metadata/purchased = false
+metadata/image = "res://item images/audio.png"
+metadata/id = "lobby_barony"
+metadata/slot_color = Color(0.8980392, 0.7019608, 0.23137255, 1)
+metadata/reference = NodePath("../../Lobby Music/Accessory - barony")
+
 [node name="Canvas" type="CanvasLayer" parent="Shop Handler" unique_id=1419369938]
 layer = 5
 visible = false
@@ -2985,6 +2998,11 @@ lobby_music_enabled = true
 
 [node name="Accessory - lair" type="AudioStreamPlayer" parent="Shop Handler/Lobby Music" unique_id=1170354278]
 stream = ExtResource("29_qktwf")
+script = ExtResource("28_o3ebs")
+lobby_music_enabled = true
+
+[node name="Accessory - barony" type="AudioStreamPlayer" parent="Shop Handler/Lobby Music" unique_id=1104817050]
+stream = ExtResource("30_bh8nc")
 script = ExtResource("28_o3ebs")
 lobby_music_enabled = true
 

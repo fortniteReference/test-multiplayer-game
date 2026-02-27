@@ -85,7 +85,7 @@ func connected() -> void:
 			print("got user info")
 			$"Shop Handler".current_email = res["Result"].get("email", "")
 			$"Shop Handler".current_pass = res["Result"].get("password", "")
-			$"Data Handler".get_items()
+			$"Data Handler".get_items("play lobby")
 			$"Data Handler".get_currency()
 		else:
 			print("didn't get user info.")
