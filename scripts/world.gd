@@ -6,6 +6,7 @@ extends Node
 @onready var voting = $CanvasLayer/Voting
 @onready var task = $CanvasLayer/Waiting/Panel/task
 @onready var try_again = $"CanvasLayer/Waiting/Panel/try again"
+@onready var data = $"Data Handler"
 # Called when the node enters the scene tree for the first time.
 
 var lobby_status = ""
@@ -178,6 +179,9 @@ func lobby_creation_failed(lobby_name : String, error : int) -> void:
 		GDSync.lobby_join(lobby_name)
 
 func lobby_joined(_lobby_name : String) -> void:
+	data.set_items()
+	data.set_currency(data.currency)
+	
 	$Lobby.found_lobby = true
 	lobby_status = "joined"
 	await get_tree().create_timer(0.5).timeout

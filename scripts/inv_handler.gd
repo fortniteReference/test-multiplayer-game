@@ -90,6 +90,7 @@ func _on_exit_pressed() -> void:
 	canvas.hide()
 
 func _on_equip_pressed() -> void:
+	view_button.hide()
 	if current_id.containsn("color_"):
 		for id in equipped_items:
 			if id.containsn("color_"): equipped_items.erase(id)

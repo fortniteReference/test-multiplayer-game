@@ -3,6 +3,7 @@ extends Node
 var settings = {}
 var currency = 0
 var items = []
+var gift_queue = []
 
 var saved_items = false
 var saved_currency = false
@@ -16,7 +17,7 @@ func set_items(code = ""):
 	
 	saved_items = false
 	print("setting items: ", items)
-	var res = await GDSync.account_document_set("items", {"items": items, "equipped": $"../Inv Handler".equipped_items}, true)
+	var res = await GDSync.account_document_set("items", {"items": items, "equipped": $"../Inv Handler".equipped_items, "gift_queue": gift_queue}, true)
 	
 	if res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
 		print("successfully set items.")
@@ -82,6 +83,7 @@ func get_currency():
 		set_currency(-1) # -1 will add the currency document
 	else:
 		print("error getting currency: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
+
 func set_settings(data: Dictionary, get_data = false):
 	print("adding settings")
 	var res = await GDSync.account_document_set("settings", data, false)

@@ -252,7 +252,9 @@ func check_date():
 		set_date()
 	else:
 		print("error getting shop date: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
-		
+
+
+
 func _on_reset_pressed() -> void:
 	set_shop()
 
@@ -280,7 +282,6 @@ func set_date():
 		
 		if reset_code == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
 			print("re-logged in.")
-			refresh_shop()
 			await get_tree().create_timer(7).timeout
 		else:
 			print("could not re-log in. error: ", ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.keys()[reset_code])

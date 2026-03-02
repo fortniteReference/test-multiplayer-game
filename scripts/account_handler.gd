@@ -172,7 +172,7 @@ func _on_login_pressed() -> void:
 			await get_tree().create_timer(0.75,false,false,true).timeout
 			waiting.hide()
 			
-			var info_res = await GDSync.account_document_set("user info", {"email": str(email.text), "password": str(password.text)})
+			var info_res = await GDSync.account_document_set("user info", {"email": str(email.text), "password": str(password.text)}, true)
 			
 			if info_res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS:
 				print("successfully set user info.")
