@@ -496,6 +496,42 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yx0jh"]
+bg_color = Color(0.5948067, 0.859375, 0.5102539, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.4406857, 0.65234375, 0.3720398, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ew0l"]
+bg_color = Color(0.51410115, 0.734375, 0.44177246, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.4406857, 0.65234375, 0.3720398, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ryup7"]
+bg_color = Color(0.51410115, 0.734375, 0.44177246, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.4406857, 0.65234375, 0.3720398, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_my276"]
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
@@ -2182,6 +2218,7 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = ExtResource("16_udxuc")
 theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("17_ikiii")
 disabled = true
 text = "Locker"
 
@@ -2433,6 +2470,86 @@ theme_override_styles/normal = ExtResource("24_bo7i5")
 theme_override_styles/pressed = ExtResource("24_bo7i5")
 theme_override_styles/hover = ExtResource("24_bo7i5")
 text = "X"
+
+[node name="gift panel" type="Panel" parent="Lobby/main/Panel" unique_id=1978037795]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("27_gggvi")
+
+[node name="container" type="ScrollContainer" parent="Lobby/main/Panel/gift panel" unique_id=1254330503]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 330.0
+offset_right = 1123.0
+offset_bottom = 570.0
+vertical_scroll_mode = 0
+
+[node name="hbox" type="HBoxContainer" parent="Lobby/main/Panel/gift panel/container" unique_id=550155579]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="claim" type="Button" parent="Lobby/main/Panel/gift panel" unique_id=484754864]
+layout_mode = 0
+offset_left = 376.5
+offset_top = 579.0
+offset_right = 775.5
+offset_bottom = 643.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.627451)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.627451)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.627451)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.627451)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.627451)
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = ExtResource("6_gbfbk")
+theme_override_styles/pressed = ExtResource("7_ioo17")
+theme_override_styles/hover = ExtResource("7_ioo17")
+text = "Claim Gifts"
+
+[node name="slot" type="Panel" parent="Lobby/main/Panel/gift panel" unique_id=1440189770]
+visible = false
+custom_minimum_size = Vector2(180, 240)
+layout_mode = 0
+offset_left = 22.0
+offset_top = 330.0
+offset_right = 202.0
+offset_bottom = 570.0
+theme_override_styles/panel = ExtResource("16_udxuc")
+
+[node name="title" type="Label" parent="Lobby/main/Panel/gift panel/slot" unique_id=676547178]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 6.0
+offset_right = 176.0
+offset_bottom = 56.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 31
+text = "title"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="image" type="TextureRect" parent="Lobby/main/Panel/gift panel/slot" unique_id=1331963001]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 68.0
+offset_right = 175.0
+offset_bottom = 237.0
+expand_mode = 1
+
+[node name="title" type="Label" parent="Lobby/main/Panel/gift panel" unique_id=1580294850]
+layout_mode = 0
+offset_top = 42.0
+offset_right = 1152.0
+offset_bottom = 174.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 100
+text = "You've Received a gift!"
+horizontal_alignment = 1
 
 [node name="Friend Handler" type="Node" parent="." unique_id=1203872272]
 script = ExtResource("22_wukud")
@@ -2936,10 +3053,11 @@ offset_bottom = 308.0
 expand_mode = 1
 
 [node name="purchase" type="Button" parent="Shop Handler/Canvas/main/purchase" unique_id=2080046700]
+visible = false
 layout_mode = 0
 offset_left = 10.0
 offset_top = 546.0
-offset_right = 310.0
+offset_right = 211.0
 offset_bottom = 603.0
 theme_override_colors/font_color = Color(0, 0, 0, 0.68235296)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 0.68235296)
@@ -2948,10 +3066,29 @@ theme_override_colors/font_hover_color = Color(0, 0, 0, 0.68235296)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.68235296)
 theme_override_fonts/font = ExtResource("10_ic0uy")
 theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = ExtResource("6_gbfbk")
-theme_override_styles/pressed = ExtResource("7_ioo17")
-theme_override_styles/hover = ExtResource("7_ioo17")
+theme_override_styles/normal = SubResource("StyleBoxFlat_yx0jh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1ew0l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ryup7")
 text = "Purchase"
+
+[node name="gift" type="Button" parent="Shop Handler/Canvas/main/purchase" unique_id=1592764130]
+visible = false
+layout_mode = 0
+offset_left = 218.0
+offset_top = 546.0
+offset_right = 311.0
+offset_bottom = 603.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.68235296)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.68235296)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.68235296)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.68235296)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.68235296)
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = ExtResource("33_6ah6f")
+theme_override_styles/pressed = ExtResource("34_g1i3r")
+theme_override_styles/hover = ExtResource("34_g1i3r")
+text = "Gift"
 
 [node name="amount" type="Panel" parent="Shop Handler/Canvas/main" unique_id=224435504]
 layout_mode = 0
@@ -3039,6 +3176,7 @@ hide_on_owner = true
 
 [node name="Gift Canvas" type="CanvasLayer" parent="Shop Handler" unique_id=833256174]
 layer = 6
+visible = false
 script = ExtResource("33_g1i3r")
 
 [node name="main" type="Panel" parent="Shop Handler/Gift Canvas" unique_id=403002015]
@@ -3082,6 +3220,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="slot" type="Panel" parent="Shop Handler/Gift Canvas/main" unique_id=1711622329]
+visible = false
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 0
 offset_left = 20.0
@@ -3102,6 +3241,7 @@ theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = ExtResource("33_6ah6f")
 theme_override_styles/pressed = ExtResource("34_g1i3r")
 theme_override_styles/hover = ExtResource("34_g1i3r")
+theme_override_styles/disabled = ExtResource("33_6ah6f")
 text = "Gift"
 
 [node name="username" type="Label" parent="Shop Handler/Gift Canvas/main/slot" unique_id=1139826768]
@@ -3202,6 +3342,7 @@ offset_bottom = 50.0
 theme_override_styles/normal = ExtResource("16_udxuc")
 theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("16_udxuc")
 text = "< Back"
 
 [node name="Inv Handler" type="Node" parent="." unique_id=134027499]
@@ -3420,6 +3561,7 @@ autowrap_mode = 2
 [connection signal="pressed" from="Shop Handler/Canvas/main/exit" to="Shop Handler" method="_on_exit_pressed"]
 [connection signal="pressed" from="Shop Handler/Canvas/main/reset" to="Shop Handler" method="_on_reset_pressed"]
 [connection signal="pressed" from="Shop Handler/Canvas/main/purchase/purchase" to="Shop Handler" method="_on_purchase_pressed"]
+[connection signal="pressed" from="Shop Handler/Canvas/main/purchase/gift" to="Shop Handler" method="_on_gift_pressed"]
 [connection signal="pressed" from="Shop Handler/Gift Canvas/main/gift panel/gift purchase" to="Shop Handler/Gift Canvas" method="_on_gift_purchase_pressed"]
 [connection signal="pressed" from="Shop Handler/Gift Canvas/main/back" to="Shop Handler/Gift Canvas" method="_on_back_pressed"]
 [connection signal="pressed" from="Inv Handler/Canvas/main/exit" to="Inv Handler" method="_on_exit_pressed"]

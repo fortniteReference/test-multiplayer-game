@@ -10,6 +10,7 @@ extends CanvasLayer
 @onready var error_text = $"main/gift panel/error text"
 @onready var image = $"main/gift panel/image"
 @onready var purchase = $"main/gift panel/gift purchase"
+@onready var back = $main/back
 # ---------------------
 @onready var items = $"../Items"
 @onready var data = $"../../Data Handler"
@@ -26,14 +27,16 @@ var item_price = 0
 func get_self_info():
 	var res = await GDSync.account_get_document("user info")
 	
-	if res == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS: pass
+	if res["Code"] == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS: pass
 	else: print("error getting user info for self ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[res["Code"]])
 	
 	print("got self info")
 	self_email = res["Result"]["email"]
 	self_password = res["Result"]["password"]
 	
-func create_slots():
+func create_slots(id: String = ""):
+	current_id = id
+	
 	title.text = ""
 	desc.text = ""
 	image.texture = null
@@ -78,14 +81,18 @@ func create_slots():
 				
 				if code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS:
 					var owned_items: Array = res["Result"]["items"]
-					var gift_queue: Array = res["Result"]["gift_queue"]
+					var gift_queue: Array = res["Result"].get("gift_queue", ["does not have"])
 					
+					if gift_queue.has("does not have"):
+						error_text.text = "User's info is not up to date. Wait until they log in, then try again."
+						return
 					if owned_items.has(current_id) or gift_queue.has(current_id):
 						error_text.text = "User owns this item already."
 						return
 					else: pass
 				else:
 					error_text.text = "Could not get user info, please try again later."
+					print("error getting document for user: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
 					return
 
 				error_text.text = "Gifting User; This may take a moment.\nDo NOT close the app."
@@ -100,7 +107,7 @@ func create_slots():
 					desc.text = item.get_meta("description")
 					
 					if item.get_meta("image") != "":
-						image.texture = item.get_meta("image")
+						image.texture = load(str(item.get_meta("image")))
 					item_price = item.get_meta("price")
 					purchase.text = "Gift '" + item.get_meta("name") + "' to " + username
 					purchase.show()
@@ -109,10 +116,7 @@ func create_slots():
 		print("did not get friends. error: ", ENUMS.ACCOUNT_GET_FRIENDS_RESPONSE_CODE.keys()[friends_code])
 
 func _on_gift_purchase_pressed() -> void:
-	if current_user == "" or gifting: return
-	gifting = true
-	
-	var gifted = false
+	if current_user == "": return
 	
 	title.text = ""
 	desc.text = ""
@@ -120,6 +124,21 @@ func _on_gift_purchase_pressed() -> void:
 	error_text.text = "Gifting User; This may take a moment.\nDo NOT close the app."
 	error_text.show()
 	purchase.hide()
+	
+	if gifting:
+		error_text.show()
+		error_text.text = "Running Processes; Please try again later."
+		await get_tree().create_timer(2).timeout
+		error_text.hide()
+		return
+	gifting = true
+	
+	back.disabled = true
+	for slot in container.get_children():
+		var button: Button = slot.get_node("gift")
+		button.disabled = true
+	
+	var gifted = false
 	
 	var info_res = await GDSync.account_get_external_document(current_user, "user info")
 	var info_code = info_res["Code"]
@@ -149,7 +168,7 @@ func _on_gift_purchase_pressed() -> void:
 			if gift_queue.has(current_id): print("player already has item in gift queue")
 			else: gift_queue.append(current_id)
 	
-			var set_res = await GDSync.account_document_set("items", {"items": owned_items, "equipped": equipped_items, "gift_queue": gift_queue})
+			var set_res = await GDSync.account_document_set("items", {"items": owned_items, "equipped": equipped_items, "gift_queue": gift_queue}, true)
 	
 			if set_res == ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.SUCCESS: gifted = true
 			else: error_text.text = "Failed to set user document: " + str(ENUMS.ACCOUNT_DOCUMENT_SET_RESPONSE_CODE.keys()[set_res]) + ", please retry.\nYour account has not been charged."
@@ -161,20 +180,29 @@ func _on_gift_purchase_pressed() -> void:
 	
 	if reset_code == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
 		if gifted:
+			if data.loaded_currency and data.loaded_items:
+				data.set_currency(data.currency)
+				data.set_items()
+				while await get_tree().create_timer(0.1).timeout:
+					if data.saved_currency and data.saved_items: break
 			data.currency -= item_price
 			your_currency.text = "Your current balance is:" + str(data.currency) + " Credits"
 			error_text.text = "Successfully gifted user!"
 			await get_tree().create_timer(2,false,false,true).timeout
 			error_text.hide()
-			if data.loaded_currency and data.loaded_items:
-				data.set_currency(data.currency)
-				data.set_items(data.items)
 	else:
 		if gifted:
 			error_text.text = "Error logging back into user account. User gifted successfully."
 			data.currency -= item_price
 			your_currency.text = "Your current balance is:" + str(data.currency) + " Credits"
 		else: error_text.text = "Error logging back into user account.\nYour account has not been charged."
+	
+	back.disabled = false
+	for slot in container.get_children():
+		var button: Button = slot.get_node("gift")
+		button.disabled = false
+	await get_tree().create_timer(7).timeout
+	gifting = false
 	
 func _on_back_pressed() -> void:
 	hide()

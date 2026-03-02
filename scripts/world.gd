@@ -80,7 +80,7 @@ func connected() -> void:
 		var login = $"Account Handler/CanvasLayer/Login"
 		var signup = $"Account Handler/CanvasLayer/Signup"
 		
-		$"Data Handler".get_items("play lobby")
+		$"Data Handler".get_items("play lobby, check gifts")
 		$"Data Handler".get_currency()
 		
 		waiting.position.y = 0

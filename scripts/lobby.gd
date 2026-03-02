@@ -70,7 +70,7 @@ func _on_menu_pressed() -> void:
 func _on_back_pressed() -> void:
 	menu.hide()
 	for object in $main/Panel.get_children():
-		if object.name != "Menu": object.show()
+		if object.name != "Menu" and object.name != "gift panel": object.show()
 
 func _on_logout_pressed() -> void:
 	logout.text = "Logging Out..."

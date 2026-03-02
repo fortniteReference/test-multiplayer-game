@@ -37,11 +37,47 @@ func get_items(h_code = ""):
 		items = res["Result"].get("items", [])
 		$"../Inv Handler".owned_items = items
 		$"../Inv Handler".equipped_items = res["Result"].get("equipped", [])
+		gift_queue = res["Result"].get("gift_queue", [])
+		
 		loaded_items = true
 		if $"../Lobby/main/Panel/Locker".disabled:
 			$"../Lobby/main/Panel/Locker".disabled = false
 		if h_code.containsn("play lobby"):
 			$"../Inv Handler".play_lobby_music()
+		if h_code.containsn("check gifts"):
+			var gift_panel = $"../Lobby/main/Panel/gift panel"
+			var container = $"../Lobby/main/Panel/gift panel/container/hbox"
+			var claim: Button = $"../Lobby/main/Panel/gift panel/claim"
+			var og_slot = $"../Lobby/main/Panel/gift panel/slot"
+			
+			for child in container.get_children():
+				child.queue_free()
+			var queue: Array = gift_queue
+			if queue.size() > 0:
+				gift_panel.show()
+				for item_id in queue:
+					var item: Node = null
+					for item_node in $"../Shop Handler/Items".get_children():
+						if item_node.get_meta("id").contains(str(item_id)):
+							item = item_node
+					if item == null: continue
+					
+					var slot = og_slot.duplicate()
+					container.add_child(slot)
+					slot.show()
+					slot.get_node("title").text = item.get_meta("name")
+					
+					if item.get_meta("image") != "":
+						slot.get_node("image").texture = load(str(item.get_meta("image")))
+				var claim_pressed = func():
+					gift_panel.hide()
+					
+					$"../Inv Handler".owned_items.append_array(gift_queue)
+					gift_queue = []
+				if not claim.pressed.is_connected(claim_pressed):
+					claim.pressed.connect(claim_pressed)
+			else:
+				gift_panel.hide()
 	elif code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.DOESNT_EXIST:
 		print("items doesn't exist.")
 		set_items("add items, get items")

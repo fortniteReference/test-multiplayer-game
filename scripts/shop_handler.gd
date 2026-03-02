@@ -131,6 +131,7 @@ func create_slots(shop_items: Array):
 				pur_button.hide()
 			else:
 				pur_button.show()
+			$Canvas/main/purchase/gift.show()
 			if current_id.containsn("lobby_"):
 				testing_music = true
 				for music in $"../Shop Handler/Lobby Music".get_children():
@@ -185,6 +186,10 @@ func _on_purchase_pressed() -> void:
 		pur_button.text = "Not enough Credits"
 		await get_tree().create_timer(1.5).timeout
 		pur_button.text = "Purchase"
+		
+func _on_gift_pressed() -> void:
+	if data.currency >= str(price.text).replace("Price: ", "").replace(" Credits", "").to_int():
+		$"Gift Canvas".create_slots(current_id)
 
 func _on_exit_pressed() -> void:
 	canvas.hide()
@@ -195,6 +200,8 @@ func _on_shop_pressed() -> void:
 	refresh_shop()
 
 func refresh_shop():
+	pur_button.hide()
+	$Canvas/main/purchase/gift.hide()
 	for child in container.get_children(): child.queue_free()
 	canvas.show()
 
@@ -252,8 +259,6 @@ func check_date():
 		set_date()
 	else:
 		print("error getting shop date: ", ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[code])
-
-
 
 func _on_reset_pressed() -> void:
 	set_shop()
