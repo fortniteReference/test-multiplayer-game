@@ -12,11 +12,15 @@ extends CanvasLayer
 @onready var purchase = $"main/gift panel/gift purchase"
 @onready var back = $main/back
 # ---------------------
+@onready var final = $"main/final check"
+@onready var final_desc = $"main/final check/panel/desc"
+# ---------------------
 @onready var items = $"../Items"
 @onready var data = $"../../Data Handler"
 
 var current_id = ""
 var current_user = ""
+var current_item = ""
 
 var self_email = ""
 var self_password = ""
@@ -84,7 +88,7 @@ func create_slots(id: String = ""):
 					var gift_queue: Array = res["Result"].get("gift_queue", ["does not have"])
 					
 					if gift_queue.has("does not have"):
-						error_text.text = "User's info is not up to date. Wait until they log in, then try again."
+						error_text.text = "User's info is not up to date.\nMake sure they have the updated version, or wait until the log in again."
 						return
 					if owned_items.has(current_id) or gift_queue.has(current_id):
 						error_text.text = "User owns this item already."
@@ -102,6 +106,7 @@ func create_slots(id: String = ""):
 					if current_id == item_node.get_meta("id"): item = item_node
 				if item != null:
 					current_user = username
+					current_item = item.get_meta("name")
 					
 					title.text = item.get_meta("name")
 					desc.text = item.get_meta("description")
@@ -116,6 +121,16 @@ func create_slots(id: String = ""):
 		print("did not get friends. error: ", ENUMS.ACCOUNT_GET_FRIENDS_RESPONSE_CODE.keys()[friends_code])
 
 func _on_gift_purchase_pressed() -> void:
+	final.show()
+	final_desc.text = "You are about to give " + current_user + " the '" + current_item + "' item.\nAre you absolutely sure?\nIf you confirm, there is no going back."
+
+func _on_back_pressed() -> void:
+	hide()
+
+func _on_no_pressed() -> void:
+	final.hide()
+
+func _on_confirm_pressed() -> void:
 	if current_user == "": return
 	
 	title.text = ""
@@ -124,6 +139,7 @@ func _on_gift_purchase_pressed() -> void:
 	error_text.text = "Gifting User; This may take a moment.\nDo NOT close the app."
 	error_text.show()
 	purchase.hide()
+	final.hide()
 	
 	if gifting:
 		error_text.show()
@@ -180,12 +196,12 @@ func _on_gift_purchase_pressed() -> void:
 	
 	if reset_code == ENUMS.ACCOUNT_LOGIN_RESPONSE_CODE.SUCCESS:
 		if gifted:
+			data.currency -= item_price
 			if data.loaded_currency and data.loaded_items:
 				data.set_currency(data.currency)
 				data.set_items()
 				while await get_tree().create_timer(0.1).timeout:
 					if data.saved_currency and data.saved_items: break
-			data.currency -= item_price
 			your_currency.text = "Your current balance is:" + str(data.currency) + " Credits"
 			error_text.text = "Successfully gifted user!"
 			await get_tree().create_timer(2,false,false,true).timeout
@@ -203,6 +219,3 @@ func _on_gift_purchase_pressed() -> void:
 		button.disabled = false
 	await get_tree().create_timer(7).timeout
 	gifting = false
-	
-func _on_back_pressed() -> void:
-	hide()

@@ -11,6 +11,7 @@ extends Node
 @export var accessory: PackedScene
 @export var acc_position: Vector3 # Height is 2.0 m, radius is 0.5 m
 @export var acc_rotation: Vector3
+@export var acc_part_display: String # The string that is displayed on the shop's slot screen.
 @export var hide_on_owner: bool # If enabled, hides the accessory on the owner's screen.
 # --------------------------------
 @export_group("Lobby Music") # If lobby music is enabled, the script MUST be placed on an audio node!

@@ -36,6 +36,11 @@
 [ext_resource type="StyleBox" uid="uid://bg0xjderyaomf" path="res://box flats/blue button flat.tres" id="33_6ah6f"]
 [ext_resource type="Script" uid="uid://6yfre8vaf165" path="res://scripts/gift_handler.gd" id="33_g1i3r"]
 [ext_resource type="StyleBox" uid="uid://7ebn2yywx6x7" path="res://box flats/blue button flat pressed.tres" id="34_g1i3r"]
+[ext_resource type="AudioStream" uid="uid://1ief7hfoi21k" path="res://audio/aotopening.mp3" id="34_ryup7"]
+[ext_resource type="AudioStream" uid="uid://chm7s05j3jnx0" path="res://audio/fire-force-season-3-part-2-op-opening.mp3" id="35_ytpkv"]
+[ext_resource type="StyleBox" uid="uid://dnhetwsu424j8" path="res://box flats/red flat pressed.tres" id="36_1ew0l"]
+[ext_resource type="StyleBox" uid="uid://dmg0wbjngvb1v" path="res://box flats/green button 2.tres" id="37_ryup7"]
+[ext_resource type="StyleBox" uid="uid://mrpk8fte17j4" path="res://box flats/green button 2 pressed.tres" id="38_ytpkv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -538,6 +543,18 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jas3d"]
+bg_color = Color(0.6039216, 0.6666667, 0.81960785, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.43086243, 0.47711158, 0.58984375, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ah6f"]
 bg_color = Color(0.671875, 0.671875, 0.671875, 1)
@@ -2795,7 +2812,7 @@ metadata/price = 50
 metadata/rarity = "common"
 metadata/enabled = true
 metadata/purchased = false
-metadata/image = ""
+metadata/image = "res://item images/colors/color green.png"
 metadata/id = "color_lime"
 metadata/slot_color = Color(0.68359375, 0.68359375, 0.68359375, 1)
 metadata/reference = NodePath("../../Colors/Accessory - Lime")
@@ -2807,7 +2824,7 @@ metadata/price = 90
 metadata/rarity = "uncommon"
 metadata/enabled = true
 metadata/purchased = false
-metadata/image = ""
+metadata/image = "res://item images/colors/color red.png"
 metadata/id = "color_red"
 metadata/slot_color = Color(0.5098915, 0.890625, 0.41748047, 1)
 metadata/reference = NodePath("../../Colors/Accessory - Red")
@@ -2819,7 +2836,7 @@ metadata/price = 120
 metadata/rarity = "rare"
 metadata/enabled = true
 metadata/purchased = false
-metadata/image = ""
+metadata/image = "res://item images/colors/color orange.png"
 metadata/id = "color_orange"
 metadata/slot_color = Color(0.23162842, 0.58587074, 0.8984375, 1)
 metadata/reference = NodePath("../../Colors/Accessory - Orange")
@@ -2831,7 +2848,7 @@ metadata/price = 190
 metadata/rarity = "epic"
 metadata/enabled = true
 metadata/purchased = false
-metadata/image = ""
+metadata/image = "res://item images/colors/color darkblue.png"
 metadata/id = "color_darkblue"
 metadata/slot_color = Color(0.4397059, 0.2313726, 0.8980392, 1)
 metadata/reference = NodePath("../../Colors/Accessory - Dark Blue")
@@ -2843,7 +2860,7 @@ metadata/price = 250
 metadata/rarity = "legendary"
 metadata/enabled = true
 metadata/purchased = false
-metadata/image = ""
+metadata/image = "res://item images/colors/color red.png"
 metadata/id = "color_mred"
 metadata/slot_color = Color(0.8980392, 0.7001226, 0.2313726, 1)
 metadata/reference = NodePath("../../Colors/Accessory - M Red")
@@ -2891,10 +2908,34 @@ metadata/price = 130
 metadata/rarity = "rare"
 metadata/enabled = true
 metadata/purchased = false
-metadata/image = "res://item images/audio.png"
+metadata/image = "res://item images/cone image.png"
 metadata/id = "accessory_cone"
 metadata/slot_color = Color(0.23137255, 0.58431375, 0.8980392, 1)
 metadata/reference = NodePath("../../Accessories/Accessory - Cone")
+
+[node name="Item10" type="Node" parent="Shop Handler/Items" unique_id=925707241]
+metadata/name = "My War"
+metadata/description = "A lobby music sound effect that will play while you are in the lobby, or waiting for another player."
+metadata/price = 325
+metadata/rarity = "mythic"
+metadata/enabled = true
+metadata/purchased = false
+metadata/image = "res://item images/audio.png"
+metadata/id = "lobby_mywar"
+metadata/slot_color = Color(0.8984375, 0.83496094, 0.53344727, 1)
+metadata/reference = NodePath("../../Lobby Music/Accessory - mywar")
+
+[node name="Item11" type="Node" parent="Shop Handler/Items" unique_id=1021914675]
+metadata/name = "Ignis"
+metadata/description = "A lobby music sound effect that will play while you are in the lobby, or waiting for another player."
+metadata/price = 375
+metadata/rarity = "mythic"
+metadata/enabled = true
+metadata/purchased = false
+metadata/image = "res://item images/audio.png"
+metadata/id = "lobby_ignis"
+metadata/slot_color = Color(0.8984375, 0.83496094, 0.53344727, 1)
+metadata/reference = NodePath("../../Lobby Music/Accessory - ignis")
 
 [node name="Canvas" type="CanvasLayer" parent="Shop Handler" unique_id=1419369938]
 layer = 5
@@ -2924,9 +2965,9 @@ text = "< Back"
 
 [node name="reset" type="Button" parent="Shop Handler/Canvas/main" unique_id=1586712805]
 layout_mode = 0
-offset_left = 389.0
+offset_left = 467.0
 offset_top = 14.0
-offset_right = 516.0
+offset_right = 594.0
 offset_bottom = 61.0
 theme_override_fonts/font = ExtResource("11_k3n1d")
 theme_override_font_sizes/font_size = 20
@@ -2967,12 +3008,22 @@ theme_override_font_sizes/font_size = 40
 text = "title"
 horizontal_alignment = 1
 
+[node name="type" type="Label" parent="Shop Handler/Canvas/main/slot" unique_id=711652623]
+layout_mode = 0
+offset_top = 46.0
+offset_right = 230.0
+offset_bottom = 85.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 25
+text = "null"
+horizontal_alignment = 1
+
 [node name="image" type="TextureRect" parent="Shop Handler/Canvas/main/slot" unique_id=1878837554]
 layout_mode = 0
 offset_left = 19.0
-offset_top = 57.0
+offset_top = 86.0
 offset_right = 209.0
-offset_bottom = 247.0
+offset_bottom = 260.0
 expand_mode = 1
 
 [node name="view" type="Button" parent="Shop Handler/Canvas/main/slot" unique_id=1600213286]
@@ -3094,13 +3145,13 @@ text = "Gift"
 layout_mode = 0
 offset_left = 154.0
 offset_top = 15.0
-offset_right = 374.0
+offset_right = 451.0
 offset_bottom = 61.0
 theme_override_styles/panel = ExtResource("16_udxuc")
 
 [node name="amount" type="Label" parent="Shop Handler/Canvas/main/amount" unique_id=519240657]
 layout_mode = 0
-offset_right = 222.0
+offset_right = 295.0
 offset_bottom = 47.0
 theme_override_fonts/font = ExtResource("10_ic0uy")
 theme_override_font_sizes/font_size = 24
@@ -3110,15 +3161,31 @@ vertical_alignment = 1
 
 [node name="time tip" type="Label" parent="Shop Handler/Canvas/main" unique_id=641788930]
 layout_mode = 0
-offset_left = 373.0
+offset_left = 459.0
 offset_top = 3.0
-offset_right = 814.0
+offset_right = 809.0
 offset_bottom = 66.0
 theme_override_fonts/font = ExtResource("11_k3n1d")
 theme_override_font_sizes/font_size = 19
 text = "Tip: Shop resets every day at midnight UTC time. (0:00 your local time)"
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="loading" type="AnimatedSprite2D" parent="Shop Handler/Canvas/main" unique_id=2049957447]
+visible = false
+position = Vector2(403, 398)
+scale = Vector2(0.9, 0.9)
+sprite_frames = SubResource("SpriteFrames_olr1q")
+
+[node name="text" type="Label" parent="Shop Handler/Canvas/main/loading" unique_id=1001216455]
+offset_left = -202.22223
+offset_top = -166.66669
+offset_right = 198.88889
+offset_bottom = -111.66669
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 36
+text = "Loading Shop..."
+horizontal_alignment = 1
 
 [node name="Colors" type="Node" parent="Shop Handler" unique_id=1436900156]
 
@@ -3130,7 +3197,7 @@ color = Color(0.5600586, 1, 0.46875, 1)
 [node name="Accessory - Red" type="Node" parent="Shop Handler/Colors" unique_id=1242163316]
 script = ExtResource("28_o3ebs")
 color_enabled = true
-color = Color(0.93359375, 0.21151733, 0.21151733, 1)
+color = Color(0.93333334, 0.21176471, 0.21176471, 1)
 
 [node name="Accessory - Orange" type="Node" parent="Shop Handler/Colors" unique_id=1364036942]
 script = ExtResource("28_o3ebs")
@@ -3165,6 +3232,17 @@ stream = ExtResource("30_bh8nc")
 script = ExtResource("28_o3ebs")
 lobby_music_enabled = true
 
+[node name="Accessory - mywar" type="AudioStreamPlayer" parent="Shop Handler/Lobby Music" unique_id=1498574982]
+stream = ExtResource("34_ryup7")
+script = ExtResource("28_o3ebs")
+lobby_music_enabled = true
+
+[node name="Accessory - ignis" type="AudioStreamPlayer" parent="Shop Handler/Lobby Music" unique_id=153211082]
+stream = ExtResource("35_ytpkv")
+volume_db = -2.0
+script = ExtResource("28_o3ebs")
+lobby_music_enabled = true
+
 [node name="Accessories" type="Node" parent="Shop Handler" unique_id=1680073724]
 
 [node name="Accessory - Cone" type="Node" parent="Shop Handler/Accessories" unique_id=2027756137]
@@ -3172,6 +3250,7 @@ script = ExtResource("28_o3ebs")
 accessory_enabled = true
 accessory = ExtResource("31_jjr1n")
 acc_position = Vector3(0, 0.7, 0)
+acc_part_display = "Head"
 hide_on_owner = true
 
 [node name="Gift Canvas" type="CanvasLayer" parent="Shop Handler" unique_id=833256174]
@@ -3344,6 +3423,72 @@ theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
 theme_override_styles/disabled = ExtResource("16_udxuc")
 text = "< Back"
+
+[node name="final check" type="Panel" parent="Shop Handler/Gift Canvas/main" unique_id=2056405867]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="panel" type="Panel" parent="Shop Handler/Gift Canvas/main/final check" unique_id=1341110994]
+layout_mode = 0
+offset_left = 326.0
+offset_top = 154.0
+offset_right = 826.0
+offset_bottom = 494.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jas3d")
+
+[node name="title" type="Label" parent="Shop Handler/Gift Canvas/main/final check/panel" unique_id=175251826]
+layout_mode = 0
+offset_right = 499.0
+offset_bottom = 92.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 60
+text = "Are you Sure?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="desc" type="Label" parent="Shop Handler/Gift Canvas/main/final check/panel" unique_id=410973190]
+layout_mode = 0
+offset_top = 86.0
+offset_right = 499.0
+offset_bottom = 160.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 26
+text = "You are about to give [username] the '[item_name]' item.
+Are you absolutely sure?
+If you confirm, there is no going back."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="no" type="Button" parent="Shop Handler/Gift Canvas/main/final check/panel" unique_id=1136208637]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 267.0
+offset_right = 239.0
+offset_bottom = 322.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/pressed = ExtResource("36_1ew0l")
+theme_override_styles/hover = ExtResource("36_1ew0l")
+text = "No, go back"
+
+[node name="confirm" type="Button" parent="Shop Handler/Gift Canvas/main/final check/panel" unique_id=566906547]
+layout_mode = 0
+offset_left = 258.0
+offset_top = 267.0
+offset_right = 473.0
+offset_bottom = 322.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = ExtResource("37_ryup7")
+theme_override_styles/pressed = ExtResource("38_ytpkv")
+theme_override_styles/hover = ExtResource("38_ytpkv")
+text = "Yes, Confirm"
 
 [node name="Inv Handler" type="Node" parent="." unique_id=134027499]
 script = ExtResource("29_k83mh")
@@ -3564,5 +3709,7 @@ autowrap_mode = 2
 [connection signal="pressed" from="Shop Handler/Canvas/main/purchase/gift" to="Shop Handler" method="_on_gift_pressed"]
 [connection signal="pressed" from="Shop Handler/Gift Canvas/main/gift panel/gift purchase" to="Shop Handler/Gift Canvas" method="_on_gift_purchase_pressed"]
 [connection signal="pressed" from="Shop Handler/Gift Canvas/main/back" to="Shop Handler/Gift Canvas" method="_on_back_pressed"]
+[connection signal="pressed" from="Shop Handler/Gift Canvas/main/final check/panel/no" to="Shop Handler/Gift Canvas" method="_on_no_pressed"]
+[connection signal="pressed" from="Shop Handler/Gift Canvas/main/final check/panel/confirm" to="Shop Handler/Gift Canvas" method="_on_confirm_pressed"]
 [connection signal="pressed" from="Inv Handler/Canvas/main/exit" to="Inv Handler" method="_on_exit_pressed"]
 [connection signal="pressed" from="Inv Handler/Canvas/main/view/equip" to="Inv Handler" method="_on_equip_pressed"]

@@ -24,6 +24,7 @@ var testing_music = false
 func select_items() -> Array:
 	var selected_items = []
 	#----------------
+	var mythic = []
 	var legendary = []
 	var epic = []
 	var rare = []
@@ -44,15 +45,19 @@ func select_items() -> Array:
 				epic.append(item.get_meta("id"))
 			"legendary":
 				legendary.append(item.get_meta("id"))
+			"mythic":
+				mythic.append(item.get_meta("id"))
 	for i in range(9):
-		var chance = randi_range(1,100)
-		if chance == 1:
+		var chance = randi_range(1,1000)
+		if chance <= 4:
+			selected_items.append(mythic[randi_range(0,mythic.size()-1)])
+		elif chance <= 10:
 			selected_items.append(legendary[randi_range(0,legendary.size()-1)])
-		elif chance > 1 and chance <= 5:
+		elif chance <= 50:
 			selected_items.append(epic[randi_range(0,epic.size()-1)])
-		elif chance > 5 and chance <= 20:
+		elif chance <= 200:
 			selected_items.append(rare[randi_range(0,rare.size()-1)])
-		elif chance > 20 and chance <= 50:
+		elif chance <= 500:
 			selected_items.append(uncommon[randi_range(0,uncommon.size()-1)])
 		else:
 			selected_items.append(common[randi_range(0,common.size()-1)])
@@ -73,6 +78,8 @@ func get_local_midnight_utc():
 	return local_hour
 
 func create_slots(shop_items: Array):
+	$Canvas/main/loading.hide()
+	$Canvas/main/loading.stop()
 	$Canvas/main/amount/amount.text = "You have " + str($"../Data Handler".currency) + " Credits."
 	$Canvas/main/purchase.hide()
 	pur_title.text = ""
@@ -100,6 +107,16 @@ func create_slots(shop_items: Array):
 				item = item_node
 		if item == null: continue
 		
+		var type_reference = item.get_node(item.get_meta("reference"))
+		var type_display = ""
+		if type_reference:
+			if type_reference.color_enabled:
+				type_display = "Color"
+			elif type_reference.lobby_music_enabled:
+				type_display = "Lobby Music"
+			elif type_reference.accessory_enabled:
+				type_display = type_reference.acc_part_display + " Accessory"
+
 		var slot: Panel = og_slot.duplicate()
 		container.add_child(slot)
 		slot.show()
@@ -111,10 +128,12 @@ func create_slots(shop_items: Array):
 		slot.add_theme_stylebox_override("panel", flat)
 		
 		var title: Label = slot.get_node("title")
+		var type: Label = slot.get_node("type")
 		var image: TextureRect = slot.get_node("image")
 		var view: Button = slot.get_node("view")
 		
 		title.text = item.get_meta("name")
+		type.text = type_display
 		if item.get_meta("image") != "":
 			image.texture = load(str(item.get_meta("image")))
 		
@@ -197,6 +216,9 @@ func _on_exit_pressed() -> void:
 		reset_to_lobby_music()
 	
 func _on_shop_pressed() -> void:
+	$Canvas/main/loading.play()
+	$Canvas/main/loading.show()
+	$Canvas/main/loading/text.text = "Loading Shop..."
 	refresh_shop()
 
 func refresh_shop():
@@ -265,6 +287,10 @@ func _on_reset_pressed() -> void:
 
 func set_date():
 	for child in container.get_children(): child.queue_free()
+	$Canvas/main/loading.show()
+	$Canvas/main/loading.play()
+	$Canvas/main/loading/text.text = "Refreshing Shop..."
+	for child in container.get_children(): child.queue_free()
 	
 	date_set = false
 	changing_date = true
@@ -296,6 +322,10 @@ func set_date():
 	date_set = true
 	
 func set_shop():
+	for child in container.get_children(): child.queue_free()
+	$Canvas/main/loading.show()
+	$Canvas/main/loading.play()
+	$Canvas/main/loading/text.text = "Refreshing Shop..."
 	var shop_items = []
 	
 	shop_items = select_items()
