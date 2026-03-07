@@ -15,6 +15,7 @@ var score_debounce = false
 var player_left = false
 
 var cooldown = 3
+var current_round = 0
 
 func random_shi():
 	waiting.show()
@@ -229,8 +230,7 @@ func manage_game(command: String):
 	# Objects
 	var player = get_node_or_null(str(GDSync.get_client_id()))
 	var barrier = $Barrier
-	var spawn1 = $PlayerSpawn1
-	var spawn2 = $PlayerSpawn2
+	var maps = $Maps
 	# --------------------------
 	# Game
 	var game = $CanvasLayer/Game
@@ -239,30 +239,52 @@ func manage_game(command: String):
 	# --------------------------
 	if player:
 		if command == "start game" or command == "reset map":
+			if command == "reset map":
+				current_round += 1
 			if command == "start game":
 				player_left = false
+				current_round = 0
 				game.show()
 				$CanvasLayer/Game/Score.show()
 				$CanvasLayer/Game/Score/YourScore/score.text = "0/10"
 				$CanvasLayer/Game/Score/EnemyScore/score.text = "0/10"
 				for music in $"Shop Handler/Lobby Music".get_children():
 					if music.playing: music.stop()
-			barrier.show()
-			barrier.get_node("CollisionShape3D").disabled = false
+			for col_barrier in barrier.get_children():
+				col_barrier.show()
+				col_barrier.disabled = false
 			barrier_panel.show()
 			get_tree().create_tween().tween_property(barrier_panel, "position:y", 15, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-			if GDSync.is_host():
-				player.position = spawn1.position
+			# -------------------------------------
+			var map_names = []
+			for map in maps.get_children():
+				map_names.append(str(map.name))
+			var chosen_map = ""
+			if current_round % 2 == 0:
+				chosen_map = map_names[1]
 			else:
-				player.position = spawn2.position
+				chosen_map = map_names[0]
+			var map = maps.get_node_or_null(chosen_map)
+			if map:
+				if GDSync.is_host():
+					player.position = map.get_node("PlayerSpawn1").position
+				else:
+					player.position = map.get_node("PlayerSpawn2").position
+			else:
+				if GDSync.is_host():
+					player.position = $Maps/shipment/PlayerSpawn1.position
+				else:
+					player.position = $Maps/shipment/PlayerSpawn2.position
+			# -------------------------------------
 			barrier_timer.text = "3"
 			for i in range(3,0,-1):
 				await get_tree().create_timer(1,false,false,true).timeout
 				barrier_timer.text = str(i)
 			await get_tree().create_timer(1,false,false,true).timeout
 			barrier_timer.text = "0"
-			barrier.hide()
-			barrier.get_node("CollisionShape3D").disabled = true
+			for col_barrier in barrier.get_children():
+				col_barrier.hide()
+				col_barrier.disabled = true
 			get_tree().create_tween().tween_property(barrier_panel, "position:y", -126, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		elif command.contains("update score") and not score_debounce:
 			score_debounce = true

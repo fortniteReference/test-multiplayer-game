@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cwovrnw8wkk1v"]
+
+[ext_resource type="PackedScene" uid="uid://c8h4bch07b01a" path="res://meshes/aug a1 stuff/scene.gltf" id="1_v5wpk"]
+
+[node name="Sketchfab_Scene" unique_id=763508094 instance=ExtResource("1_v5wpk")]
+
+[node name="Object_72" parent="Sketchfab_model/STB 556_fbx/RootNode/AUG_ARM/Object_4/Skeleton3D" parent_id_path=PackedInt32Array(271534695) index="5" unique_id=522159685]
+visible = false
+
+[node name="Object_77" parent="Sketchfab_model/STB 556_fbx/RootNode/AUG_ARM/Object_4/Skeleton3D" parent_id_path=PackedInt32Array(271534695) index="8" unique_id=786515091]
+visible = false
+
+[node name="Object_78" parent="Sketchfab_model/STB 556_fbx/RootNode/AUG_ARM/Object_4/Skeleton3D" parent_id_path=PackedInt32Array(271534695) index="9" unique_id=927696632]
+visible = false
+
+[node name="Object_80" parent="Sketchfab_model/STB 556_fbx/RootNode/AUG_ARM/Object_4/Skeleton3D" parent_id_path=PackedInt32Array(271534695) index="10" unique_id=1913941098]
+visible = false
+
+[node name="Object_81" parent="Sketchfab_model/STB 556_fbx/RootNode/AUG_ARM/Object_4/Skeleton3D" parent_id_path=PackedInt32Array(271534695) index="11" unique_id=1076371873]
+visible = false

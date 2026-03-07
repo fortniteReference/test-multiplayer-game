@@ -48,6 +48,16 @@ func create_slots():
 				item = item_node
 		if item == null: continue
 		
+		var type_reference = item.get_node(item.get_meta("reference"))
+		var type_display = ""
+		if type_reference:
+			if type_reference.color_enabled:
+				type_display = "Color"
+			elif type_reference.lobby_music_enabled:
+				type_display = "Lobby Music"
+			elif type_reference.accessory_enabled:
+				type_display = type_reference.acc_part_display + " Accessory"
+		
 		var slot: Panel = og_slot.duplicate()
 		container.add_child(slot)
 		slot.show()
@@ -60,16 +70,36 @@ func create_slots():
 		var title: Label = slot.get_node("title")
 		var image: TextureRect = slot.get_node("image")
 		var view: Button = slot.get_node("view")
+		var type: Label = slot.get_node("type")
 		
+		type.text = type_display
 		title.text = item.get_meta("name")
 		if item.get_meta("image") != "":
 			image.texture = load(str(item.get_meta("image")))
+		
+		var font = title.get_theme_font("font")
+		var current_size = 40
+	
+		# Use TextLine to measure text width without rendering it
+		var text_measurement = TextLine.new()
+	
+		for i in range(40):
+			text_measurement.clear()
+			text_measurement.add_string(str(title.text), font, current_size)
+		
+			# If the measured width fits in the current label width, we're done
+			if text_measurement.get_line_width() <= title.size.x:
+				break
+			current_size -= 1
+	
+		title.add_theme_font_size_override("font_size", current_size)
 		
 		var pressed_view = func():
 			view_title.text = str(title.text)
 			view_desc.text = item.get_meta("description")
 			view_rarity.text = item.get_meta("rarity")
 			view_rarity.add_theme_color_override("font_color", item.get_meta("slot_color"))
+			view_rarity.add_theme_color_override("font_outline_color", item.get_meta("slot_color").darkened(0.3))
 			if item.get_meta("image") != "":
 				view_image.texture = load(str(item.get_meta("image")))
 			current_id = item.get_meta("id")

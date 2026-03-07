@@ -136,12 +136,28 @@ func create_slots(shop_items: Array):
 		type.text = type_display
 		if item.get_meta("image") != "":
 			image.texture = load(str(item.get_meta("image")))
+		var font = title.get_theme_font("font")
+		var current_size = 40
+	
+		# Use TextLine to measure text width without rendering it
+		var text_measurement = TextLine.new()
+	
+		for i in range(40):
+			text_measurement.clear()
+			text_measurement.add_string(str(title.text), font, current_size)
 		
+			# If the measured width fits in the current label width, we're done
+			if text_measurement.get_line_width() <= title.size.x:
+				break
+			current_size -= 1
+			
 		var pressed_view = func():
 			pur_title.text = str(title.text)
 			pur_desc.text = item.get_meta("description")
 			pur_rarity.text = item.get_meta("rarity")
 			pur_rarity.add_theme_color_override("font_color", item.get_meta("slot_color"))
+			pur_rarity.add_theme_color_override("font_outline_color", item.get_meta("slot_color").darkened(0.3))
+			
 			price.text = "Price: " + str(item.get_meta("price")) + " Credits"
 			current_id = item.get_meta("id")
 			if item.get_meta("image") != "":

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cdujggrbycnjw"]
+
+[ext_resource type="PackedScene" uid="uid://bpqvmsgc7fqep" path="res://maps/shipment.blend" id="1_tf6g5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tf6g5"]
+albedo_color = Color(0.55859375, 0.36003113, 0.36003113, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vytxi"]
+albedo_color = Color(0.5568628, 0.36078432, 0.36078432, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a0orm"]
+albedo_color = Color(0.5568628, 0.36078432, 0.36078432, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bmbx6"]
+albedo_color = Color(0.5568628, 0.36078432, 0.36078432, 1)
+
+[node name="shipment" unique_id=1390950500 instance=ExtResource("1_tf6g5")]
+
+[node name="wall" parent="." index="4" unique_id=1628937744]
+surface_material_override/0 = SubResource("StandardMaterial3D_tf6g5")
+
+[node name="wall1" parent="." index="5" unique_id=1179633333]
+surface_material_override/0 = SubResource("StandardMaterial3D_vytxi")
+
+[node name="wall2" parent="." index="6" unique_id=135625365]
+surface_material_override/0 = SubResource("StandardMaterial3D_a0orm")
+
+[node name="wall3" parent="." index="7" unique_id=1495887547]
+surface_material_override/0 = SubResource("StandardMaterial3D_bmbx6")

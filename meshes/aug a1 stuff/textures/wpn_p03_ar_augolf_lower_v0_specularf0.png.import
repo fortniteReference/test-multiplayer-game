@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3d14x8hta3"
-path="res://.godot/imported/crosshair 2.png-7ac7f42bbdfb427054235529d3dc7a06.ctex"
+uid="uid://0thyj2c1ore"
+path="res://.godot/imported/wpn_p03_ar_augolf_lower_v0_specularf0.png-1b2149fa7ddda88f29dcbdae37c95318.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/crosshair 2.png"
-dest_files=["res://.godot/imported/crosshair 2.png-7ac7f42bbdfb427054235529d3dc7a06.ctex"]
+source_file="res://meshes/aug a1 stuff/textures/wpn_p03_ar_augolf_lower_v0_specularf0.png"
+dest_files=["res://.godot/imported/wpn_p03_ar_augolf_lower_v0_specularf0.png-1b2149fa7ddda88f29dcbdae37c95318.ctex"]
 
 [params]
 
