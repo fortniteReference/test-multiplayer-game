@@ -15,7 +15,8 @@ var score_debounce = false
 var player_left = false
 
 var cooldown = 3
-var current_round = 0
+var current_roundnum = 0
+var num_debounce = false
 
 func random_shi():
 	waiting.show()
@@ -240,10 +241,14 @@ func manage_game(command: String):
 	if player:
 		if command == "start game" or command == "reset map":
 			if command == "reset map":
-				current_round += 1
+				if not num_debounce:
+					num_debounce = true
+					if current_roundnum >= $CanvasLayer/Voting.map_names.size(): current_roundnum = 1
+					current_roundnum += 1
+					await get_tree().create_timer(2).timeout
+					num_debounce = false
 			if command == "start game":
 				player_left = false
-				current_round = 0
 				game.show()
 				$CanvasLayer/Game/Score.show()
 				$CanvasLayer/Game/Score/YourScore/score.text = "0/10"
@@ -256,25 +261,19 @@ func manage_game(command: String):
 			barrier_panel.show()
 			get_tree().create_tween().tween_property(barrier_panel, "position:y", 15, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 			# -------------------------------------
-			var map_names = []
-			for map in maps.get_children():
-				map_names.append(str(map.name))
-			var chosen_map = ""
-			if current_round % 2 == 0:
-				chosen_map = map_names[1]
-			else:
-				chosen_map = map_names[0]
+			var map_names = $CanvasLayer/Voting.map_names
+			var chosen_map = str(map_names[current_roundnum-1])
 			var map = maps.get_node_or_null(chosen_map)
 			if map:
 				if GDSync.is_host():
-					player.position = map.get_node("PlayerSpawn1").position
+					player.position = map.get_node("PlayerSpawn1").global_position
 				else:
-					player.position = map.get_node("PlayerSpawn2").position
+					player.position = map.get_node("PlayerSpawn2").global_position
 			else:
 				if GDSync.is_host():
-					player.position = $Maps/shipment/PlayerSpawn1.position
+					player.position = $Maps/shipment/PlayerSpawn1.global_position
 				else:
-					player.position = $Maps/shipment/PlayerSpawn2.position
+					player.position = $Maps/shipment/PlayerSpawn2.global_position
 			# -------------------------------------
 			barrier_timer.text = "3"
 			for i in range(3,0,-1):

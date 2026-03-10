@@ -161,7 +161,12 @@ func _on_confirm_pressed() -> void:
 	
 	if info_code == ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.SUCCESS: pass
 	else:
-		error_text.text = "Failed to get user info, please retry.\nYour account has not been charged."
+		error_text.text = "Failed to get user info, please retry.\nError: " + str(ENUMS.ACCOUNT_GET_DOCUMENT_RESPONSE_CODE.keys()[info_code]) + "\nYour account has not been charged."
+		back.disabled = false
+		for slot in container.get_children():
+			var button: Button = slot.get_node("gift")
+			button.disabled = false
+		gifting = false
 		return
 
 	var email = info_res["Result"]["email"]

@@ -5,8 +5,8 @@ extends Node
 @onready var request_gui = $"CanvasLayer/request gui"
 @onready var friend_slot = $"CanvasLayer/friend gui/slot"
 @onready var request_slot = $"CanvasLayer/request gui/slot"
-@onready var f_container = $"CanvasLayer/friend gui/ScrollContainer"
-@onready var r_container = $"CanvasLayer/request gui/ScrollContainer"
+@onready var f_container = $"CanvasLayer/friend gui/ScrollContainer/container"
+@onready var r_container = $"CanvasLayer/request gui/ScrollContainer/container"
 @onready var f_loading = $"CanvasLayer/friend gui/loading"
 @onready var r_loading = $"CanvasLayer/request gui/loading"
 # Buttons
@@ -31,6 +31,10 @@ func get_friends():
 	back.disabled = false
 	friend_reqs.disabled = false
 	if code == ENUMS.ACCOUNT_GET_FRIENDS_RESPONSE_CODE.SUCCESS:
+		var online = {}
+		var other = {}
+		var i = 0
+		
 		f_loading.stop()
 		f_loading.hide()
 		for dict in response["Result"]:
@@ -43,6 +47,29 @@ func get_friends():
 			var lobby = lobby_dict.get("Name", "")
 			
 			var slot: Panel = friend_slot.duplicate()
+			var string = "slot" + str(i)
+			if lobby == "":
+				other[string] = {}
+				other[string]["slot"] = slot
+				other[string]["user"] = user
+			else:
+				online[string] = {}
+				online[string]["slot"] = slot
+				online[string]["user"] = user
+				online[string]["lobby"] = lobby
+			print(online)
+			print(other)
+			i += 1
+		
+		var text1 = $"CanvasLayer/friend gui/online copy".duplicate()
+		f_container.add_child(text1)
+		text1.show()
+		if online.size() == 0: text1.queue_free()
+		for slot_dict in online:
+			var user = online[slot_dict]["user"]
+			var slot = online[slot_dict]["slot"]
+			var lobby = online[slot_dict]["lobby"]
+			
 			f_container.add_child(slot)
 			slot.get_node("title").text = str(user)
 			slot.name = "slot for: " + str(user)
@@ -52,12 +79,8 @@ func get_friends():
 			var remove_button: Button = slot.get_node("remove")
 			var status: Label = slot.get_node("status")
 			
-			if lobby == "":
-				join_button.hide()
-				join_button.disabled = true
-				status.text = "Status: Offline"
-			else:
-				status.text = "Status: Online"
+			join_button.show()
+			status.text = "Status: Online"
 				
 			var join_friend = func():
 				join_button.disabled = true
@@ -76,7 +99,39 @@ func get_friends():
 			
 			join_button.pressed.connect(join_friend)
 			remove_button.pressed.connect(remove_friend)
+		# -------------------------------------
+		var text2 = $"CanvasLayer/friend gui/offline copy".duplicate()
+		f_container.add_child(text2)
+		text2.show()
+		if other.size() == 0: text2.queue_free()
+		for slot_dict in other:
+			var user = other[slot_dict]["user"]
+			var slot = other[slot_dict]["slot"]
 			
+			f_container.add_child(slot)
+			slot.get_node("title").text = str(user)
+			slot.name = "slot for: " + str(user)
+			slot.show()
+			
+			var join_button: Button = slot.get_node("join")
+			var remove_button: Button = slot.get_node("remove")
+			var status: Label = slot.get_node("status")
+			
+			join_button.hide()
+			status.text = "Status: Offline"
+			
+			var remove_friend = func():
+				var res = await GDSync.account_remove_friend(str(user))
+				
+				if res == ENUMS.ACCOUNT_REMOVE_FRIEND_RESPONSE_CODE.SUCCESS:
+					if slot != null:
+						slot.queue_free()
+					print("removed friend: ", user)
+				else:
+					print("did not remove friend. error: ", ENUMS.ACCOUNT_REMOVE_FRIEND_RESPONSE_CODE.keys()[res])
+			
+			remove_button.pressed.connect(remove_friend)
+
 func get_friend_requests():
 	clear_container(r_container)
 	
@@ -108,7 +163,7 @@ func get_friend_requests():
 			slot.show()
 			
 			var accept_button: Button = slot.get_node("accept")
-			var decline_button: Button = slot.get_node("accept")
+			var decline_button: Button = slot.get_node("decline")
 			var accept = func():
 				accept_button.disabled = true
 				slot.get_node("desc").text = "Accepting..."

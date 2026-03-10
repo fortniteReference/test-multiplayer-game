@@ -123,7 +123,7 @@ size = Vector3(0.5, 14.5, 58.5)
 [sub_resource type="BoxMesh" id="BoxMesh_wse8f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7htu6"]
-size = Vector3(0.5, 32.75, 95.25)
+size = Vector3(0.5, 32.75, 40)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbp6q"]
 bg_color = Color(0.80784315, 0.45490196, 0.5529412, 1)
@@ -1208,11 +1208,11 @@ transform = Transform3D(0.5, 0, 0, 0, 19.5, 0, 0, 0, 58, 0, 0, 0)
 mesh = SubResource("BoxMesh_wse8f")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Barrier" unique_id=1050462099]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 15.875, 90.875)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 15.875, 80.75)
 shape = SubResource("BoxShape3D_7htu6")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Barrier/CollisionShape3D2" unique_id=128265670]
-transform = Transform3D(0.5, 0, 0, 0, 29.25, 0, 0, 0, 92.8, 0, 0, 0)
+transform = Transform3D(0.5, 0, 0, 0, 11.699999, 0, 0, 0, 46.4, 0, -11, 0)
 mesh = SubResource("BoxMesh_wse8f")
 
 [node name="damage" type="Node3D" parent="." unique_id=2082071827]
@@ -2608,7 +2608,7 @@ theme_override_styles/normal = ExtResource("16_udxuc")
 theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
 theme_override_styles/disabled = ExtResource("16_udxuc")
-text = "View friend requests"
+text = "Add friends"
 
 [node name="loading" type="AnimatedSprite2D" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1554428244]
 visible = false
@@ -2683,6 +2683,32 @@ theme_override_styles/normal = ExtResource("13_2o6r5")
 theme_override_styles/pressed = ExtResource("13_2o6r5")
 theme_override_styles/hover = ExtResource("13_2o6r5")
 text = "Remove Friend"
+
+[node name="online copy" type="Label" parent="Friend Handler/CanvasLayer/friend gui" unique_id=2142135393]
+visible = false
+custom_minimum_size = Vector2(385, 57)
+layout_mode = 0
+offset_top = 67.0
+offset_right = 385.0
+offset_bottom = 124.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 37
+text = "Online Friends"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="offline copy" type="Label" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1885116173]
+visible = false
+custom_minimum_size = Vector2(385, 57)
+layout_mode = 0
+offset_top = 67.0
+offset_right = 385.0
+offset_bottom = 124.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 37
+text = "Offline Friends"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="request gui" type="Panel" parent="Friend Handler/CanvasLayer" unique_id=2074092708]
 visible = false
@@ -3699,13 +3725,13 @@ autowrap_mode = 2
 [node name="Maps" type="Node" parent="." unique_id=994623809]
 
 [node name="shipment" parent="Maps" unique_id=1390950500 instance=ExtResource("42_jas3d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.581295, -0.9789276, 96.98971)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -2.168705, -0.9789276, 81.23971)
 
 [node name="PlayerSpawn1" type="Node3D" parent="Maps/shipment" unique_id=1887412020]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.918705, 16.228928, 1.510292)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.919, 10, -3.4900055)
 
 [node name="PlayerSpawn2" type="Node3D" parent="Maps/shipment" unique_id=397689852]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.331295, 16.228928, 1.510292)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.331, 10, 1.51)
 
 [node name="map1" parent="Maps" unique_id=572550900 instance=ExtResource("4_dwbse")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)

@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://dx00k0uk8gl8i" path="res://meshes/strikerar.blend" id="14_7ahtn"]
 [ext_resource type="Texture2D" uid="uid://bhgluk7wf4ydd" path="res://images/holo optic.png" id="14_dx0e4"]
 [ext_resource type="Texture2D" uid="uid://odkomtkv7hwf" path="res://images/red dot placeholder.png" id="15_7lmhl"]
+[ext_resource type="AudioStream" uid="uid://bt0y8wytxdsd1" path="res://audio for items/fortnite-striker-burst-assault-rifle-sound-effect-ehpadmfk_soN6BEIV.mp3" id="18_qtqh7"]
 [ext_resource type="Script" uid="uid://du3epatw0gvdb" path="res://scripts/custom_loot_handler.gd" id="19_pbfsw"]
 [ext_resource type="Script" uid="uid://qg1l82dle3ic" path="res://scripts/custom_loot.gd" id="20_5tmop"]
 [ext_resource type="FontFile" uid="uid://bn5sd81kmqgyh" path="res://fomnts/TitilliumWeb-Regular.ttf" id="20_jm5j8"]
@@ -393,6 +394,7 @@ transform = Transform3D(-3.0208387e-08, 0, 0.6910873, 0, 0.6566119, 0, -0.556281
 
 [node name="strikerar" parent="Camera3D" unique_id=1138430608 instance=ExtResource("14_7ahtn")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0.6060259, -0.24295747, 0.05627489)
+visible = false
 script = ExtResource("3_ivps1")
 image = "res://images/striker image.png"
 item_name = "Striker Assault Rifle"
@@ -434,28 +436,28 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jm5j8")
 transform = Transform3D(-3.122242e-08, 0, 0.71428573, 0, 0.71428466, 0, -0.7142851, 0, -3.1222413e-08, 0.00740847, -0.0053283125, -1.0156919)
 
 [node name="auga1" parent="Camera3D" unique_id=763508094 instance=ExtResource("26_7hik5")]
-transform = Transform3D(-4.371139e-09, 0, -0.1, 0, 0.1, 0, 0.1, 0, -4.371139e-09, 0.625, -0.647, -0.27)
+transform = Transform3D(-4.371139e-09, 0, -0.1, 0, 0.1, 0, 0.1, 0, -4.371139e-09, 0.625, -0.647, -0.4)
+visible = false
 script = ExtResource("3_ivps1")
 image = "res://images/aug.png"
 item_name = "AUG A1"
 hitscan = true
-fov = 65
 custom_reticle = true
 ammo = 24
 damage = 35
 headshot_multiplier = 1.25
-cooldown = 0.4
+cooldown = 0.206
 spread = 1.2
 spread_reduction = 80
 weapon_range = 100
-reload_time = 3.2
-falloff_start = 20
+reload_time = 2.45
+falloff_start = 40
 falloff_damage = 0.25
 falloff_minimum = 15
 target_multiplier = 3.0
 burst_enabled = true
 burst_amount = 2
-burst_cooldown = 0.05
+burst_cooldown = 0.12
 rotate_degrees = -5
 rotate_axis = "z"
 flash_muzzle = true
@@ -464,7 +466,10 @@ metadata/on_cooldown = false
 metadata/current_ammo = 0
 metadata/current_spread = 1.2
 metadata/og_pos = Vector3(0.625, -0.647, -0.27)
-metadata/new_pos = Vector3(0, -0.647, -0.8)
+metadata/new_pos = Vector3(0, -0.615, -0.3)
+
+[node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/auga1" unique_id=1020096310]
+stream = ExtResource("18_qtqh7")
 
 [node name="RayCast flash" type="Sprite3D" parent="Camera3D" unique_id=624636210]
 transform = Transform3D(9.553427e-17, 2.1855695e-09, -0.05, 0.05, -2.1855695e-09, 0, -2.1855695e-09, -0.05, -2.1855695e-09, 0.8004612, 0, -0.71807563)
@@ -1000,6 +1005,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_pbfsw")
 metadata/og_position = Vector2(39, 30)
 
 [node name="player name" type="Label" parent="CanvasLayer" unique_id=912249686]
+visible = false
 layout_mode = 0
 offset_right = 322.0
 offset_bottom = 137.0
@@ -1061,6 +1067,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 1114.0
+offset_bottom = 608.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7lmhl")
@@ -1284,4 +1292,4 @@ horizontal_alignment = 1
 [node name="Options" type="Node" parent="CanvasLayer/Custom Loot" unique_id=154457852]
 script = ExtResource("20_5tmop")
 primary_choices = ["pump", "frenzyshotty"]
-secondary_choices = ["pistol", "sniper", "thundersmg", "strikerar"]
+secondary_choices = ["pistol", "sniper", "thundersmg", "strikerar", "auga1"]

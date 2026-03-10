@@ -14,6 +14,8 @@ albedo_color = Color(0.5568628, 0.36078432, 0.36078432, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bmbx6"]
 albedo_color = Color(0.5568628, 0.36078432, 0.36078432, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_tf6g5"]
+
 [node name="shipment" unique_id=1390950500 instance=ExtResource("1_tf6g5")]
 
 [node name="wall" parent="." index="4" unique_id=1628937744]
@@ -27,3 +29,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_a0orm")
 
 [node name="wall3" parent="." index="7" unique_id=1495887547]
 surface_material_override/0 = SubResource("StandardMaterial3D_bmbx6")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="8" unique_id=1824984581]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0.25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0" unique_id=175027098]
+shape = SubResource("BoxShape3D_tf6g5")

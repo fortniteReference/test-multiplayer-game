@@ -41,6 +41,7 @@ enabled=PackedStringArray("res://addons/GD-Sync/plugin.cfg")
 [file_customization]
 
 folder_colors={
+"res://audio for items/": "purple",
 "res://meshes/": "red"
 }
 

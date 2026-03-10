@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bt0y8wytxdsd1"
+path="res://.godot/imported/fortnite-striker-burst-assault-rifle-sound-effect-ehpadmfk_soN6BEIV.mp3-718240b7b85ab6f8270496ac5465404f.mp3str"
+
+[deps]
+
+source_file="res://audio for items/fortnite-striker-burst-assault-rifle-sound-effect-ehpadmfk_soN6BEIV.mp3"
+dest_files=["res://.godot/imported/fortnite-striker-burst-assault-rifle-sound-effect-ehpadmfk_soN6BEIV.mp3-718240b7b85ab6f8270496ac5465404f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

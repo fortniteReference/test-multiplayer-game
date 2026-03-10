@@ -10,6 +10,7 @@ var option_index = 0
 
 var current_vote = ""
 var current_panel = ""
+var map_names = []
 var options = {
 	"Original": {"Items": ["pump", "thundersmg"], "Image": "", "Title": "Original", "Desc": "Nothing better than the og."}
 	,"Random": {"Items": ["random"], "Image": "", "Title": "Random", "Desc": "ooh gambling!!!"}
@@ -207,6 +208,9 @@ func end_voting():
 	var option = options[final_choice]
 	var items = option.get("Items", null)
 	
+	var maps = $"../../Maps"
+	for map in maps.get_children():
+		map_names.append(str(map.name))
 	if items[0] == "custom":
 		var player = world.get_node_or_null(str(GDSync.get_client_id()))
 		
