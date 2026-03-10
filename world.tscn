@@ -2475,7 +2475,7 @@ metadata/player_limit = 2
 metadata/name = "2v2"
 metadata/description = "The classic, now with more chaos! Be on a team with another player and compete against another team of two!"
 metadata/tag = "2v2"
-metadata/enabled = true
+metadata/enabled = false
 metadata/player_limit = 4
 
 [node name="exit" type="Button" parent="Lobby/main/Panel/Mode Selection" unique_id=1843357813]

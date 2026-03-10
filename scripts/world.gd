@@ -354,6 +354,7 @@ func _on_lobby_pressed() -> void:
 	
 	lose.hide()
 	win.hide()
+	GDSync.lobby_leave()
 	$Lobby.show()
 	$Lobby/main/Panel/Play.disabled = false
 	$Lobby/main/Panel/Play/Label.hide()
