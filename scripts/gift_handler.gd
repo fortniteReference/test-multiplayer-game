@@ -60,6 +60,7 @@ func create_slots(id: String = ""):
 		print("got friends")
 		
 		for friend in friends_res["Result"]:
+			if friend["FriendStatus"] != 2: continue
 			var username = friend["Username"]
 			
 			var slot: Panel = og_slot.duplicate()

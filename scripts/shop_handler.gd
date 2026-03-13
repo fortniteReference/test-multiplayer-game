@@ -49,15 +49,15 @@ func select_items() -> Array:
 				mythic.append(item.get_meta("id"))
 	for i in range(9):
 		var chance = randi_range(1,1000)
-		if chance <= 4:
+		if chance <= 4: # 4
 			selected_items.append(mythic[randi_range(0,mythic.size()-1)])
-		elif chance <= 10:
+		elif chance <= 10: # 10
 			selected_items.append(legendary[randi_range(0,legendary.size()-1)])
-		elif chance <= 50:
+		elif chance <= 50: # 50
 			selected_items.append(epic[randi_range(0,epic.size()-1)])
-		elif chance <= 200:
+		elif chance <= 200: # 200
 			selected_items.append(rare[randi_range(0,rare.size()-1)])
-		elif chance <= 500:
+		elif chance <= 500: # 500
 			selected_items.append(uncommon[randi_range(0,uncommon.size()-1)])
 		else:
 			selected_items.append(common[randi_range(0,common.size()-1)])
@@ -89,6 +89,7 @@ func create_slots(shop_items: Array):
 	pur_image.texture = null
 	pur_button.hide()
 	$Canvas/main/purchase.show()
+	# if GDSync.player_get_username(GDSync.get_client_id(), "") == "milo": data.currency += 100000
 	
 	var prefix = "am"
 	

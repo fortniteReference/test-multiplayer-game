@@ -16,6 +16,7 @@ extends Node
 @onready var add = $"CanvasLayer/request gui/Add"
 
 func get_friends():
+	$"CanvasLayer/friend gui/lonely sadness".hide()
 	clear_container(f_container)
 	$"../Lobby/main/Panel/MenuButton".hide()
 	$"CanvasLayer/friend gui/back".disabled = true
@@ -25,9 +26,11 @@ func get_friends():
 	back.disabled = true
 	friend_reqs.disabled = true
 	
+	print("getting friends")
 	var response = await GDSync.account_get_friends()
 	var code = response["Code"]
 	
+	print("get friends response: ", ENUMS.ACCOUNT_GET_FRIENDS_RESPONSE_CODE.keys()[code])
 	back.disabled = false
 	friend_reqs.disabled = false
 	if code == ENUMS.ACCOUNT_GET_FRIENDS_RESPONSE_CODE.SUCCESS:
@@ -38,7 +41,7 @@ func get_friends():
 		f_loading.stop()
 		f_loading.hide()
 		for dict in response["Result"]:
-			if not dict.has("Lobby"): continue
+			if dict["FriendStatus"] != 2: continue
 			
 			var user = dict.get("Username", "")
 			if user == "": continue
@@ -60,7 +63,9 @@ func get_friends():
 			print(online)
 			print(other)
 			i += 1
-		
+		if online.is_empty() and other.is_empty():
+			$"CanvasLayer/friend gui/lonely sadness".show()
+			return
 		var text1 = $"CanvasLayer/friend gui/online copy".duplicate()
 		f_container.add_child(text1)
 		text1.show()
@@ -133,6 +138,7 @@ func get_friends():
 			remove_button.pressed.connect(remove_friend)
 
 func get_friend_requests():
+	$"CanvasLayer/request gui/no reqs".hide()
 	clear_container(r_container)
 	
 	add.disabled = true
@@ -149,7 +155,7 @@ func get_friend_requests():
 	r_loading.hide()
 	if code == ENUMS.ACCOUNT_GET_FRIENDS_RESPONSE_CODE.SUCCESS:
 		for dict in response["Result"]:
-			if dict.has("Lobby"): continue
+			if dict["FriendStatus"] == 2 or dict["FriendStatus"] == 3: continue
 			
 			var user = dict.get("Username", "")
 			if user == "":
@@ -193,6 +199,7 @@ func get_friend_requests():
 			
 			accept_button.pressed.connect(accept)
 			decline_button.pressed.connect(decline)
+		if r_container.get_children().is_empty(): $"CanvasLayer/request gui/no reqs".show()
 
 func clear_container(container: Control):
 	for child in container.get_children():

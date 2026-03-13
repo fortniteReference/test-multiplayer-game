@@ -42,6 +42,7 @@
 [ext_resource type="StyleBox" uid="uid://dmg0wbjngvb1v" path="res://box flats/green button 2.tres" id="37_ryup7"]
 [ext_resource type="StyleBox" uid="uid://mrpk8fte17j4" path="res://box flats/green button 2 pressed.tres" id="38_ytpkv"]
 [ext_resource type="PackedScene" uid="uid://cdujggrbycnjw" path="res://maps/shipment.tscn" id="42_jas3d"]
+[ext_resource type="Script" uid="uid://saqwe885grin" path="res://update_handler.gd" id="43_7htu6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ic0uy"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -2710,6 +2711,32 @@ text = "Offline Friends"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="lonely sadness" type="Label" parent="Friend Handler/CanvasLayer/friend gui" unique_id=1107002967]
+visible = false
+layout_mode = 0
+offset_left = 1.0
+offset_top = 202.0
+offset_right = 424.0
+offset_bottom = 383.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 28
+text = "Feels lonely in here...
+Try adding some friends by pressing \"Add friends\" and searching for a username!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="sad face" type="Label" parent="Friend Handler/CanvasLayer/friend gui/lonely sadness" unique_id=1988867382]
+layout_mode = 0
+offset_left = 128.0
+offset_top = -124.0
+offset_right = 288.0
+offset_bottom = -16.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 70
+text = ":("
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="request gui" type="Panel" parent="Friend Handler/CanvasLayer" unique_id=2074092708]
 visible = false
 offset_left = 700.0
@@ -2727,6 +2754,7 @@ offset_bottom = 60.0
 theme_override_styles/normal = ExtResource("16_udxuc")
 theme_override_styles/pressed = ExtResource("17_ikiii")
 theme_override_styles/hover = ExtResource("17_ikiii")
+theme_override_styles/disabled = ExtResource("16_udxuc")
 text = "Back"
 
 [node name="Search" type="LineEdit" parent="Friend Handler/CanvasLayer/request gui" unique_id=1134072778]
@@ -2828,6 +2856,20 @@ theme_override_styles/normal = ExtResource("13_2o6r5")
 theme_override_styles/pressed = ExtResource("13_2o6r5")
 theme_override_styles/hover = ExtResource("13_2o6r5")
 text = "Decline"
+
+[node name="no reqs" type="Label" parent="Friend Handler/CanvasLayer/request gui" unique_id=998328322]
+visible = false
+layout_mode = 0
+offset_left = 1.0
+offset_top = 202.0
+offset_right = 424.0
+offset_bottom = 383.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 28
+text = "No Friend requests yet!
+Check back later to see if people want to be friends with you! (friedns are cool!!1!!)"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Shop Handler" type="Node" parent="." unique_id=1773342387]
 script = ExtResource("27_4h6ng")
@@ -3742,6 +3784,83 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 6.25, 0)
 [node name="PlayerSpawn2" type="Node3D" parent="Maps/map1" unique_id=484547801]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.75, 6.25, 0)
 
+[node name="Update Handler" type="Node" parent="." unique_id=499961792]
+script = ExtResource("43_7htu6")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="Update Handler" unique_id=132626826]
+
+[node name="canvas" type="CanvasLayer" parent="Update Handler" unique_id=1661270982]
+layer = 15
+visible = false
+
+[node name="Panel" type="Panel" parent="Update Handler/canvas" unique_id=1549286204]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("27_gggvi")
+
+[node name="update" type="Button" parent="Update Handler/canvas/Panel" unique_id=1070882013]
+layout_mode = 0
+offset_left = 632.0
+offset_top = 504.0
+offset_right = 1100.0
+offset_bottom = 606.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.5254902)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.5254902)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.5254902)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.5254902)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.5254902)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = ExtResource("37_ryup7")
+theme_override_styles/pressed = ExtResource("38_ytpkv")
+theme_override_styles/hover = ExtResource("38_ytpkv")
+text = "Yes, Update!"
+
+[node name="skip" type="Button" parent="Update Handler/canvas/Panel" unique_id=1133613303]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 504.0
+offset_right = 524.0
+offset_bottom = 606.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.5254902)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.5254902)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.5254902)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.5254902)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.5254902)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = ExtResource("13_2o6r5")
+theme_override_styles/pressed = ExtResource("36_1ew0l")
+theme_override_styles/hover = ExtResource("36_1ew0l")
+text = "No, skip update"
+
+[node name="title" type="Label" parent="Update Handler/canvas/Panel" unique_id=461005118]
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 168.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 90
+text = "An update is available."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="desc" type="Label" parent="Update Handler/canvas/Panel" unique_id=1727556950]
+layout_mode = 0
+offset_top = 147.0
+offset_right = 1150.0
+offset_bottom = 480.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 40
+text = "An update to the game is available for download.
+Pressing \"Update\" will attempt to update the game.
+
+Pressing \"Skip\" will skip the update, but certain features may break or not function correctly. BE WARNED!!!!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [connection signal="pressed" from="CanvasLayer/Waiting/Panel/try again" to="." method="_on_try_again_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game/LoseScreen/lobby" to="." method="_on_lobby_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game/WinScreen/lobby" to="." method="_on_lobby_pressed"]
@@ -3779,3 +3898,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.75, 6.25, 0)
 [connection signal="pressed" from="Shop Handler/Gift Canvas/main/final check/panel/confirm" to="Shop Handler/Gift Canvas" method="_on_confirm_pressed"]
 [connection signal="pressed" from="Inv Handler/Canvas/main/exit" to="Inv Handler" method="_on_exit_pressed"]
 [connection signal="pressed" from="Inv Handler/Canvas/main/view/equip" to="Inv Handler" method="_on_equip_pressed"]
+[connection signal="pressed" from="Update Handler/canvas/Panel/update" to="Update Handler" method="_on_update_pressed"]
+[connection signal="pressed" from="Update Handler/canvas/Panel/skip" to="Update Handler" method="_on_skip_pressed"]

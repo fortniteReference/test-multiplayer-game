@@ -48,10 +48,15 @@ func _ready():
 	GDSync.lobby_creation_failed.connect(lobby_creation_failed)
 	GDSync.lobby_joined.connect(lobby_joined)
 	GDSync.lobby_join_failed.connect(lobby_join_failed)
-
-	GDSync.start_multiplayer()
-	task.text = "connecting..."
+	
+	task.text = "checking for updates..."
 	random_shi()
+	$"Update Handler".start_check()
+
+func checked_for_updates(updated: bool):
+	if not updated:
+		task.text = "connecting..."
+		GDSync.start_multiplayer()
 	
 func _on_try_again_pressed() -> void:
 	try_again.hide()
@@ -60,7 +65,7 @@ func _on_try_again_pressed() -> void:
 	task.text = "connecting..."
 
 func _unhandled_input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed("quit"):
+	if Input.is_action_just_pressed("quit") and not $"Update Handler".checking_updates:
 		close_game()
 		
 func close_game():

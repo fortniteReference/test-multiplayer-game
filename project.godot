@@ -22,6 +22,8 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="test multiplayer"
 run/main_scene="uid://ctom6qcbqffig"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="testgame-file-storage"
 config/auto_accept_quit=false
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://images/icon.svg"
