@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dfp1fd0fawqws"
+path="res://.godot/imported/impact sniper shoot.mp3-d295586e3c24e44d275fec13259f560e.mp3str"
+
+[deps]
+
+source_file="res://audio for items/impact sniper shoot.mp3"
+dest_files=["res://.godot/imported/impact sniper shoot.mp3-d295586e3c24e44d275fec13259f560e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

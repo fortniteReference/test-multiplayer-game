@@ -1,7 +1,7 @@
 extends Node
 
 # 1. SET YOUR DETAILS HERE
-const CURRENT_VERSION = "v1.0.4" # Change this every time you make a new version
+const CURRENT_VERSION = "v1.0.6" # Change this every time you make a new version
 const REPO_PATH = "fortniteReference/test-multiplayer-game"
 const PCK_FILENAME = "test_multiplayer.pck" # "test_multiplayer.pck" # Must match the file name you upload to GitHub
 const developer_mode = false # change to false before exporting
@@ -40,7 +40,7 @@ func _on_version_check_completed(_result, response_code, _headers, body):
 	
 	if response_code == 200:
 		var json = JSON.parse_string(body.get_string_from_utf8())
-		var latest_version = json.get("tag_name", "")
+		var latest_version: String = json.get("name", "")
 		
 		if latest_version != "" and latest_version != CURRENT_VERSION and not developer_mode:
 			desc.text = "Update " + latest_version + " is available.
@@ -91,6 +91,7 @@ func _on_skip_pressed() -> void:
 	$"..".checked_for_updates(false)
 
 func while_downloading():
+	var counter = 0
 	var time_elapsed = 0
 	while checking_updates:
 		if http.get_http_client_status() == HTTPClient.STATUS_BODY:
@@ -98,7 +99,8 @@ func while_downloading():
 			var downloaded_bytes = http.get_downloaded_bytes()
 			
 			if body_size > 0 and downloaded_bytes > 0:
-				time_elapsed += 1
+				counter += 1
+				if counter % 2 == 0: time_elapsed += 1
 				if time_elapsed > 0:
 					var bytes_per_sec = downloaded_bytes / time_elapsed
 					var bytes_remaining = body_size - downloaded_bytes
@@ -114,7 +116,7 @@ func update_etr_ui(seconds: float, speed: float):
 	@warning_ignore("integer_division")
 	var mins = int(seconds) / 60
 	var secs = int(seconds) % 60
-	var mbs = round(speed) / 1000000
+	var mbs = (round(speed * 100)/100) / 1000000
 	
 	desc.text = "Please wait while the game updates. DO NOT CLOSE THE APP!\n"
 	desc.text += "Speed: " + str(mbs).replace(".0", "") + " Megabytes/Second.\n"

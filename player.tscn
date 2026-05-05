@@ -23,9 +23,13 @@
 [ext_resource type="Texture2D" uid="uid://bhgluk7wf4ydd" path="res://images/holo optic.png" id="14_dx0e4"]
 [ext_resource type="Texture2D" uid="uid://odkomtkv7hwf" path="res://images/red dot placeholder.png" id="15_7lmhl"]
 [ext_resource type="AudioStream" uid="uid://bt0y8wytxdsd1" path="res://audio for items/fortnite-striker-burst-assault-rifle-sound-effect-ehpadmfk_soN6BEIV.mp3" id="18_qtqh7"]
+[ext_resource type="PackedScene" uid="uid://cw28bheoepyc" path="res://weapon_scenes/impactsniper.tscn" id="19_2wuci"]
 [ext_resource type="Script" uid="uid://du3epatw0gvdb" path="res://scripts/custom_loot_handler.gd" id="19_pbfsw"]
 [ext_resource type="Script" uid="uid://qg1l82dle3ic" path="res://scripts/custom_loot.gd" id="20_5tmop"]
+[ext_resource type="AudioStream" uid="uid://c0wvxpbkkquvp" path="res://audio for items/impact sniper reload.mp3" id="20_j5n4i"]
 [ext_resource type="FontFile" uid="uid://bn5sd81kmqgyh" path="res://fomnts/TitilliumWeb-Regular.ttf" id="20_jm5j8"]
+[ext_resource type="AudioStream" uid="uid://dfp1fd0fawqws" path="res://audio for items/impact sniper shoot.mp3" id="21_634y6"]
+[ext_resource type="PackedScene" uid="uid://dxcgl2ovbwely" path="res://weapon_scenes/ehmazing bomb.tscn" id="22_634y6"]
 [ext_resource type="PackedScene" uid="uid://cwovrnw8wkk1v" path="res://meshes/aug a1.tscn" id="26_7hik5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
@@ -40,6 +44,13 @@ roughness = 0.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jm5j8"]
 transparency = 1
 albedo_color = Color(0.7647059, 0.88235295, 0.85882354, 0.11372549)
+
+[sub_resource type="SphereMesh" id="SphereMesh_j5n4i"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5n4i"]
+albedo_color = Color(0.30400085, 0.340909, 0.89453125, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7ghd"]
 bg_color = Color(0, 0, 0, 0.43137255)
@@ -199,7 +210,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48970902, 0)
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1695887955]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.055625916, 0)
 target_position = Vector3(0, 0, -50)
-collision_mask = 2
+collision_mask = 3
 
 [node name="pistol" parent="Camera3D" unique_id=741962954 instance=ExtResource("2_nvl01")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8060821, -0.60443425, -0.35336876)
@@ -470,6 +481,74 @@ metadata/new_pos = Vector3(0, -0.615, -0.3)
 
 [node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/auga1" unique_id=1020096310]
 stream = ExtResource("18_qtqh7")
+
+[node name="muzzle pos" type="Node3D" parent="Camera3D/auga1" unique_id=1951599852]
+transform = Transform3D(-9.999992, 0, -8.742277e-07, 0, 9.999985, 0, 8.742272e-07, 0, -10, -9.8794365, 3.965829, 0.4314952)
+
+[node name="impactsniper" parent="Camera3D" unique_id=285497331 instance=ExtResource("19_2wuci")]
+transform = Transform3D(-1.5, 0, 1.3113416e-07, 0, 1.5, 0, -1.3113416e-07, 0, -1.5, 0.611, -1.054, -0.564)
+visible = false
+script = ExtResource("3_ivps1")
+image = "res://weapon images/impactsniper.png"
+item_name = "Impact Sniper Rifle"
+hitscan = true
+fov = 40
+custom_reticle = true
+ammo = 1
+damage = 128
+headshot_multiplier = 2.5
+cooldown = 1.1
+spread = 40.0
+spread_reduction = 100
+weapon_range = 200
+reload_time = 2.34
+falloff_enabled = false
+rotate_degrees = -12
+reset_time = 0.75
+flash_muzzle = true
+muzzle_size = 0.1
+metadata/already_equipped = false
+metadata/on_cooldown = false
+metadata/current_ammo = 0
+metadata/current_spread = 0.0
+metadata/og_pos = Vector3(0.611, -1.054, -0.564)
+metadata/new_pos = Vector3(0, -0.965, -0.464)
+
+[node name="muzzle pos" type="Node3D" parent="Camera3D/impactsniper" unique_id=2137869581]
+transform = Transform3D(8.742271e-08, 0, -0.6666667, 0, 0.6666657, 0, 0.66666615, 0, 8.742277e-08, 0.019554704, 0.5355718, 0.7456391)
+
+[node name="reload" type="AudioStreamPlayer3D" parent="Camera3D/impactsniper" unique_id=1737361029]
+transform = Transform3D(-0.6666667, 0, -5.828185e-08, 0, 0.6666667, 0, 5.828185e-08, 0, -0.6666667, 0.008916289, 0.7093772, 0.4058219)
+stream = ExtResource("20_j5n4i")
+
+[node name="shoot" type="AudioStreamPlayer3D" parent="Camera3D/impactsniper" unique_id=974609633]
+transform = Transform3D(-0.6666667, 0, -5.828185e-08, 0, 0.6666667, 0, 5.828185e-08, 0, -0.6666667, -0.026326776, 0.3760439, 1.283817)
+stream = ExtResource("21_634y6")
+
+[node name="ehmazing" type="Node3D" parent="Camera3D" unique_id=1888352268]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5970548, 0, -0.4197629)
+visible = false
+script = ExtResource("3_ivps1")
+image = "res://weapon images/boogiebomb.png"
+item_name = "Eh-Mazing Bomb"
+ammo = 5
+cooldown = 0.5
+utility_enabled = true
+utility_scene = ExtResource("22_634y6")
+throwable = true
+throw_force = 10.0
+activate_on_impact = true
+delete_after_activation = true
+metadata/already_equipped = false
+metadata/on_cooldown = false
+metadata/current_ammo = 0
+metadata/current_spread = 0.0
+metadata/og_pos = Vector3(0.5970548, 0, -0.4197629)
+metadata/new_pos = Vector3(0.5970548, 0, -0.4197629)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D/ehmazing" unique_id=1046451093]
+mesh = SubResource("SphereMesh_j5n4i")
+surface_material_override/0 = SubResource("StandardMaterial3D_j5n4i")
 
 [node name="RayCast flash" type="Sprite3D" parent="Camera3D" unique_id=624636210]
 transform = Transform3D(9.553427e-17, 2.1855695e-09, -0.05, 0.05, -2.1855695e-09, 0, -2.1855695e-09, -0.05, -2.1855695e-09, 0.8004612, 0, -0.71807563)

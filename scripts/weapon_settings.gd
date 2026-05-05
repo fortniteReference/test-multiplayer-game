@@ -34,6 +34,20 @@ extends Node3D
 @export var burst_enabled: bool # determines whether burst fire is enabled
 @export var burst_amount: int # amount of shots per burst. only works if burst_enabled is true
 @export var burst_cooldown: float # cooldown between bullets. only works if burst_enabled is true
+# Utility Settings
+# NOTICE: For a utility item to work, there must be a child node called "utility_function" 
+# with a script with function "run_function()," and throwables must have an area3d node
+# called "area"
+@export_group("Utility Settings")
+@export var utility_enabled: bool
+@export var utility_scene: PackedScene
+@export var throwable: bool
+@export var infinite: bool
+@export var throw_force: float
+@export var activate_on_impact: bool
+@export var activate_delay: float
+@export var delete_after_activation: bool
+@export var delete_delay: float
 # Animation of weapon
 @export_group("Animation Settings")
 @export var play_animation: bool = true

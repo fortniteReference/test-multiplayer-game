@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cw28bheoepyc"]
+
+[ext_resource type="PackedScene" uid="uid://dqpthp5yacf2k" path="res://weapon_scenes/ssk_industries_.950_jdj_fat_mac.glb" id="1_36vp8"]
+
+[node name="impactsniper" unique_id=285497331 instance=ExtResource("1_36vp8")]
+
+[node name="Muzzle_001_Gun_0" parent="Sketchfab_model/e0756662e6364b17979cf390baffaaa5_fbx/RootNode/SSK Fat Mac/Muzzle_001" parent_id_path=PackedInt32Array(782299023) index="0" unique_id=2046037054]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.9604645e-08, -0.19824809)
+
+[node name="Muzzle_Gun_0" parent="Sketchfab_model/e0756662e6364b17979cf390baffaaa5_fbx/RootNode/SSK Fat Mac/Muzzle" parent_id_path=PackedInt32Array(492025540) index="0" unique_id=1333728041]
+visible = false
+
+[node name="_950 JDJ_001_Gun_0" parent="Sketchfab_model/e0756662e6364b17979cf390baffaaa5_fbx/RootNode/_950 JDJ_001" parent_id_path=PackedInt32Array(1513071555) index="0" unique_id=401906027]
+visible = false

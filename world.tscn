@@ -13,7 +13,7 @@
 [ext_resource type="FontFile" uid="uid://cmthjh1808rnt" path="res://fomnts/TitilliumWeb-Bold.ttf" id="11_k3n1d"]
 [ext_resource type="Script" uid="uid://bmh7xuocpa66r" path="res://scripts/account_handler.gd" id="12_k3n1d"]
 [ext_resource type="StyleBox" uid="uid://subcnq5fiw3h" path="res://box flats/red box flat.tres" id="13_2o6r5"]
-[ext_resource type="Script" uid="uid://bu4iecdxqpev5" path="res://scripts/check_instances.gd" id="13_ikiii"]
+[ext_resource type="StyleBox" uid="uid://bp4bngsfaoc14" path="res://box flats/dark transparent flat.tres" id="13_7qk3m"]
 [ext_resource type="FontFile" uid="uid://j7vbcj5u0tj5" path="res://fomnts/TitilliumWeb-Italic.ttf" id="14_70uel"]
 [ext_resource type="Script" uid="uid://bikpk7tk2fk12" path="res://scripts/password.gd" id="15_hiqwa"]
 [ext_resource type="StyleBox" uid="uid://f0gupwp4t18" path="res://box flats/transparent flat.tres" id="16_udxuc"]
@@ -896,7 +896,6 @@ text = "Voting Ends In: 0"
 horizontal_alignment = 1
 
 [node name="Waiting" type="Control" parent="CanvasLayer" unique_id=438103401]
-visible = false
 z_index = 10
 layout_mode = 3
 anchors_preset = 15
@@ -916,12 +915,21 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_036b0")
 
 [node name="title" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=2110147395]
 layout_mode = 0
-offset_left = 378.0
-offset_right = 775.0
-offset_bottom = 110.0
+offset_right = 1152.0
+offset_bottom = 123.0
 theme_override_fonts/font = ExtResource("10_ic0uy")
 theme_override_font_sizes/font_size = 80
-text = "rapid 1v1s"
+text = "bean battlefront"
+horizontal_alignment = 1
+
+[node name="desc" type="Label" parent="CanvasLayer/Waiting/Panel/title" unique_id=64180294]
+layout_mode = 0
+offset_top = 100.0
+offset_right = 1152.0
+offset_bottom = 151.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 30
+text = "A 1v1 fps game (bean edition)"
 horizontal_alignment = 1
 
 [node name="task" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=474413694]
@@ -934,18 +942,6 @@ theme_override_fonts/font = ExtResource("11_k3n1d")
 theme_override_font_sizes/font_size = 35
 text = "connection timeout; please check your internet."
 horizontal_alignment = 1
-
-[node name="tip" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=1947390031]
-layout_mode = 0
-offset_left = 214.0
-offset_top = 100.0
-offset_right = 959.0
-offset_bottom = 190.0
-theme_override_fonts/font = ExtResource("11_k3n1d")
-theme_override_font_sizes/font_size = 26
-text = "Pro Tip: If you've successfully logged in within the past day, you will automatically be logged in!"
-horizontal_alignment = 1
-autowrap_mode = 2
 
 [node name="desc1" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=509235687]
 layout_mode = 0
@@ -962,9 +958,9 @@ autowrap_mode = 2
 [node name="random shi" type="TextureRect" parent="CanvasLayer/Waiting/Panel" unique_id=2053487560]
 layout_mode = 0
 offset_left = -700.0
-offset_top = 196.0
+offset_top = 225.0
 offset_right = -30.0
-offset_bottom = 586.0
+offset_bottom = 567.0
 pivot_offset = Vector2(335, 195)
 texture = ExtResource("6_dwbse")
 expand_mode = 1
@@ -984,6 +980,55 @@ theme_override_styles/hover = ExtResource("17_ikiii")
 theme_override_styles/disabled = ExtResource("17_ikiii")
 disabled = true
 text = "Try again"
+
+[node name="disclaimers" type="Button" parent="CanvasLayer/Waiting/Panel" unique_id=1782563109]
+layout_mode = 0
+offset_left = 403.0
+offset_top = 153.0
+offset_right = 755.0
+offset_bottom = 207.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("16_udxuc")
+theme_override_styles/pressed = ExtResource("17_ikiii")
+theme_override_styles/hover = ExtResource("17_ikiii")
+text = "Show Disclaimer List"
+
+[node name="disclaimer list" type="Label" parent="CanvasLayer/Waiting/Panel" unique_id=365134676]
+z_index = 1
+layout_mode = 0
+offset_left = 103.0
+offset_top = -340.0
+offset_right = 1050.0
+offset_bottom = -23.0
+theme_override_fonts/font = ExtResource("10_ic0uy")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = ExtResource("13_7qk3m")
+text = "Disclaimer List:
+* Disclaimer 1: Portions of the materials used are trademarks and/or copyrighted works of Epic Games, Inc. All rights reserved by Epic. This material is not official and is not endorsed by Epic.
+
+* Disclaimer 2: Most Assets from this game are from other people in the world, and I am simply using their work (which is very good work) to build my game. I am not liable for copyright issues, and will remove copyright material if necessary. Thanks for understanding, and make sure to support the other people out there!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="play" type="Button" parent="CanvasLayer/Waiting/Panel" unique_id=1380745149]
+visible = false
+layout_mode = 0
+offset_left = 396.5
+offset_top = 582.0
+offset_right = 755.5
+offset_bottom = 640.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0.6431373)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0.6431373)
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = ExtResource("37_ryup7")
+theme_override_styles/pressed = ExtResource("38_ytpkv")
+theme_override_styles/hover = ExtResource("38_ytpkv")
+text = "Play!"
 
 [node name="Game" type="Control" parent="CanvasLayer" unique_id=1892618971]
 visible = false
@@ -1232,7 +1277,6 @@ script = ExtResource("12_k3n1d")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Account Handler" unique_id=1063563662]
 layer = 6
-script = ExtResource("13_ikiii")
 metadata/testing = true
 
 [node name="Signup" type="Control" parent="Account Handler/CanvasLayer" unique_id=1871016256]
@@ -1600,12 +1644,21 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_bc84e")
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Make" type="Button" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=811114089]
+[node name="Panel" type="Panel" parent="Account Handler/CanvasLayer/Login/Panel" unique_id=889313061]
 layout_mode = 0
-offset_left = 626.0
-offset_top = 556.0
-offset_right = 841.0
-offset_bottom = 601.0
+offset_left = 305.0
+offset_top = 538.0
+offset_right = 855.0
+offset_bottom = 619.0
+theme_override_styles/panel = ExtResource("16_udxuc")
+
+[node name="Make" type="Button" parent="Account Handler/CanvasLayer/Login/Panel/Panel" unique_id=811114089]
+z_index = 1
+layout_mode = 0
+offset_left = 321.0
+offset_top = 18.0
+offset_right = 536.0
+offset_bottom = 65.0
 theme_override_colors/font_color = Color(0, 0, 0, 0.56078434)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 0.56078434)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 0.56078434)
@@ -1618,7 +1671,7 @@ theme_override_styles/pressed = ExtResource("7_ioo17")
 theme_override_styles/hover = ExtResource("7_ioo17")
 text = "Make an account"
 
-[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Login/Panel/Make" unique_id=1598914525]
+[node name="Label" type="Label" parent="Account Handler/CanvasLayer/Login/Panel/Panel/Make" unique_id=1598914525]
 layout_mode = 0
 offset_left = -321.0
 offset_top = -2.0
@@ -1627,6 +1680,18 @@ offset_bottom = 48.0
 theme_override_fonts/font = ExtResource("10_ic0uy")
 theme_override_font_sizes/font_size = 30
 text = "Don't have an account?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="tip" type="Label" parent="Account Handler/CanvasLayer/Login" unique_id=1947390031]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 426.0
+offset_right = 275.0
+offset_bottom = 643.0
+theme_override_fonts/font = ExtResource("11_k3n1d")
+theme_override_font_sizes/font_size = 26
+text = "Pro Tip: If you've successfully logged in within the past day, you will automatically be logged in!"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -2950,7 +3015,7 @@ metadata/reference = NodePath("../../Lobby Music/Accessory - ambiance")
 
 [node name="Item7" type="Node" parent="Shop Handler/Items" unique_id=1618789218]
 metadata/name = "The Mansion Lobby"
-metadata/description = "A lobby music sound effect that will play while you are in the lobby, or waiting for another player."
+metadata/description = "only the alpha wolves will have this equipped >:)(n)Music from Fortnite"
 metadata/price = 180
 metadata/rarity = "epic"
 metadata/enabled = true
@@ -2962,7 +3027,7 @@ metadata/reference = NodePath("../../Lobby Music/Accessory - lair")
 
 [node name="Item8" type="Node" parent="Shop Handler/Items" unique_id=2136866145]
 metadata/name = "Crimson Barony"
-metadata/description = "A lobby music sound effect that will play while you are in the lobby, or waiting for another player."
+metadata/description = "music for all of those sigma wolves out there :0(n)Music from Fortnite"
 metadata/price = 250
 metadata/rarity = "legendary"
 metadata/enabled = true
@@ -2974,7 +3039,7 @@ metadata/reference = NodePath("../../Lobby Music/Accessory - barony")
 
 [node name="Item9" type="Node" parent="Shop Handler/Items" unique_id=120799205]
 metadata/name = "Cone"
-metadata/description = "An Accessory that appears on your character while playing"
+metadata/description = "for traffic...wait no head purposes (traffic cone makes good hat lol)"
 metadata/price = 130
 metadata/rarity = "rare"
 metadata/enabled = true
@@ -2986,7 +3051,7 @@ metadata/reference = NodePath("../../Accessories/Accessory - Cone")
 
 [node name="Item10" type="Node" parent="Shop Handler/Items" unique_id=925707241]
 metadata/name = "My War"
-metadata/description = "A lobby music sound effect that will play while you are in the lobby, or waiting for another player."
+metadata/description = "wait... are we attacking the titans now???(n) Music by Shinsei Kamattechan"
 metadata/price = 325
 metadata/rarity = "mythic"
 metadata/enabled = true
@@ -2998,7 +3063,7 @@ metadata/reference = NodePath("../../Lobby Music/Accessory - mywar")
 
 [node name="Item11" type="Node" parent="Shop Handler/Items" unique_id=1021914675]
 metadata/name = "Ignis"
-metadata/description = "A lobby music sound effect that will play while you are in the lobby, or waiting for another player."
+metadata/description = "the fire is coming... the fire is coming...(n)Music by Takanori Nishikawa "
 metadata/price = 375
 metadata/rarity = "mythic"
 metadata/enabled = true
@@ -3862,6 +3927,7 @@ horizontal_alignment = 1
 autowrap_mode = 2
 
 [connection signal="pressed" from="CanvasLayer/Waiting/Panel/try again" to="." method="_on_try_again_pressed"]
+[connection signal="pressed" from="CanvasLayer/Waiting/Panel/disclaimers" to="." method="_on_disclaimers_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game/LoseScreen/lobby" to="." method="_on_lobby_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game/WinScreen/lobby" to="." method="_on_lobby_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/password/togglehide" to="Account Handler/CanvasLayer/Signup/Panel/password" method="_on_togglehide_pressed"]
@@ -3869,7 +3935,7 @@ autowrap_mode = 2
 [connection signal="pressed" from="Account Handler/CanvasLayer/Signup/Panel/Back" to="Account Handler" method="_on_back_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/password/togglehide" to="Account Handler/CanvasLayer/Login/Panel/password" method="_on_togglehide_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/login" to="Account Handler" method="_on_login_pressed"]
-[connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/Make" to="Account Handler" method="_on_make_pressed"]
+[connection signal="pressed" from="Account Handler/CanvasLayer/Login/Panel/Panel/Make" to="Account Handler" method="_on_make_pressed"]
 [connection signal="pressed" from="Account Handler/CanvasLayer/Verify/Panel/resend" to="Account Handler" method="_on_resend_pressed"]
 [connection signal="pressed" from="Lobby/main/Panel/Play" to="Lobby" method="_on_play_pressed"]
 [connection signal="pressed" from="Lobby/main/Panel/MenuButton/Menu" to="Lobby" method="_on_menu_pressed"]

@@ -19,6 +19,7 @@ var total_damage = 0
 var fallback_damage = 20
 var fallback_cooldown = 0.0
 var fallback_ammo = 20
+var current_item = ""
 
 var actions = {}
 
@@ -29,6 +30,7 @@ func _ready() -> void:
 	GDSync.synced_event_triggered.connect(equip_item)
 	GDSync.synced_event_triggered.connect(unequip_items)
 	GDSync.synced_event_triggered.connect(play_effects)
+	GDSync.synced_event_triggered.connect(run_utilty)
 	
 func set_input_mode(on: bool):
 	if on:
@@ -205,7 +207,11 @@ func _physics_process(delta: float) -> void:
 		if item and item.visible:
 			if item.hitscan:
 				check_hit(item)
-				
+			if item.utility_enabled and item.get_meta("on_cooldown") == false:
+				current_item = item.name
+				item.set_meta("on_cooldown", true)
+				GDSync.synced_event_create(name, 0, ["throw item"])
+				turn_off_utility_cooldown(item, item.cooldown)
 	# Aim in
 	if get_meta("current_item") != "":
 		var item = camera.get_node_or_null(get_meta("current_item"))
@@ -235,20 +241,76 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-	"""
-	if str(anim_player.current_animation).contains("_shoot"):
-		pass
-	else:
-		anim_player.play("idle")
-	"""
 	move_and_slide()
 # --------------------------
 # Item Handling
 # --------------------------
+func turn_off_utility_cooldown(item: Node3D, time: float):
+	await get_tree().create_timer(time,false,false,true).timeout
+	item.set_meta("on_cooldown", false)
+
+func run_utilty(player_name: String, params: Array):
+	if params[0] is Array: return
+	if params[0] != "throw item": return
+	
+	var player: CharacterBody3D = get_parent().get_node_or_null(player_name)
+	print("Player Name: ", player_name, ", node: ", player)
+	if not player: return
+	
+	var item: Node3D = player.get_node("Camera3D").get_node_or_null(str(player.get_meta("current_item")))
+	print("Item Name: ", player.get_meta("current_item"), ", node: ", item)
+	if not item: return
+	# Utility Settings
+	if item.throwable:
+		var scene: PackedScene = item.utility_scene
+		var throwable: RigidBody3D = scene.instantiate()
+		get_parent().add_child(throwable)
+		throwable.global_position = item.global_position
+		throwable.linear_velocity = (-camera.global_transform.basis.z.normalized() * item.throw_force)
+		
+		if not item.infinite:
+			if player_name == name:
+				item.set_meta("current_ammo", item.get_meta("current_ammo") - 1)
+				$CanvasLayer/HUD/Ammo/ammo.text = str(item.get_meta("current_ammo")) + "/" + str(ammo)
+			if item.get_meta("current_ammo") <= 0: remove_item(item.name)
+		if not throwable.body_entered.is_connected(func(body): check_area(body, throwable, player)):
+			throwable.body_entered.connect(func(body): check_area(body, throwable, player))
+
+func check_area(node_body: Node3D, throwable: RigidBody3D, player: Node3D):
+	if node_body is CharacterBody3D: return
+	var area: Area3D = throwable.get_node_or_null("area")
+	if not area: return
+	
+	var bodies: Array = area.get_overlapping_bodies()
+	for body in bodies:
+		if body.name == str(GDSync.get_client_id()): run_function(throwable, player)
+	
+func run_function(throwable: RigidBody3D, player: Node3D):
+	var item = camera.get_node_or_null(str(current_item))
+	print("ran function")
+	throwable.run_function(player)
+	
+	await get_tree().create_timer(0.5).timeout
+	while not throwable.func_completed:
+		if not throwable: break
+		await get_tree().create_timer(0.05).timeout
+	if not item or not throwable: return
+	if item.delete_after_activation:
+		await get_tree().create_timer(item.delete_delay,false,false,true).timeout
+		if throwable != null: throwable.queue_free()
+
 func add_item(name_item: String):
 	print("added item ", name_item, " to player ", name)
 	get_meta("items").append(name_item)
 	set_meta("items", get_meta("items"))
+	update_hotbar()
+
+func remove_item(name_item: String, run_throwable: bool = false):
+	if run_throwable:
+		pass
+	GDSync.synced_event_create(name, 0, ["unequip"])
+	var items: Array = get_meta("items")
+	if items.has(name_item): items.erase(name_item)
 	update_hotbar()
 	
 func update_hotbar():
@@ -522,6 +584,7 @@ func play_effects(player_name, message):
 func receive_damage(player_name, name_item):
 	if player_name == "reset map" or str(name_item[0]).contains("equip"): return
 	if name_item[0] is Array: return
+	if name_item.size() == 1: return
 	if name_item[0] == "hi" or name_item[0] == "play sound": return
 	
 	var player = get_parent().get_node_or_null(str(player_name))

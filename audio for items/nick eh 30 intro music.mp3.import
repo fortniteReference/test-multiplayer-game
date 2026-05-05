@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://2dhqpgmdagwm"
+path="res://.godot/imported/nick eh 30 intro music.mp3-47a9e4d43b7c7aa0205268d11be8b2be.mp3str"
+
+[deps]
+
+source_file="res://audio for items/nick eh 30 intro music.mp3"
+dest_files=["res://.godot/imported/nick eh 30 intro music.mp3-47a9e4d43b7c7aa0205268d11be8b2be.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

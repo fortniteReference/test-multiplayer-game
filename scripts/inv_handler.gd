@@ -95,8 +95,9 @@ func create_slots():
 		title.add_theme_font_size_override("font_size", current_size)
 		
 		var pressed_view = func():
+			var text: String = str(item.get_meta("description"))
 			view_title.text = str(title.text)
-			view_desc.text = item.get_meta("description")
+			view_desc.text = text.replace("(n)", "\n")
 			view_rarity.text = item.get_meta("rarity")
 			view_rarity.add_theme_color_override("font_color", item.get_meta("slot_color"))
 			view_rarity.add_theme_color_override("font_outline_color", item.get_meta("slot_color").darkened(0.3))

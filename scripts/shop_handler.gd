@@ -153,8 +153,9 @@ func create_slots(shop_items: Array):
 			current_size -= 1
 			
 		var pressed_view = func():
+			var text: String = str(item.get_meta("description"))
 			pur_title.text = str(title.text)
-			pur_desc.text = item.get_meta("description")
+			pur_desc.text = text.replace("(n)", "\n")
 			pur_rarity.text = item.get_meta("rarity")
 			pur_rarity.add_theme_color_override("font_color", item.get_meta("slot_color"))
 			pur_rarity.add_theme_color_override("font_outline_color", item.get_meta("slot_color").darkened(0.3))

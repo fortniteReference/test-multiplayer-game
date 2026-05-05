@@ -14,88 +14,60 @@ var map_names = []
 var options = {
 	"Original": {"Items": ["pump", "thundersmg"], "Image": "", "Title": "Original", "Desc": "Nothing better than the og."}
 	,"Random": {"Items": ["random"], "Image": "", "Title": "Random", "Desc": "ooh gambling!!!"}
-	,"Snipers": {"Items": ["sniper"], "Image": "", "Title": "SNIPERS ONLY!!!", "Desc": "better have aim"}
+	,"Snipers": {"Items": ["random", "sniper", "impactsniper"], "Image": "", "Title": "SNIPERS ONLY!!!", "Desc": "better have aim"}
 	,"Custom": {"Items": ["custom"], "Image": "", "Title": "Choose Weapons", "Desc": "choose your own items from the available selection!"}
 }
-
-var index1 = 0
-var index2 = 0
-var index3 = 0
 
 var min_option = 0 # Minimum RNG option for voting options
 var max_option = 3 # Maximum RNG option for voting options
 
-var player_name = ""
 var items_to_add = []
 var can_add_items = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	GDSync.expose_func(start_voting)
-	GDSync.expose_func(end_voting)
+	# GDSync.expose_func(start_voting)
+	# GDSync.expose_func(end_voting)
 	GDSync.synced_event_triggered.connect(add_items)
-	GDSync.player_data_changed.connect(change_vote)
-	
-func start_voting_call():
-	GDSync.lobby_set_data("Indexes", [randi_range(min_option,max_option), randi_range(min_option,max_option), randi_range(min_option,max_option)])
-	
-	var indexes: Array = GDSync.lobby_get_data("Indexes", [])
-	while indexes.is_empty():
-		await GDSync.lobby_data_changed
-		indexes = GDSync.lobby_get_data("Indexes", [])
-		
-	print("indexs: ", indexes[0], indexes[1], indexes[2])
-	
-	await get_tree().create_timer(1,false,false,true).timeout
-	await GDSync.player_data_changed
-	
-	if GDSync.is_host():
-		await get_tree().create_timer(2,false,false,true).timeout
-		GDSync.call_func_all(start_voting)
+	GDSync.synced_event_triggered.connect(get_voting_options)
+	GDSync.synced_event_triggered.connect(change_vote)
+	# GDSync.player_data_changed.connect(change_vote)
 
-func wait_add_items():
-	var indexes = GDSync.lobby_get_data("Indexes", [])
-	while indexes.is_empty():
-		await GDSync.lobby_data_changed
-		indexes = GDSync.lobby_get_data("Indexes", [])
-		
-	print("indexs: ", indexes[0], indexes[1], indexes[2])
-	index1 = indexes[0]
-	index2 = indexes[1]
-	index3 = indexes[2]
+func set_voting_options():
+	if not GDSync.is_host(): return
 	
-	GDSync.player_set_data("Votes", ["", ""]) # first blank is current vote, second blank is current panel
-	await GDSync.player_data_changed
+	var all_options = range(options.size())
+	var indexes = []
+	for i in range(3):
+		var chosen = randi_range(min_option,max_option)
+		if all_options.has(chosen) and min_option == 0 and max_option == options.size()-1:
+			indexes.append(chosen)
+			all_options.erase(chosen)
+		else:
+			indexes.append(chosen)
+	GDSync.synced_event_create("set votes", 1, [indexes])
 	
-	while not can_add_items:
-		await get_tree().create_timer(0.01).timeout
-		
-	var player = world.get_node_or_null(str(GDSync.get_client_id()))
-	if player:
-		GDSync.synced_event_create(player.name, 0, [items_to_add])
-		player.set_input_mode(true)
-
-func start_voting():
+func get_voting_options(event_name: String, params: Array):
+	if event_name != "set votes": return
+	if not params[0] is Array: return
+	
+	can_add_items = false
+	var indexes = params[0]
+	
 	show()
 	$"../Looking for player".hide()
 	var player = world.get_node_or_null(str(GDSync.get_client_id()))
-	print(player.name)
 	if player:
 		player.set_input_mode(false)
-		player_name = str(GDSync.get_client_id())
 	for panel in main.get_children():
 		if not panel is Panel: continue
-			
-		var option = null
-		if panel.name.contains("1"):
-			option = options.values()[index1]
-			panel.set_meta("key", index1)
-		elif panel.name.contains("2"):
-			option = options.values()[index2]
-			panel.set_meta("key", index2)
-		elif panel.name.contains("3"):
-			option = options.values()[index3]
-			panel.set_meta("key", index3)
+		panel.get_node("Vote").show()
+
+	for panel in main.get_children():
+		if not panel is Panel: continue
+		
+		var num = indexes[str(panel.name).replace("Voting", "").to_int()-1]
+		var option = options.values()[num]
 		
 		# -----------------------
 		var image = panel.get_node("Image/image")
@@ -111,8 +83,7 @@ func start_voting():
 			image.texture = load(get_image)
 			
 		var pressed_vote = func():
-			# GDSync.player_set_data("Votes", [str(options.keys()[panel.get_meta("key")]), panel.name])
-			GDSync.player_set_data("Votes", [str(options.keys()[panel.get_meta("key")]), panel.name, current_panel])
+			GDSync.synced_event_create(player.name + "changes vote", 0, [current_panel, str(panel.name)])
 
 		vote.pressed.connect(pressed_vote)
 		
@@ -124,46 +95,48 @@ func start_voting():
 	for panel in main.get_children():
 		if not panel is Panel: continue
 		panel.get_node("Vote").hide()
-	GDSync.call_func_all(end_voting)
+	end_voting()
 	
+	while not can_add_items:
+		await get_tree().create_timer(0.01).timeout
+	GDSync.synced_event_create(player.name, 0, [items_to_add])
+	player.set_input_mode(true)
+
+func change_vote(plr_name: String, params: Array):
+	print("recieved, ", plr_name, ", params are: ", params)
+	if not plr_name.contains("changes vote"): return
+	if not params[0] is String or not params[1] is String: return
+	print("passed")
 	
-func change_vote(client_id, key, data):
-	if key != "Votes" or not data is Array: return
-	if data.size() == 0:
-		print("no data, returned")
-		return
-	if (current_vote != "" and client_id == GDSync.get_client_id()) or client_id != GDSync.get_client_id():
-		if client_id != GDSync.get_client_id() and data.size() == 3:
-			var other_panel = main.get_node_or_null(str(data[2]))
-			if other_panel:
-				var other_votes = other_panel.get_node("Votes")
-				var reset_votes = str(other_votes.text).to_int() - 1
-				other_votes.text = str(reset_votes)
-		else:
-			var other_panel = main.get_node_or_null(str(current_panel))
-			if other_panel:
-				var other_votes = other_panel.get_node("Votes")
-				var reset_votes = str(other_votes.text).to_int() - 1
-				other_votes.text = str(reset_votes)
-	var panel = main.get_node_or_null(str(data[1]))
-	if panel:
-		var votes = panel.get_node("Votes")
-		var current_votes = str(votes.text).to_int() + 1
-		votes.text = str(current_votes)
-		if client_id == GDSync.get_client_id():
-			current_vote = data[0]
-			current_panel = panel.name
+	var player_name = plr_name.replace("changes vote", "")
+	var old_panel_name: String = str(params[0])
+	var new_panel_name: String = str(params[1])
+	var player = world.get_node_or_null(str(GDSync.get_client_id()))
+	
+	if not player: return
+	print("player: ", player_name, " changes vote from ", old_panel_name, " to ", new_panel_name)
+	
+	var old_panel = main.get_node_or_null(old_panel_name)
+	var new_panel = main.get_node_or_null(new_panel_name)
+	if player.name == player_name:
+		if current_panel == new_panel_name: return
+		current_panel = new_panel_name
+		if new_panel: current_vote = options.keys()[new_panel.get_meta("key")]
+	
+	if old_panel: old_panel.get_node("Votes").text = str(str(old_panel.get_node("Votes").text).to_int() - 1)
+	if new_panel: new_panel.get_node("Votes").text = str(str(new_panel.get_node("Votes").text).to_int() + 1)
 	
 func end_voting():
 	print("received")
 	main.get_node("VotingTime").text = "Calculating all Votes..."
-	await get_tree().create_timer(5,false,false,true).timeout
+	await get_tree().create_timer(3,false,false,true).timeout
 	var best_option = ""
 	var ties = []
 	var final_choice = ""
 	# ------------------------
 	var total_votes = {"Option1": {"Name": "", "Votes": 0}, "Option2": {"Name": "", "Votes": 0}, "Option3": {"Name": "", "Votes": 0}}
 	var i = 1
+	print(total_votes)
 	for panel in main.get_children():
 		if not panel is Panel: continue
 		
@@ -191,7 +164,7 @@ func end_voting():
 			if current_votes > last_votes:
 				best_option = current_option
 				ties = []
-			elif current_votes == last_votes:
+			elif current_votes == last_votes and current_votes > 0:
 				if not ties.has(last_option):
 					ties.append(last_option)
 				if not ties.has(current_option):
@@ -235,6 +208,7 @@ func end_voting():
 			can_add_items = true
 	else: 
 		items_to_add = items
+		items_to_add.append("ehmazing")
 		can_add_items = true
 		hide()
 	
@@ -260,21 +234,28 @@ func add_items(name_player, params):
 					item_selection = []
 					print(i)
 					if i == 0:
-						for item in player.get_node("Camera3D").get_children():
-							if item.name.contains("RayCast"): continue
-							if item.shotgun == false: continue
-					
-							item_selection.append(item.name)
-						print(item_selection)
-						player.add_item(str(item_selection[randi_range(0,-1)]))
+						if items.size() > 1:
+							var random_items = []
+							random_items.append_array(items)
+							random_items.erase("random")
+							item_selection.append_array(random_items)
+						else:
+							for item in player.get_node("Camera3D").get_children():
+								if item.name.contains("RayCast") or item.utility_enabled == true: continue
+								if item.shotgun == false: continue
+								
+								item_selection.append(item.name)
+							print(item_selection)
+						player.add_item(str(item_selection[randi_range(0,item_selection.size()-1)]))
 					else:
-						for item in player.get_node("Camera3D").get_children():
-							if item.name.contains("RayCast"): continue
-							if item.shotgun == true: continue
+						if items.size() == 1:
+							for item in player.get_node("Camera3D").get_children():
+								if item.name.contains("RayCast") or item.utility_enabled == true: continue
+								if item.shotgun == true: continue
 					
-							item_selection.append(item.name)
-						print(item_selection)
-						player.add_item(str(item_selection[randi_range(0,-1)]))
+								item_selection.append(item.name)
+							print(item_selection)
+							player.add_item(str(item_selection[randi_range(0,item_selection.size()-1)]))
 		else:
 			if player:
 				for item in items:

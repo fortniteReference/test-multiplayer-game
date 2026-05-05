@@ -7,6 +7,9 @@ extends Node
 @onready var task = $CanvasLayer/Waiting/Panel/task
 @onready var try_again = $"CanvasLayer/Waiting/Panel/try again"
 @onready var data = $"Data Handler"
+@onready var dis_button = $CanvasLayer/Waiting/Panel/disclaimers
+@onready var dis_list = $"CanvasLayer/Waiting/Panel/disclaimer list"
+@onready var play_button = $CanvasLayer/Waiting/Panel/play
 # Called when the node enters the scene tree for the first time.
 
 var lobby_status = ""
@@ -37,6 +40,14 @@ func random_shi():
 	get_tree().create_tween().tween_property(pic, "position:x", 15, 3)
 	await get_tree().create_timer(3.35,false,false,true).timeout
 	get_tree().create_tween().tween_property(pic, "rotation_degrees", 360, 2)
+
+func _on_disclaimers_pressed() -> void:
+	if str(dis_button.text).containsn("show"):
+		dis_button.text = "Hide Disclaimer List"
+		get_tree().create_tween().tween_property(dis_list, "position:y", 225, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	else:
+		dis_button.text = "Show Disclaimer List"
+		get_tree().create_tween().tween_property(dis_list, "position:y", -340, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	
 func _ready():
 	get_tree().root.close_requested.connect(close_game)
@@ -79,7 +90,15 @@ func close_game():
 func connected() -> void:
 	task.text = "connected!"
 	await get_tree().create_timer(2,false,false,true).timeout
+	task.hide()
 	
+	play_button.show()
+	if not play_button.pressed.is_connected(pressed_play):
+		play_button.pressed.connect(pressed_play)
+
+func pressed_play():
+	play_button.hide()
+	task.show()
 	task.text = "attempting to log in..."
 	var response = await GDSync.account_login_from_session(86400)
 	
@@ -226,8 +245,7 @@ func look_for_players():
 	looking.get_node("Panel/Label").text = "Waiting for launcher to verify..."
 
 	if GDSync.is_host():
-		voting.start_voting_call()
-	voting.wait_add_items()
+		voting.set_voting_options()
 	if GDSync.is_host():
 		GDSync.lobby_close()
 		
@@ -250,8 +268,6 @@ func manage_game(command: String):
 					num_debounce = true
 					if current_roundnum >= $CanvasLayer/Voting.map_names.size(): current_roundnum = 1
 					current_roundnum += 1
-					await get_tree().create_timer(2).timeout
-					num_debounce = false
 			if command == "start game":
 				player_left = false
 				game.show()
@@ -290,6 +306,7 @@ func manage_game(command: String):
 				col_barrier.hide()
 				col_barrier.disabled = true
 			get_tree().create_tween().tween_property(barrier_panel, "position:y", -126, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			num_debounce = false
 		elif command.contains("update score") and not score_debounce:
 			score_debounce = true
 			var string1 = str(command.replace("update score", ""))
@@ -357,12 +374,17 @@ func _on_lobby_pressed() -> void:
 	var lose = $CanvasLayer/Game/LoseScreen
 	var win = $CanvasLayer/Game/WinScreen
 	
+	var player = get_node_or_null(str(GDSync.get_client_id()))
+	if player:
+		if player.get_node("CanvasLayer") != null: player.get_node("CanvasLayer").queue_free()
+
 	lose.hide()
 	win.hide()
 	GDSync.lobby_leave()
 	$Lobby.show()
 	$Lobby/main/Panel/Play.disabled = false
 	$Lobby/main/Panel/Play/Label.hide()
+	
 	for button in $Lobby/main/Panel.get_children():
 		if button is Button:
 			button.show()
